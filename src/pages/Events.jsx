@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCalendarAlt } from "react-icons/fa";
 import { SectionHeader } from "../components/ui/SectionHeader";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
@@ -63,8 +64,9 @@ export default function Events() {
               category={event.type}
               bgColor={event.bg}
             >
-              <div className="p-3 border-2 border-black rounded-lg bg-retroBg mb-4 font-bold text-sm">
-                🗓️ {event.date}
+              <div className="p-3 border-2 border-black rounded-lg bg-retroBg mb-4 font-bold text-sm flex items-center gap-2">
+                <FaCalendarAlt className="text-sm" />
+                <span>{event.date}</span>
               </div>
               <p className="text-sm font-medium mb-4">
                 Hands-on training session covering key AI architectures and
