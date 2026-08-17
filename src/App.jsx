@@ -7,11 +7,14 @@ import Team from "./pages/Team";
 import Blogs from "./pages/Blogs";
 import Publications from "./pages/Publications";
 import "./index.css"; // Core requirement for Tailwind styles to load!
+import { CustomCursor } from "./components/ui/CustomCursor";
 
 export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-paper-grid text-black font-sans selection:bg-retroYellow">
+        <CustomCursor />
+
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>

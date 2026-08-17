@@ -77,12 +77,6 @@ export default function Publications() {
         subtitle="Explore our flagship technical magazines, AI research, and student-written editions."
         badgeText="MAGAZINES"
       />
-      <div className="absolute top-2 left-2 z-20 font-black text-[10px] px-2 py-0.5 bg-retroYellow border-2 border-black rounded shadow-brutal uppercase">
-        <span className="inline-flex items-center gap-1">
-          <FaFire className="text-[10px]" />
-          <span>HOT TAKE</span>
-        </span>
-      </div>
 
       {/* Grid of Magazines */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

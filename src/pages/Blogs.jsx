@@ -1,221 +1,294 @@
-import { SectionHeader } from "../components/ui/SectionHeader";
-import { Button } from "../components/ui/Button";
-import { PhotoTape, PeekabooSticky } from "../components/ui/ScrapbookQuirks";
-import { BlogCharm } from "../components/ui/BlogCharm";
-import { PeekingRobot } from "../components/ui/PeekingRobot";
-import { useState } from "react";
+import React from "react";
+import {
+  FaArrowRight,
+  FaPenNib,
+  FaMagnifyingGlass,
+  FaBookmark,
+  FaHashtag,
+} from "react-icons/fa6";
 
-const blogsData = [
+const CATEGORIES = [
+  { name: "MACHINE LEARNING", count: "14 articles", icon: "🤖" },
+  { name: "DEEP LEARNING", count: "09 articles", icon: "🧠" },
+  { name: "LLMS & AGENTS", count: "12 articles", icon: "💬" },
+  { name: "COMPUTER VISION", count: "08 articles", icon: "👁️" },
+];
+
+const FEATURED_BLOGS = [
   {
     id: 1,
-    title: "Understanding Transformer Architectures from Scratch",
-    snippet:
-      "A visual deep-dive into self-attention mechanisms and how modern LLMs process natural language context.",
-    category: "AI RESEARCH",
-    author: "Rahul Sharma",
-    date: "Aug 12, 2026",
-    readTime: "7 MIN READ",
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    category: "LLMs & AGENTS",
+    readTime: "6 MIN READ",
+    title: "WHY SMALL SPECIFIC MODELS STILL MATTER IN 2026",
+    author: "BY AARAV K.",
+    img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 2,
-    title: "Getting Started with PyTorch for Computer Vision",
-    snippet:
-      "Learn how to build and train your first Convolutional Neural Network (CNN) in under 30 minutes.",
-    category: "TUTORIALS",
-    author: "Ananya Patel",
-    date: "Jul 28, 2026",
-    readTime: "5 MIN READ",
-    image:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    category: "COMPUTER VISION",
+    readTime: "4 MIN READ",
+    title: "SPATIAL AI & AUTONOMOUS DRIVING ARCHITECTURES",
+    author: "BY ALEX SMITH R.",
+    img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 3,
-    title: "Navigating AI Careers in 2026: Skills That Matter",
-    snippet:
-      "An honest breakdown of what industry recruiters look for in undergrad machine learning portfolios.",
-    category: "CAREER",
-    author: "Siddharth Verma",
-    date: "Jul 15, 2026",
-    readTime: "4 MIN READ",
-    image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
+    category: "DEEP LEARNING",
+    readTime: "8 MIN READ",
+    title: "THE NEW MATHEMATICAL LANGUAGE OF TRANSFORMERS",
+    author: "BY SALMAN R.",
+    img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    category: "MACHINE LEARNING",
+    readTime: "5 MIN READ",
+    title: "NEURAL SYMBOLIC AI: GIVING MACHINES REASONING",
+    author: "BY NISHA P.",
+    img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    category: "RESEARCH",
+    readTime: "7 MIN READ",
+    title: "WHY THE BEST AI INSIGHTS HAPPEN IN OPEN SOURCE",
+    author: "BY JANE ROSE",
+    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 6,
+    category: "DEEP LEARNING",
+    readTime: "5 MIN READ",
+    title: "HARDWARE ACCELERATION: GPU VS NPU BENCHMARKS",
+    author: "BY SAM JOHNSON",
+    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
-export default function Blogs() {
-  const [selectedCategory, setSelectedCategory] = useState("ALL");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const categories = ["ALL", "AI RESEARCH", "TUTORIALS", "CAREER"];
-
-  const filteredBlogs = blogsData.filter((blog) => {
-    const matchesCategory =
-      selectedCategory === "ALL" || blog.category === selectedCategory;
-    const matchesSearch =
-      blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.snippet.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const featured = blogsData[0];
-
+const Blogs = () => {
   return (
-    <div className="space-y-8 bg-paper-grid min-h-screen pb-12">
-      <SectionHeader
-        title="TCET SIGAI BLOGS"
-        subtitle="Insights, deep dives, and technical breakdowns by chapter members."
-        badgeText="READ & LEARN"
-      />
-
-      {/* Ticker Marquee */}
-      <div className="overflow-hidden bg-retroPink border-3 border-black rounded-xl py-2 shadow-brutal select-none">
-        <div className="flex gap-8 whitespace-nowrap animate-marquee font-black text-xs uppercase tracking-wider text-black">
-          <span>🔥 TEJAS VOL 4.1 IS OUT NOW</span>
+    <div className="min-h-screen bg-[#F4EFEA] text-black font-sans relative selection:bg-retroPink selection:text-black">
+      {/* --- TOP BANNER TICKER --- */}
+      <div className="bg-retroPink border-b-3 border-black py-1.5 px-4 overflow-hidden flex items-center justify-between text-xs font-black uppercase tracking-wider">
+        <div className="flex items-center gap-6 animate-marquee whitespace-nowrap">
+          <span>⚡ TECH INSIGHTS</span>
           <span>•</span>
-          <span>⚡ NEW ARTICLE: TRANSFORMERS FROM SCRATCH</span>
+          <span>STUDENT RESEARCH & PAPERS</span>
           <span>•</span>
-          <span>📚 SUBMIT YOUR RESEARCH ARTICLE FOR NEXT EDITION</span>
+          <span>TCET SIGAI OFFICIAL BLOG</span>
           <span>•</span>
-          <span>🔥 TEJAS VOL 4.1 IS OUT NOW</span>
+          <span>NEW ARTICLE EVERY WEEK</span>
         </div>
-        <PeekabooSticky
-          title="PRO TIP ⚡"
-          text="Click 'Read Summary' to expand issue abstracts!"
-          color="bg-retroYellow"
-        />
       </div>
 
-      {/* Featured Main Article */}
-      {featured && (
-        <div className="relative group bg-retroYellow border-3 border-black rounded-3xl p-6 md:p-8 shadow-brutal-lg hover-brutal-lift">
-          <PhotoTape className="-top-3 left-8 -rotate-6 transition-transform group-hover:rotate-6" />
-          <div className="flex flex-col md:flex-row gap-6 items-center">
-            <div className="w-full md:w-1/2 border-2 border-black rounded-2xl overflow-hidden shadow-brutal h-56 md:h-72">
-              <img
-                src={featured.image}
-                alt={featured.title}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="w-full md:w-1/2 space-y-3">
-              <div className="flex gap-2 items-center">
-                <span className="animate-stamp font-black text-xs px-2.5 py-1 bg-retroPink border-2 border-black rounded-md shadow-brutal uppercase">
-                  FEATURED
+      {/* --- SIDEBAR STRIPS (Absolute Left & Right Vertical Bars) --- */}
+      <div className="hidden xl:flex fixed left-0 top-12 bottom-0 w-8 bg-retroYellow border-r-3 border-black flex-col justify-between items-center py-6 z-40">
+        <span className="font-black text-[10px] uppercase tracking-widest -rotate-90 whitespace-nowrap">
+          MEET THE RESEARCHERS
+        </span>
+        <FaPenNib className="w-3.5 h-3.5" />
+      </div>
+
+      <div className="hidden xl:flex fixed right-0 top-12 bottom-0 w-8 bg-retroBlue border-l-3 border-black flex-col justify-between items-center py-6 z-40">
+        <span className="font-black text-[10px] uppercase tracking-widest rotate-90 whitespace-nowrap">
+          SEARCH ARTICLES 🔍
+        </span>
+        <FaBookmark className="w-3.5 h-3.5" />
+      </div>
+
+      {/* --- MAIN CONTENT CONTAINER --- */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 xl:px-12 py-6">
+        {/* --- 1. EDITORIAL HEADER & CATEGORY NAVIGATION --- */}
+        <header className="border-3 border-black bg-white shadow-brutal rounded-2xl overflow-hidden mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 border-b-3 border-black">
+            {/* Title Block */}
+            <div className="md:col-span-4 bg-retroPink p-6 border-b-3 md:border-b-0 md:border-r-3 border-black flex flex-col justify-between">
+              <div>
+                <span className="font-black text-xs uppercase tracking-widest bg-black text-white px-2 py-0.5 rounded">
+                  ACM SIGAI BLOGS
                 </span>
-                <span className="font-bold text-xs bg-black text-white px-2 py-0.5 rounded">
-                  {featured.readTime}
-                </span>
+                <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter leading-none mt-3">
+                  SIDE <br /> NOTE
+                </h1>
               </div>
-              <h2 className="text-2xl md:text-4xl font-black text-black leading-tight uppercase">
-                {featured.title}
-              </h2>
-              <p className="font-bold text-gray-800 text-sm line-clamp-3">
-                {featured.snippet}
+              <p className="font-bold text-xs mt-4 uppercase text-black/80">
+                READ / WRITE / DISCOVER AI
               </p>
-              <div className="flex justify-between items-center pt-3 border-t-2 border-black">
-                <span className="font-bold text-xs uppercase text-gray-900">
-                  By {featured.author} • {featured.date}
-                </span>
-                <Button variant="pink" size="sm" className="group/btn">
-                  Read Article
-                  <span className="inline-block transition-transform group-hover/btn:translate-x-1">
-                    -&gt;
+            </div>
+
+            {/* Category Nav Blocks */}
+            <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 divide-x-2 divide-y-2 sm:divide-y-0 divide-black bg-white">
+              {CATEGORIES.map((cat, index) => (
+                <div
+                  key={index}
+                  className="p-4 flex flex-col justify-between hover:bg-retroYellow transition-colors cursor-pointer group"
+                >
+                  <span className="text-2xl group-hover:scale-125 transition-transform">
+                    {cat.icon}
                   </span>
-                </Button>
+                  <div>
+                    <h3 className="font-black text-xs uppercase tracking-tight mt-4">
+                      {cat.name}
+                    </h3>
+                    <span className="text-[10px] font-bold text-black/60 uppercase">
+                      {cat.count}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Write CTA Header Strip */}
+          <div className="bg-retroYellow p-3 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <span className="font-black text-xs uppercase tracking-wide flex items-center gap-2">
+              <FaHashtag className="text-black" /> HAVE AN ARTICLE IDEA? PUBLISH
+              YOUR OWN RESEARCH
+            </span>
+            <button className="w-full sm:w-auto px-4 py-1.5 bg-black text-white text-xs font-black uppercase rounded-lg shadow-brutal hover:bg-retroPink hover:text-black border-2 border-black transition-transform active:translate-y-0.5">
+              START WRITING ✍️
+            </button>
+          </div>
+        </header>
+
+        {/* --- 2. HERO SPLIT MAGAZINE COVER --- */}
+        <section className="border-3 border-black rounded-2xl overflow-hidden shadow-brutal-lg mb-10 relative bg-black">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Left Image Cover */}
+            <div className="relative h-72 sm:h-96 border-b-3 md:border-b-0 md:border-r-3 border-black overflow-hidden group">
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop"
+                alt="Main Editorial"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute top-4 left-4 bg-retroGreen border-2 border-black px-3 py-1 font-black text-xs uppercase shadow-brutal">
+                👉 THIS WAY TO AI
+              </div>
+            </div>
+
+            {/* Right Image Cover & Huge Overlay Text */}
+            <div className="relative h-72 sm:h-96 overflow-hidden group">
+              <img
+                src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=1000&auto=format&fit=crop"
+                alt="Secondary Editorial"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale hover:grayscale-0"
+              />
+              {/* Massive Center Title Overlay */}
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white uppercase tracking-tighter drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] text-center">
+                  SIDE NOTE
+                </h2>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </section>
 
-      {/* Search & Category Filter Bar */}
-      <div className="bg-white border-3 border-black rounded-2xl p-4 shadow-brutal flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 font-black text-xs uppercase border-2 border-black rounded-lg transition-all ${
-                selectedCategory === cat
-                  ? "bg-retroBlue shadow-brutal translate-y-[-2px]"
-                  : "bg-retroBg"
-              }`}
-            >
-              {cat}
+        {/* --- 3. TICKER BAR FOR TRENDING HEADLINES --- */}
+        <div className="border-3 border-black bg-white rounded-xl p-3 shadow-brutal mb-12 flex flex-col md:flex-row items-center gap-3">
+          <span className="bg-black text-white text-[10px] font-black uppercase px-2.5 py-1 rounded shrink-0">
+            LATEST INSIGHTS
+          </span>
+          <div className="flex-1 flex flex-wrap items-center justify-around gap-4 text-xs font-bold uppercase">
+            <span className="hover:text-retroPink cursor-pointer">
+              ❖ WHY ANALOG THINKING WINS IN AI ↗
+            </span>
+            <span className="hover:text-retroPink cursor-pointer">
+              ❖ AGENTIC WORKFLOWS EXPLAINED ↗
+            </span>
+            <span className="hover:text-retroPink cursor-pointer">
+              ❖ PYTORCH 2.5 OPTIMIZATIONS ↗
+            </span>
+          </div>
+        </div>
+
+        {/* --- 4. INTRO EDITORIAL STATEMENT --- */}
+        <section className="text-center max-w-3xl mx-auto mb-16 px-4">
+          <div className="w-8 h-8 rounded-full border-2 border-black bg-retroYellow mx-auto mb-4 flex items-center justify-center font-black">
+            ©
+          </div>
+          <p className="font-black text-lg sm:text-2xl uppercase leading-snug tracking-tight text-black/90">
+            WE COLLECT FRESH ARTICLES, TECHNICAL TUTORIALS & HONEST OPINIONS
+            FROM STUDENT DEVELOPERS & RESEARCHERS AT SIGAI. READ ABOUT DEEP
+            LEARNING, COMPUTER VISION & LLMS.
+          </p>
+        </section>
+
+        {/* --- 5. FEATURED ARTICLES GRID (Matches Image Layout) --- */}
+        <section className="mb-16">
+          <div className="flex justify-between items-center mb-6 pb-2 border-b-3 border-black">
+            <h2 className="font-black text-lg uppercase tracking-wider bg-black text-white px-3 py-1 rounded">
+              FEATURED STORIES
+            </h2>
+            <button className="font-black text-xs uppercase flex items-center gap-1.5 hover:text-retroPink transition-colors">
+              VIEW ALL ARTICLES <FaArrowRight />
             </button>
-          ))}
-        </div>
-        <input
-          type="text"
-          placeholder="Search articles..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full md:w-64 px-3 py-1.5 font-bold text-sm border-2 border-black rounded-lg bg-retroBg focus:outline-none shadow-brutal"
-        />
-      </div>
+          </div>
 
-      {/* Grid of Articles */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredBlogs.map((blog) => {
-          const charmType =
-            blog.category === "AI RESEARCH"
-              ? "brain"
-              : blog.category === "TUTORIALS"
-                ? "code"
-                : blog.category === "CAREER"
-                  ? "briefcase"
-                  : "star";
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {FEATURED_BLOGS.map((blog) => (
+              <div
+                key={blog.id}
+                className="bg-white border-3 border-black rounded-2xl overflow-hidden shadow-brutal hover:shadow-brutal-lg transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  {/* Image Container with Badges */}
+                  <div className="relative h-44 border-b-3 border-black overflow-hidden">
+                    <img
+                      src={blog.img}
+                      alt={blog.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-2 left-2 flex gap-1.5">
+                      <span className="bg-black text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">
+                        {blog.category}
+                      </span>
+                    </div>
+                    <span className="absolute top-2 right-2 bg-retroYellow border border-black text-black text-[9px] font-black uppercase px-2 py-0.5 rounded shadow-brutal">
+                      {blog.readTime}
+                    </span>
+                  </div>
 
-          const charmColor =
-            blog.category === "AI RESEARCH"
-              ? "bg-retroGreen"
-              : blog.category === "TUTORIALS"
-                ? "bg-retroBlue"
-                : blog.category === "CAREER"
-                  ? "bg-retroYellow"
-                  : "bg-retroPink";
-
-          return (
-            <div
-              key={blog.id}
-              className="relative group border-3 border-black rounded-2xl p-4 shadow-brutal-lg bg-white flex flex-col justify-between hover-brutal-lift"
-            >
-              <BlogCharm type={charmType} color={charmColor} />
-              <div>
-                <div className="border-2 border-black rounded-xl overflow-hidden mb-3 h-40">
-                  <img
-                    src={blog.image}
-                    alt={blog.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  {/* Content Area */}
+                  <div className="p-4">
+                    <h3 className="font-black text-sm uppercase leading-tight group-hover:text-retroPink transition-colors">
+                      {blog.title}
+                    </h3>
+                  </div>
                 </div>
-                <span className="font-black text-[10px] px-2 py-0.5 bg-retroGreen border border-black rounded uppercase">
-                  {blog.category}
-                </span>
-                <h3 className="font-black text-lg text-black mt-2 leading-tight">
-                  {blog.title}
-                </h3>
-                <p className="font-bold text-xs text-gray-600 mt-1 line-clamp-2">
-                  {blog.snippet}
-                </p>
+
+                {/* Card Footer */}
+                <div className="px-4 pb-4 pt-2 border-t-2 border-black/10 flex justify-between items-center text-[10px] font-black uppercase text-black/70">
+                  <span>{blog.author}</span>
+                  <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
-              <div className="mt-4 pt-3 border-t-2 border-black flex justify-between items-center">
-                <span className="font-bold text-[10px] uppercase text-gray-500">
-                  {blog.date}
-                </span>
-                <Button variant="yellow" size="sm" className="group/btn">
-                  Read
-                  <span className="inline-block transition-transform group-hover/btn:translate-x-1">
-                    -&gt;
-                  </span>
-                </Button>
-              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- 6. YELLOW CALL-TO-ACTION BANNER (Matches Bottom Card in Image) --- */}
+        <section className="bg-retroYellow border-3 border-black rounded-2xl p-6 sm:p-10 shadow-brutal-lg mb-12 relative overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
+            <div className="md:col-span-8">
+              <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter leading-none mb-3">
+                GOT A UNIQUE AI STORY WORTH SHARING?
+              </h2>
+              <p className="font-bold text-xs sm:text-sm uppercase text-black/80 max-w-xl">
+                We're always looking for student research, tutorial guides, and
+                original perspectives. If you have an idea or draft—we'd love to
+                publish it!
+              </p>
             </div>
-          );
-        })}
+
+            <div className="md:col-span-4 flex flex-col items-start md:items-end justify-center">
+              <button className="w-full sm:w-auto px-6 py-3 bg-black text-white font-black text-sm uppercase rounded-xl border-2 border-black shadow-brutal hover:bg-retroPink hover:text-black transition-transform active:translate-y-0.5">
+                WRITE FOR SIDE NOTE
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
-}
+};
+export default Blogs;
