@@ -1,3 +1,4 @@
+// src/pages/EventDetails.jsx
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { eventsData } from "../data/eventsData";
@@ -16,12 +17,11 @@ export default function EventDetails() {
   const { eventId } = useParams();
   const navigate = useNavigate();
 
-  // Find event matching the ID (fallback to index match if string/number mismatch)
-  const event = eventsData.find(
-    (e) =>
-      String(e.id) === String(eventId) ||
-      e.title.toLowerCase().replace(/\s+/g, "-") === eventId,
-  );
+  // Robust lookup supporting id, index, slug, or title
+  const event = eventsData.find((e, index) => {
+    const currentId = String(e.id ?? e.slug ?? index + 1);
+    return currentId === String(eventId);
+  });
 
   if (!event) {
     return (
@@ -46,7 +46,6 @@ export default function EventDetails() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-10 pb-20 pt-4">
-      {/* Navigation & Breadcrumb */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate(-1)}
@@ -57,13 +56,11 @@ export default function EventDetails() {
         </button>
 
         <span className="font-mono text-[11px] text-gray-400">
-          EVENT_REF // #{event.id}
+          EVENT_REF // #{eventId}
         </span>
       </div>
 
-      {/* Main Content Card */}
       <article className="bg-white border-[1.5px] border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
-        {/* Banner Header */}
         <div
           className={`p-6 sm:p-8 border-b-[1.5px] border-black ${headerBg} space-y-4`}
         >
@@ -81,11 +78,8 @@ export default function EventDetails() {
           </h1>
         </div>
 
-        {/* Content Body with Generous Whitespace */}
         <div className="p-6 sm:p-10 bg-[#fdfbf7] space-y-10">
-          {/* Main Grid: Poster Image + Description */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            {/* Image Container */}
             {event.image && (
               <div className="md:col-span-5 border-[1.5px] border-black rounded-xl overflow-hidden bg-white shadow-[2.5px_2.5px_0px_0px_rgba(0,0,0,1)]">
                 <img
@@ -96,7 +90,6 @@ export default function EventDetails() {
               </div>
             )}
 
-            {/* Event Description */}
             <div
               className={`${event.image ? "md:col-span-7" : "md:col-span-12"} space-y-4`}
             >
@@ -109,7 +102,6 @@ export default function EventDetails() {
             </div>
           </div>
 
-          {/* Key Event Details Grid */}
           <div className="pt-6 border-t border-gray-200">
             <span className="font-mono text-xs text-gray-400 uppercase tracking-wider block mb-4">
               // LOGISTICS & METRICS
@@ -150,25 +142,6 @@ export default function EventDetails() {
               )}
             </div>
           </div>
-
-          {/* Speakers Section (if applicable) */}
-          {event.speakers && event.speakers.length > 0 && (
-            <div className="pt-6 border-t border-gray-200 space-y-3">
-              <span className="font-mono text-xs text-gray-400 uppercase tracking-wider block">
-                // SPEAKERS & FACILITATORS
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {event.speakers.map((speaker, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-white border-[1.5px] border-black px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]"
-                  >
-                    {speaker}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </article>
     </div>

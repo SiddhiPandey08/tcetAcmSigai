@@ -100,15 +100,6 @@ export default function Publications() {
               key={index}
               className="border-3 border-black rounded-2xl p-4 shadow-brutal-lg bg-white flex flex-col justify-between"
             >
-              <div className="relative">
-                {mag.latest === "yes" && (
-                  <RubberStamp
-                    text="OFFICIAL ★ TEJAS"
-                    color="bg-retroGreen"
-                    className="absolute -bottom-4 -left-3 -rotate-12 z-30"
-                  />
-                )}
-              </div>
               <div>
                 {/* Cover Image Container */}
                 <div className="relative border-2 border-black rounded-xl overflow-hidden mb-4 h-64 bg-gray-100">

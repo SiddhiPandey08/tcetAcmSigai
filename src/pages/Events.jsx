@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { eventsData } from "../data/eventsData";
+import { SectionHeader } from "../components/ui/SectionHeader"; // Adjust path as needed
 
 const TYPE_COLORS = {
   Event: "bg-retroPink",
@@ -13,7 +14,6 @@ const TYPE_COLORS = {
   Other: "bg-retroYellow",
 };
 
-// Map Pin, Users, Building Icons...
 const MapPinIcon = () => (
   <svg
     className="w-3.5 h-3.5 inline-block mr-1 opacity-80"
@@ -83,7 +83,6 @@ export default function Events() {
     const grouped = filtered.reduce((acc, event, index) => {
       const y = event.year || "Archive";
       if (!acc[y]) acc[y] = [];
-      // Ensure each event has a fallback identifier
       acc[y].push({
         ...event,
         eventId: event.id ?? event.slug ?? index + 1,
@@ -102,39 +101,29 @@ export default function Events() {
   return (
     <div className="space-y-16 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
       <section>
-        <div className="flex flex-col items-center text-center mb-12 gap-6">
-          <div className="w-full text-left flex flex-col items-start gap-3">
-            <span className="bg-retroPink text-black font-semibold text-xs px-3.5 py-1.5 border-[1.5px] border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider inline-flex items-center gap-2 -rotate-1">
-              OUR JOURNEY
-            </span>
+        {/* Uniform SectionHeader */}
+        <SectionHeader
+          badgeText="OUR JOURNEY"
+          title="THINGS WE'VE DONE."
+          subtitle="A collection of events, workshops, seminars and experiences from ACM SIGAI."
+        />
 
-            <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight text-black mt-1">
-              THINGS WE'VE DONE.
-            </h2>
-
-            <p className="text-sm md:text-base text-black/70 max-w-2xl font-normal">
-              A collection of events, workshops, seminars and experiences from
-              ACM SIGAI.
-            </p>
-          </div>
-
-          {/* Corrected Category Filters */}
-          <div className="w-full mt-2">
-            <div className="flex flex-wrap justify-start gap-2.5 w-full">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setFilter(cat)}
-                  className={`px-4 py-1.5 font-bold text-xs uppercase border-[1.5px] border-black rounded-lg transition-all ${
-                    filter === cat
-                      ? "bg-retroBlue text-black shadow-none translate-y-[1px] translate-x-[1px]"
-                      : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-50"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+        {/* Category Filters */}
+        <div className="w-full mb-12">
+          <div className="flex flex-wrap justify-start gap-2.5 w-full">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-4 py-1.5 font-bold text-xs uppercase border-[1.5px] border-black rounded-lg transition-all ${
+                  filter === cat
+                    ? "bg-retroBlue text-black shadow-none translate-y-[1px] translate-x-[1px]"
+                    : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -198,7 +187,6 @@ export default function Events() {
                         </div>
                       </div>
 
-                      {/* Correct Link destination */}
                       <div className="p-3 border-t-[1.5px] border-black bg-white flex justify-end items-center">
                         <Link
                           to={`/events/${event.eventId}`}
