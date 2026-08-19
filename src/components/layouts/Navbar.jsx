@@ -1,5 +1,7 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+// Import your logo asset here (adjust the path as needed)
+import logo from "../../assets/sigai-logo.png";
 
 export function Navbar() {
   const navItems = [
@@ -15,11 +17,15 @@ export function Navbar() {
       <nav className="bg-white border-2 border-black rounded-2xl p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
         {/* Brand / Logo Section */}
         <Link to="/" className="flex items-center gap-3 group">
-          <span className="bg-[#ff69b4] text-black font-extrabold text-sm px-3 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
-            TCET
-          </span>
+          <div className="bg-white p-1 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
+            <img
+              src={logo}
+              alt="TCET ACM SIGAI Logo"
+              className="h-10 w-auto object-contain"
+            />
+          </div>
           <span className="font-extrabold text-xl tracking-tight text-black">
-            ACM SIGAI
+            TCET ACM SIGAI
           </span>
         </Link>
 
