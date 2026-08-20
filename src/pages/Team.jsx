@@ -1,974 +1,457 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { SectionHeader } from "../components/ui/SectionHeader.jsx";
+import {
+  ACCENT_HEX,
+  getMemberImage,
+  facultyMembers,
+  coreTeam,
+  juniorCoreTeam,
+} from "../data/teamData.js";
 
-// Image Assets (located in src/photos/)
-import defaultPlaceholderImg from "../assets/placeholder-user.png";
-import drShiwaniImg from "../assets/dr_shiwani_gupta.jpg.jpeg";
-import mrsPranjaliImg from "../assets/mrs_pranjali_sankhe.jpg.jpeg";
-
-import { SectionHeader } from "../components/ui/SectionHeader";
-import Button from "../components/ui/Button";
-
-// Permanent Faculty Sponsors / Advisors (No tenure, constant across committees)
-const facultyMembers = [
-  {
-    name: "Dr. Shiwani Gupta",
-    role: "Faculty Sponsor",
-    domain: "DEPARTMENT HOD",
-    photo: drShiwaniImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/dr-shiwani-gupta-9b731a53/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "user",
-    photoPos: "object-center",
-  },
-  {
-    name: "Mrs. Pranjali Sankhe",
-    role: "Faculty In-Charge",
-    domain: "Assistant Professor",
-    photo: mrsPranjaliImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/pranjali-sankhe-5421aa160/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "user",
-    photoPos: "object-center",
-  },
-];
-
-// Current 2025-2026 Student Core Committee Members (All 16 positions)
-const currentCoreMembers = [
-  {
-    name: "Pranav Vishwakarma",
-    role: "Chairperson",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "user",
-  },
-  {
-    name: "Vipul Choudhari",
-    role: "Vice Chairperson",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "user",
-  },
-  {
-    name: "Aditya Pandey",
-    role: "Secretary",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-white",
-    iconType: "document",
-  },
-  {
-    name: "Mahek Chaplot",
-    role: "Treasurer",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "currency",
-  },
-  {
-    name: "Riya Yadav",
-    role: "Event Manager",
-    domain: "Events",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "calendar",
-  },
-  {
-    name: "Harshini Mishal",
-    role: "Technical Head",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "code",
-  },
-  {
-    name: "Sanjana Dubey",
-    role: "Creative Head",
-    domain: "Creative",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "swatch",
-  },
-  {
-    name: "Sitanshu Gupta",
-    role: "PR Head",
-    domain: "Public Relations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "megaphone",
-  },
-  {
-    name: "Pranjal Sawant",
-    role: "Spons Head",
-    domain: "Sponsorship",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "currency",
-  },
-  {
-    name: "Shubham Prajapati",
-    role: "Webmaster",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "globe",
-  },
-  {
-    name: "Jeni Shah",
-    role: "Inhouse Head",
-    domain: "Operations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBg",
-    iconType: "building",
-  },
-  {
-    name: "Siddhi Pandey",
-    role: "Joint Technical Head",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "code",
-  },
-  {
-    name: "Vaishnavi Nayak",
-    role: "Joint Secretary",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-white",
-    iconType: "document",
-  },
-  {
-    name: "Yash Oza",
-    role: "Joint PR & Spons Head",
-    domain: "Public Relations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "handshake",
-  },
-  {
-    name: "Anamika Yadav",
-    role: "Joint Creative Head",
-    domain: "Creative",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "swatch",
-  },
-  {
-    name: "Preet Kothari",
-    role: "Joint Event Manager",
-    domain: "Events",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "calendar",
-  },
-];
-
-// Previous 2024-2025 Core Committee Members (All 16 positions)
-const pastCore2024Members = [
-  {
-    name: "Rishikesh Saroj",
-    role: "Chairperson",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/rishikesh-saroj-107a89326/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "user",
-  },
-  {
-    name: "Ishan Dubey",
-    role: "Vice Chairperson",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/ishan-dubey-a45378322/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "user",
-  },
-  {
-    name: "Mudassir Shaikh",
-    role: "Secretary",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/mudassirshaikkh/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-white",
-    iconType: "document",
-  },
-  {
-    name: "Reva Purohit",
-    role: "Treasurer",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/revapurohit/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "currency",
-  },
-  {
-    name: "Taran Shetty",
-    role: "Event Manager",
-    domain: "Events",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/taran-shetty/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "calendar",
-  },
-  {
-    name: "Anuj Singh",
-    role: "Technical Head",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/anujsingh-ai-ml/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "code",
-  },
-  {
-    name: "Krish Vanani",
-    role: "Creative Head",
-    domain: "Creative",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/krish-vanani-445655260/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "swatch",
-  },
-  {
-    name: "Aniket Bhaskar",
-    role: "PR Head",
-    domain: "Public Relations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/aniket-bhaskar/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "megaphone",
-  },
-  {
-    name: "Dev Tripati",
-    role: "Spons Head",
-    domain: "Sponsorship",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/dev-tripathi-1b285328a/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "currency",
-  },
-  {
-    name: "Kartik Bankar",
-    role: "Webmaster",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/kartikbankar21/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "globe",
-  },
-  {
-    name: "Pranav Vishwakarma",
-    role: "Inhouse Head",
-    domain: "Operations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/pranav-vishwakarma25/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBg",
-    iconType: "building",
-  },
-  {
-    name: "Bala Sudalaimuthu",
-    role: "Joint Technical Head",
-    domain: "Technical",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/bala-sudalaimuthu-a34b53355/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroGreen",
-    iconType: "code",
-  },
-  {
-    name: "Tiya Rai",
-    role: "Joint Secretary",
-    domain: "Core",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/tiya-rai-433b42368/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-white",
-    iconType: "document",
-  },
-  {
-    name: "Vipul Choudhari",
-    role: "Joint PR & Spons Head",
-    domain: "Public Relations",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: null,
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroYellow",
-    iconType: "handshake",
-  },
-  {
-    name: "Parag Valam",
-    role: "Joint Creative Head",
-    domain: "Creative",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/parag-valam-790894368/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroPink",
-    iconType: "swatch",
-  },
-  {
-    name: "Riya Yadav",
-    role: "Joint Event Manager",
-    domain: "Events",
-    photo: defaultPlaceholderImg,
-    quote: "",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/riya-yadav-5aa7b5369/",
-      github: null,
-      email: null,
-    },
-    stickerBg: "bg-retroBlue",
-    iconType: "calendar",
-  },
-];
-
-// All team members combined (for export/reference)
-export const teamMembers = [...facultyMembers, ...currentCoreMembers];
-
-// Helper to calculate initials from name
-const getInitials = (name) => {
-  if (!name) return "";
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-};
-
-// Helper to render LinkedIn icon
 const LinkedInIcon = () => (
-  <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
+  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
   </svg>
 );
 
-// Helper to render clean Heroicon SVGs (including Indian Rupee ₹ for sponsorship)
-const renderIcon = (type) => {
-  const iconProps = "w-3.5 h-3.5 text-black shrink-0";
-  switch (type) {
-    case "user":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
-      );
-    case "code":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-          />
-        </svg>
-      );
-    case "calendar":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
-        </svg>
-      );
-    case "swatch":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-          />
-        </svg>
-      );
-    case "megaphone":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
-          />
-        </svg>
-      );
-    case "currency":
-    case "rupee":
-      // Sponsorship / Currency represented with the Indian Rupee ₹ symbol
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 4h12M6 8.5h12M6 4h6a4.5 4.5 0 010 9H6m4 0l6.5 7.5"
-          />
-        </svg>
-      );
-    case "globe":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-          />
-        </svg>
-      );
-    case "document":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
-      );
-    case "building":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-          />
-        </svg>
-      );
-    case "handshake":
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-      );
-    default:
-      return (
-        <svg
-          className={iconProps}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      );
+const ArrowUpRightIcon = () => (
+  <svg
+    className="w-4 h-4 stroke-current stroke-2 fill-none"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M7 17L17 7M17 7H7M17 7V17"
+    />
+  </svg>
+);
+
+// Specific Position Icons
+const PositionIcon = ({ position }) => {
+  const p = position.toLowerCase();
+
+  if (p.includes("chair") || p.includes("sponsor") || p.includes("hod")) {
+    return (
+      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
+      </svg>
+    );
   }
+  if (p.includes("tech") || p.includes("webmaster")) {
+    return (
+      <svg
+        className="w-3.5 h-3.5 stroke-current stroke-2 fill-none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+        />
+      </svg>
+    );
+  }
+  if (p.includes("creative") || p.includes("design")) {
+    return (
+      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+        <path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.97-4.03-9-9-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+      </svg>
+    );
+  }
+  if (p.includes("treasurer") || p.includes("spons")) {
+    return (
+      <svg
+        className="w-3.5 h-3.5 stroke-current stroke-2 fill-none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 1v22m5-18H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+        />
+      </svg>
+    );
+  }
+  if (p.includes("event") || p.includes("inhouse")) {
+    return (
+      <svg
+        className="w-3.5 h-3.5 stroke-current stroke-2 fill-none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+      <path d="M21 3L3 10.5v3L8 15v5l3.5-3.5L15 18l6-15zM8 13.5l-3-1 11-5.5-8 6.5z" />
+    </svg>
+  );
 };
 
-export default function Team() {
-  const [activeTab, setActiveTab] = useState("CURRENT");
-  const [selectedDomain, setSelectedDomain] = useState("ALL");
-
-  const DOMAIN_CONFIG = [
-    { id: "ALL", label: "All Domains", color: "#fff36b" },
-    { id: "Core", label: "Core", color: "#ff83b8" },
-    { id: "Technical", label: "Technical", color: "#8be28b" },
-    { id: "Events", label: "Events", color: "#78c7ff" },
-    { id: "Creative", label: "Creative", color: "#ff83b8" },
-    { id: "Public Relations", label: "Public Relations", color: "#fff36b" },
-    { id: "Sponsorship", label: "Sponsorship", color: "#8be28b" },
-    { id: "Operations", label: "Operations", color: "#f8f3e8" },
-  ];
-
-  // Active committee members (2025-2026 has all 15 positions; 2024-2025 excludes the last 4 positions)
-  const displayedCoreMembers =
-    activeTab === "CURRENT" ? currentCoreMembers : pastCore2024Members;
-
-  // Helper to match domain (Joint PR & Spons Head appears in both Public Relations and Sponsorship)
-  const matchesDomain = (member, domain) => {
-    if (domain === "ALL") return true;
-    const target = domain.toLowerCase();
-    const memberDomain = (member.domain || "").toLowerCase();
-    if (memberDomain === target) return true;
-    if (
-      (member.role.toLowerCase().includes("pr & spons") ||
-        member.role.toLowerCase().includes("pr & spon")) &&
-      (target === "public relations" || target === "sponsorship")
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  // Filtered members based on selected domain
-  const filteredCoreMembers = displayedCoreMembers.filter((m) =>
-    matchesDomain(m, selectedDomain),
-  );
-
-  // Render individual compact team member card in the grid
-  const renderMemberCard = (member, index, keyPrefix = "") => (
+const FacultyCard = ({ faculty }) => {
+  return (
     <div
-      key={`${keyPrefix}-${index}`}
-      className="border-3 border-black rounded-2xl p-4 shadow-brutal-lg bg-white flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5"
+      className="group relative p-[3px] overflow-hidden rounded-none max-w-5xl mx-auto"
+      style={{ "--border-accent": ACCENT_HEX[faculty.badgeBg] }}
     >
-      {/* Top: Domain */}
-      <div className="flex items-center justify-between mb-2.5">
-        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 border-2 border-black rounded bg-retroBg text-black">
-          {member.domain}
-        </span>
-      </div>
+      <div className="absolute inset-0 running-border-hover" />
 
-      {/* Member Photo / Avatar Container */}
-      <div className="w-full aspect-square border-2 border-black rounded-xl mb-3 bg-retroBg overflow-hidden flex items-center justify-center relative">
-        <img
-          src={member.photo || defaultPlaceholderImg}
-          alt={member.name}
-          className={`w-full h-full object-cover ${member.photoPos || "object-center"}`}
-        />
-      </div>
-
-      {/* Member Info */}
-      <div className="mb-2">
-        <h3 className="font-black text-lg text-black leading-tight">
-          {member.name}
-        </h3>
-        {member.quote && (
-          <p className="text-xs italic text-gray-700 mt-1 line-clamp-2">
-            "{member.quote}"
-          </p>
-        )}
-      </div>
-
-      {/* Position Badge */}
-      <div className="mb-3">
-        <span
-          className={`inline-flex items-center gap-2 font-black text-xs px-3 py-1.5 border-2 border-black rounded-lg shadow-brutal uppercase select-none ${member.stickerBg}`}
-        >
-          {renderIcon(member.iconType)}
-          <span>{member.role}</span>
-        </span>
-      </div>
-
-      {/* Bottom Action Area */}
-      <div className="pt-2.5 border-t-2 border-black/10 flex items-center justify-between mt-auto">
-        <div>
-          {member.socials?.linkedin ? (
-            <a
-              href={member.socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center p-1.5 border-2 border-black rounded-md shadow-brutal-sm bg-white hover:bg-retroBlue text-black transition-colors"
-              title="LinkedIn"
-              aria-label={`${member.name}'s LinkedIn`}
-            >
-              <LinkedInIcon />
-            </a>
-          ) : (
+      <div className="relative bg-[#1b2333] p-6 md:p-8 h-full w-full">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 border-b-2 border-white/25 pb-4">
+          <div className="flex items-center gap-2">
             <span
-              className="inline-flex items-center justify-center p-1.5 border-2 border-gray-300 rounded-md bg-gray-100 text-gray-400 cursor-not-allowed"
-              title="LinkedIn (Not available)"
-              aria-label="LinkedIn not available"
+              className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase border-2 border-black text-black ${faculty.badgeBg}`}
             >
-              <LinkedInIcon />
+              <PositionIcon position={faculty.position} />
+              <span>{faculty.label}</span>
             </span>
-          )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <div className="lg:col-span-5 flex flex-col">
+            <div className="relative border-4 border-white overflow-hidden bg-[#232c45] h-72 sm:h-80 lg:h-full">
+              <img
+                src={getMemberImage(faculty)}
+                alt={faculty.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ease-out"
+              />
+            </div>
+          </div>
+
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <div>
+              <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight mb-2 transition-colors duration-300 group-hover:text-retroYellow">
+                {faculty.name}
+              </h3>
+              <span
+                className={`inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-sm md:text-base font-mono font-extrabold uppercase border-2 border-black rounded-md text-black ${faculty.badgeBg}`}
+              >
+                <PositionIcon position={faculty.position} />
+                <span>{faculty.position}</span>
+              </span>
+              <p className="text-sm font-medium leading-relaxed text-gray-200 font-sans transition-colors duration-300 group-hover:text-white">
+                {faculty.description}
+              </p>
+            </div>
+
+            <div className="pt-4 mt-6 border-t-2 border-white/25 flex items-center justify-between gap-4">
+              <a
+                href={faculty.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-pop inline-flex items-center gap-2 bg-retroYellow text-black font-extrabold text-sm px-5 py-2.5 border-3 border-black transition-all"
+                aria-label={`LinkedIn profile for ${faculty.name}`}
+              >
+                <LinkedInIcon />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
+};
+
+const CoreTeamCard = ({ member }) => {
+  return (
+    <div
+      className="group relative bg-[#1b2333] border-2 border-white/25 hover:border-transparent transition-all duration-300"
+      style={{ "--border-accent": ACCENT_HEX[member.accent] }}
+    >
+      <div className="running-border-hover w-full h-full p-1">
+        <div className="bg-[#1b2333] w-full h-full flex flex-col justify-between overflow-hidden">
+          <div className="bg-[#232c45] border-b-2 border-white/25 p-3 flex items-center justify-between shrink-0">
+            <span
+              className={`inline-flex items-center gap-1.5 text-[10px] font-mono font-extrabold uppercase px-2 py-0.5 border border-black text-black ${member.accent}`}
+            >
+              <PositionIcon position={member.position} />
+              <span>{member.badgeTag}</span>
+            </span>
+
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pop inline-flex items-center justify-center bg-white hover:bg-retroYellow text-black p-1.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] transition-all"
+              aria-label={`LinkedIn for ${member.name}`}
+            >
+              <LinkedInIcon />
+            </a>
+          </div>
+
+          <div className="p-3">
+            <div className="w-full h-64 border-2 border-white overflow-hidden bg-gray-900 shadow-[3px_3px_0px_0px_rgba(255,255,255,0.15)]">
+              <img
+                src={getMemberImage(member)}
+                alt={member.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+
+          <div className="px-3 pb-3">
+            <span
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-mono font-extrabold uppercase border-2 border-black rounded-md text-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] ${member.accent}`}
+            >
+              <PositionIcon position={member.position} />
+              <span>{member.position}</span>
+            </span>
+          </div>
+
+          <div className="max-h-0 opacity-0 group-hover:max-h-60 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden px-3 pb-3">
+            <h3 className="text-xl font-extrabold text-white tracking-tight leading-tight group-hover:text-{member.accent} transition-colors duration-300 mb-2">
+              {member.name}
+            </h3>
+
+            <div className="bg-[#232c45] border border-white/25 p-2.5">
+              <p className="text-xs font-sans text-gray-200 leading-relaxed">
+                {member.bio}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function splitIntoColumns(items, columnCount) {
+  const columns = Array.from({ length: columnCount }, () => []);
+  items.forEach((item, i) => columns[i % columnCount].push(item));
+  return columns;
+}
+
+const JuniorCoreCard = ({ member }) => {
+  const [tiltStyle, setTiltStyle] = useState({
+    transform: "translate3d(0,0,0) rotate(0deg)",
+  });
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    const moveX = (x / (rect.width / 2)) * 10;
+    const moveY = (y / (rect.height / 2)) * 10;
+    const rotate = (x / (rect.width / 2)) * 4;
+
+    setTiltStyle({
+      transform: `translate3d(${moveX}px, ${moveY}px, 0) rotate(${rotate}deg)`,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({ transform: "translate3d(0,0,0) rotate(0deg)" });
+  };
 
   return (
-    <div className="bg-paper-grid min-h-screen pb-16">
-      {/* Scoped CSS for pink badge and generous label spacing */}
-      <style>{`
-        .section-header .badge {
-          background-color: #ff83b8 !important;
-        }
-        .section-divider-row {
-          margin-bottom: 1.5rem !important;
-        }
-        .tabs-button-row {
-          margin-top: 3rem !important;
-          margin-bottom: 2.5rem !important;
-        }
-        .domain-toolbar-container {
-          margin-bottom: 2.5rem !important;
-        }
-      `}</style>
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative p-[2px] overflow-hidden rounded-none shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)]"
+      style={{ "--border-accent": ACCENT_HEX[member.accent] }}
+    >
+      <div className="absolute inset-0 running-border-hover" />
 
-      {/* Main Page Title / Header */}
-      <SectionHeader
-        title="MEET THE TEAM"
-        subtitle="The minds shaping TCET ACM SIGAI."
-        badgeText="PEOPLE"
-      />
-
-      {/* 1. LABEL 1: FACULTY LEADERSHIP (Black background, Pink text) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="section-divider-row flex items-center justify-center gap-3">
-          <div className="h-0.5 bg-black/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+      <div className="relative bg-[#1b2333] p-3.5 flex flex-col h-full w-full">
+        <div className="flex items-center justify-between mb-3 pb-1.5 border-b-2 border-white/25">
           <span
-            className="inline-flex items-center gap-1.5 font-black text-xs px-4 py-1.5 border-2 border-black rounded-full uppercase tracking-wider select-none shadow-brutal-sm"
-            style={{
-              backgroundColor: "#000000",
-              color: "#ff83b8",
-            }}
+            className={`inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-mono font-bold border border-black text-black ${member.accent}`}
           >
-            ★ Faculty Leadership ★
+            <PositionIcon position={member.position} />
+            <span>{member.tag}</span>
           </span>
-          <div className="h-0.5 bg-black/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-pop inline-flex items-center justify-center bg-white hover:bg-retroYellow text-black p-1.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] transition-all"
+            aria-label={`LinkedIn for ${member.name}`}
+          >
+            <LinkedInIcon />
+          </a>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6 max-w-3xl mx-auto">
-          {facultyMembers.map((member, index) => (
-            <div key={`faculty-${index}`} className="w-full sm:w-[320px]">
-              {renderMemberCard(member, index, "faculty")}
-            </div>
-          ))}
+        <div className="relative border-2 border-white overflow-hidden bg-black h-64 sm:h-72 mb-3 shadow-[2px_2px_0px_0px_rgba(255,255,255,0.15)]">
+          <img
+            src={getMemberImage(member)}
+            alt={member.name}
+            style={tiltStyle}
+            className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-300 ease-out"
+          />
+        </div>
+
+        <span
+          className={`inline-flex items-center gap-1 mb-2 px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase border-2 border-black rounded-md text-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] w-fit ${member.accent}`}
+        >
+          <PositionIcon position={member.position} />
+          <span>{member.position}</span>
+        </span>
+
+        <h4 className="text-base font-extrabold text-white tracking-tight group-hover:text-retroPink transition-colors duration-300">
+          {member.name}
+        </h4>
+
+        <div className="max-h-0 opacity-0 group-hover:max-h-32 group-hover:opacity-100 group-hover:mt-2 transition-all duration-500 ease-in-out overflow-hidden">
+          <p className="text-[11px] font-sans text-gray-300 bg-[#232c45] border border-white/25 p-2">
+            {member.bio}
+          </p>
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* 2. TAB CONTROLS (Current Core vs Past Committees with generous spacing) */}
-      <div className="tabs-button-row flex justify-center gap-4">
-        <Button
-          variant={activeTab === "CURRENT" ? "pink" : "white"}
-          onClick={() => setActiveTab("CURRENT")}
-        >
-          Current Core (2025-2026)
-        </Button>
-        <Button
-          variant={activeTab === "ALUMNI" ? "yellow" : "white"}
-          onClick={() => setActiveTab("ALUMNI")}
-        >
-          Past Committees (2024-2025)
-        </Button>
-      </div>
+export default function Team() {
+  const [activeFilter, setActiveFilter] = useState("ALL");
 
-      {/* 3. CORE TEAM GRID WITH PROPERLY SPACED COLOR-CODED LABELS */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Section Divider Badge: Pink label + Yellow text for 2025-2026, Yellow label + Pink text for 2024-2025 */}
-        <div className="section-divider-row flex items-center justify-center gap-3">
-          <div className="h-0.5 bg-black/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
-          {activeTab === "CURRENT" ? (
-            <span
-              className="inline-flex items-center font-black text-xs px-4 py-1.5 border-2 border-black rounded-md uppercase tracking-wider select-none shadow-brutal-sm"
-              style={{
-                backgroundColor: "#ff83b8",
-                color: "#fff36b",
-              }}
-            >
-              2025-2026 CORE TEAM
-            </span>
-          ) : (
-            <span
-              className="inline-flex items-center font-black text-xs px-4 py-1.5 border-2 border-black rounded-md uppercase tracking-wider select-none shadow-brutal-sm"
-              style={{
-                backgroundColor: "#fff36b",
-                color: "#ff83b8",
-              }}
-            >
-              2024-2025 CORE TEAM
-            </span>
-          )}
-          <div className="h-0.5 bg-black/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
-        </div>
+  const filteredCore = coreTeam.filter((member) => {
+    if (activeFilter === "ALL") return true;
+    if (activeFilter === "LEAD")
+      return (
+        member.position.includes("Chairperson") ||
+        member.position.includes("Secretary") ||
+        member.position.includes("Treasurer")
+      );
+    if (activeFilter === "TECH")
+      return (
+        member.position.includes("Technical") ||
+        member.position.includes("Webmaster")
+      );
+    if (activeFilter === "CREATIVE")
+      return (
+        member.position.includes("Creative") ||
+        member.position.includes("Event")
+      );
+    if (activeFilter === "OPS")
+      return (
+        member.position.includes("PR") || member.position.includes("Spons")
+      );
+    return true;
+  });
 
-        {/* Structured Domain Filter Toolbar Container */}
-        <div className="domain-toolbar-container flex flex-col items-center gap-2 mb-10">
-          <div className="inline-flex flex-wrap justify-center items-center gap-2 p-2 bg-white/80 border-2 border-black rounded-2xl shadow-brutal-sm max-w-4xl mx-auto">
-            {DOMAIN_CONFIG.map((d) => {
-              const isSelected =
-                selectedDomain.toLowerCase() === d.id.toLowerCase();
+  return (
+    <div className="bg-paper-grid min-h-screen text-white font-sans overflow-x-hidden selection:bg-retroPink selection:text-black">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10 relative">
+        <section className="relative mb-8 lg:mb-10">
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex flex-col items-center text-center">
+              <SectionHeader
+                title="MEET THE TEAM"
+                subtitle="The minds shaping TCET ACM SIGAI."
+                badgeText="PEOPLE"
+              />
 
-              return (
-                <button
-                  key={d.id}
-                  type="button"
-                  onClick={() => setSelectedDomain(d.id)}
-                  style={
-                    isSelected
-                      ? {
-                          backgroundColor: d.color,
-                          color: "#000000",
-                        }
-                      : {}
-                  }
-                  className={`inline-flex items-center font-black text-xs px-3.5 py-1.5 border-2 border-black rounded-xl transition-all duration-150 cursor-pointer select-none ${
-                    isSelected
-                      ? "shadow-brutal -translate-y-0.5"
-                      : "bg-white text-black shadow-sm hover:bg-retroBg hover:-translate-y-0.5"
-                  }`}
+              <div className="section-divider-row flex items-center justify-center gap-3 w-full">
+                <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+                <span
+                  className="inline-flex items-center gap-1.5 font-black text-xs px-4 py-1.5 border-2 border-black rounded-full uppercase tracking-wider select-none shadow-brutal-sm"
+                  style={{
+                    backgroundColor: "#000000",
+                    color: "#ff83b8",
+                  }}
                 >
-                  <span>{d.label}</span>
-                </button>
-              );
-            })}
+                  ★ Faculty Leadership ★
+                </span>
+                <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        {/* Member Cards Grid or Empty Domain State */}
-        {filteredCoreMembers.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
-            {filteredCoreMembers.map((member, index) =>
-              renderMemberCard(
-                member,
-                index,
-                activeTab === "CURRENT" ? "current-core" : "past-core-2024",
-              ),
-            )}
+        <section className="mb-12 lg:mb-16">
+          <div className="space-y-8">
+            {facultyMembers.map((faculty) => (
+              <FacultyCard key={faculty.id} faculty={faculty} />
+            ))}
           </div>
-        ) : (
-          <div className="text-center py-10 border-2 border-dashed border-black/30 rounded-2xl bg-white/60 p-6 max-w-sm mx-auto shadow-brutal-sm">
-            <p className="font-black text-sm text-black m-0">
-              No members found in {selectedDomain}.
-            </p>
-            <button
-              type="button"
-              onClick={() => setSelectedDomain("ALL")}
-              className="mt-3 inline-block font-black text-xs px-3.5 py-1.5 border-2 border-black rounded-lg bg-retroYellow text-black shadow-brutal-sm hover:-translate-y-0.5 transition-transform cursor-pointer select-none"
+        </section>
+
+        {/* CORE TEAM SECTION */}
+        <section className="mb-12 lg:mb-16">
+          <div className="section-divider-row flex items-center justify-center gap-3 w-full mb-6">
+            <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+            <span
+              className="inline-flex items-center gap-1.5 font-black text-xs px-4 py-1.5 border-2 border-black rounded-full uppercase tracking-wider select-none shadow-[3px_3px_0px_0px_rgba(255,255,255,0.2)]"
+              style={{
+                backgroundColor: "#fcd34d",
+                color: "#000000",
+              }}
             >
-              Show All Domains
-            </button>
+              Core Team
+            </span>
+            <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
           </div>
-        )}
-      </div>
+
+          <div className="mb-6 flex flex-wrap items-center gap-2 font-mono text-xs font-bold">
+            <span className="text-gray-400 mr-2">FILTER BY DOMAIN:</span>
+            {[
+              { id: "ALL", label: "ALL MEMBERS" },
+              { id: "LEAD", label: "LEADERSHIP" },
+              { id: "TECH", label: "TECH & WEB" },
+              { id: "CREATIVE", label: "CREATIVE & EVENTS" },
+              { id: "OPS", label: "OPERATIONS & PR" },
+            ].map((btn) => (
+              <button
+                key={btn.id}
+                onClick={() => setActiveFilter(btn.id)}
+                className={`btn-pop px-3 py-1.5 border-2 border-white shadow-[3px_3px_0px_0px_rgba(255,255,255,0.15)] transition-all ${
+                  activeFilter === btn.id
+                    ? "bg-retroYellow text-black font-extrabold"
+                    : "bg-[#1b2333] text-white hover:bg-white hover:text-black"
+                }`}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            {splitIntoColumns(filteredCore, 3).map((column, ci) => (
+              <div key={ci} className="space-y-6">
+                {column.map((member) => (
+                  <CoreTeamCard key={member.name} member={member} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* JUNIOR CORE TEAM SECTION */}
+        <section className="mb-10">
+          <div className="section-divider-row flex items-center justify-center gap-3 w-full mb-6">
+            <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+            <span
+              className="inline-flex items-center gap-1.5 font-black text-xs px-4 py-1.5 border-2 border-black rounded-full uppercase tracking-wider select-none shadow-[3px_3px_0px_0px_rgba(255,255,255,0.2)]"
+              style={{
+                backgroundColor: "#70d6ff",
+                color: "#000000",
+              }}
+            >
+              Junior Core Team
+            </span>
+            <div className="h-0.5 bg-white/20 flex-1 max-w-[80px] sm:max-w-[120px]" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            {juniorCoreTeam.map((member, idx) => (
+              <JuniorCoreCard key={idx} member={member} />
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
