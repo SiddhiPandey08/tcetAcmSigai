@@ -265,7 +265,7 @@ export default function Team() {
                 TCET ACM SIGAI 2024-25
               </span>
               <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">
-                Building The Future Of AI Together
+                TCET ACM SIGAI Core & Jr Core Team
               </h2>
             </div>
           </div>
