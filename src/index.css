@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Retained accent colors - bright retro colors pop well on navy */
-  --color-retroYellow: #fcd34d;
-  --color-retroPink: #ff70a6;
-  --color-retroBlue: #70d6ff;
-  --color-retroGreen: #38b000;
+  /* Bright retro colors tuned for light backgrounds */
+  --color-retroYellow: #facc15;
+  --color-retroPink: #ff70a6; /* Standardized strictly for buttons & explicit highlights */
+  --color-retroBlue: #38bdf8;
+  --color-retroGreen: #4ade80;
 
-  /* Updated dark background navy color */
-  --color-retroBg: #1e2538;
+  /* Updated light mode background canvas */
+  --color-retroBg: #f8fafc;
+  --color-retroBgAlt: #ffffff;
 
   --border-3: 3px;
 
-  /* Adjusted brutalist shadows to pure black or bright contrast pop */
+  /* Classic High-Contrast Brutalist Shadows */
   --shadow-brutal-sm: 2px 2px 0px 0px #000000;
   --shadow-brutal: 4px 4px 0px 0px #000000;
   --shadow-brutal-lg: 7px 7px 0px 0px #000000;
@@ -42,12 +43,12 @@
   }
 }
 
-/* Updated graph paper grid for dark navy background */
+/* Light Mode graph paper grid */
 .bg-paper-grid {
-  background-color: #1e2538;
+  background-color: #f8fafc;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
@@ -122,6 +123,18 @@
   }
 }
 
+/* Headline lines drop-and-settle in on page load */
+@keyframes lineIn {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) rotate(-1.5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
 @layer utilities {
   .hover-brutal-lift {
     transition:
@@ -165,11 +178,30 @@
   .animate-robot-peek {
     animation: robotPeek 6s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
   }
+
+  .animate-line-in {
+    animation: lineIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
 }
+
+/* Scroll-triggered reveal observer */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 html,
 body {
   min-height: 100vh;
-  background-color: #1e2538;
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
 @keyframes borderRun {
@@ -181,18 +213,7 @@ body {
   }
 }
 
-/* Animated Running Border Overlay
-   ---------------------------------
-   Previously this cycled through a fixed 5-color rainbow gradient on every
-   card. Now it reads a single color from the --border-accent custom
-   property that each card sets inline (see ACCENT_HEX in Team.jsx), so
-   every card gets its OWN solid hover-border color that matches its badge,
-   instead of the same rainbow everywhere.
-
-   The "running" motion is now a single-hue comet: a bright band of
-   --border-accent flanked by transparency, sweeping around the border via
-   background-position. Falls back to retroYellow if a card doesn't set
-   the variable. */
+/* Animated Running Border Overlay */
 .running-border-hover {
   position: relative;
   --border-accent: var(--color-retroYellow);
@@ -202,7 +223,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  padding: 3px; /* Border thickness */
+  padding: 3px;
   background: linear-gradient(
     115deg,
     transparent 15%,
@@ -220,8 +241,95 @@ body {
   transition: opacity 0.3s ease;
 }
 
-/* Activate animated outline strictly on card hover */
 .group:hover .running-border-hover::before {
   opacity: 1;
   animation: borderRun 1.8s linear infinite;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .animate-line-in,
+  .animate-marquee,
+  .animate-bounce-slow,
+  .animate-float-sideways,
+  .animate-robot-peek,
+  .animate-stamp {
+    animation: none !important;
+  }
+}
+
+@layer utilities {
+  .btn-brutal-press {
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition:
+      transform 0.12s cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .btn-brutal-press:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #000000;
+  }
+  .btn-brutal-press:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px 0px #000000;
+  }
+
+  .hover-sticker-pop {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hover-sticker-pop:hover {
+    transform: scale(1.12) rotate(-5deg);
+  }
+
+  .animate-spin-slow {
+    animation: spin 12s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes splash-out {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
+  }
+  70% {
+    opacity: 1;
+    transform: var(--splash-target) scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: var(--splash-target) scale(1);
+  }
+}
+
+@keyframes splash-in {
+  0% {
+    opacity: 1;
+    transform: var(--splash-target) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0deg);
+  }
+}
+
+.splash-active {
+  animation: splash-out 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.splash-inactive {
+  animation: splash-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }

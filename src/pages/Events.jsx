@@ -5,12 +5,13 @@ import { eventsData } from "../data/eventsData";
 import { SectionHeader } from "../components/ui/SectionHeader";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+// Controlled retro palette: Pink reserved strictly for key interactive elements
 const TYPE_COLORS = {
-  Event: "bg-retroPink",
+  Event: "bg-retroYellow",
   Workshop: "bg-retroBlue",
   Seminar: "bg-retroYellow",
   Competition: "bg-retroGreen",
-  "Industrial Visit": "bg-retroPink",
+  "Industrial Visit": "bg-retroGreen",
   "Expert Talk": "bg-retroBlue",
   Other: "bg-retroYellow",
 };
@@ -119,7 +120,7 @@ function EventCard({ event, index, isActive }) {
   const exitOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
   const exitScale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
 
-  const cardColor = TYPE_COLORS[event.type] || "bg-retroPink";
+  const cardColor = TYPE_COLORS[event.type] || "bg-retroYellow";
 
   return (
     <motion.div
@@ -140,7 +141,7 @@ function EventCard({ event, index, isActive }) {
       >
         <motion.div
           data-id={event.eventId}
-          className="event-card group flex flex-col bg-white border-[1.5px] border-black rounded-2xl overflow-hidden h-full"
+          className="event-card group flex flex-col bg-white border-2 border-black rounded-2xl overflow-hidden h-full"
           animate={{
             scale: isActive ? 1.02 : 1,
             y: isActive ? -4 : 0,
@@ -156,9 +157,9 @@ function EventCard({ event, index, isActive }) {
           }}
         >
           <div
-            className={`p-3.5 border-b-[1.5px] border-black flex justify-between items-center ${cardColor}`}
+            className={`p-3.5 border-b-2 border-black flex justify-between items-center ${cardColor}`}
           >
-            <span className="inline-block bg-white text-black font-semibold text-[11px] uppercase border-[1.5px] border-black px-2.5 py-0.5 rounded-full shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] -rotate-1">
+            <span className="inline-block bg-white text-black font-semibold text-[11px] uppercase border-2 border-black px-2.5 py-0.5 rounded-full shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] -rotate-1">
               {event.type}
             </span>
             <span className="font-mono text-[11px] bg-black text-white px-2.5 py-0.5 rounded-md border border-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
@@ -166,40 +167,40 @@ function EventCard({ event, index, isActive }) {
             </span>
           </div>
 
-          <div className="p-5 flex-grow flex flex-col bg-[#fdfbf7]">
-            <h4 className="text-lg font-bold tracking-tight leading-snug mb-3 text-black">
+          <div className="p-5 flex-grow flex flex-col bg-white">
+            <h4 className="text-lg font-black tracking-tight leading-snug mb-3 text-black">
               {event.title}
             </h4>
 
             {event.shortDescription && (
-              <p className="text-xs text-black/70 font-normal leading-relaxed mb-5 border-l-2 border-retroYellow pl-3 py-0.5">
+              <p className="text-xs text-black/70 font-semibold leading-relaxed mb-5 border-l-2 border-retroYellow pl-3 py-0.5">
                 {event.shortDescription}
               </p>
             )}
 
             <div className="mt-auto flex flex-wrap gap-2 text-[11px]">
               {event.mode && (
-                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-white shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                <span className="flex items-center font-bold border border-black px-2.5 py-1 rounded-md bg-slate-50 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] text-black">
                   <MapPinIcon /> {event.mode}
                 </span>
               )}
               {event.participants && (
-                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroYellow shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                <span className="flex items-center font-bold border border-black px-2.5 py-1 rounded-md bg-retroYellow shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] text-black">
                   <UsersIcon /> {event.participants}
                 </span>
               )}
               {event.venue && event.venue !== "N/A" && (
-                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroBlue shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                <span className="flex items-center font-bold border border-black px-2.5 py-1 rounded-md bg-retroBlue shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] text-black">
                   <BuildingIcon /> {event.venue}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="p-3 border-t-[1.5px] border-black bg-white flex justify-end items-center">
+          <div className="p-3 border-t-2 border-black bg-slate-50 flex justify-end items-center">
             <Link
               to={`/events/${event.eventId}`}
-              className="bg-retroBlue text-black font-semibold text-xs uppercase px-5 py-2 rounded-lg border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
+              className="bg-retroPink text-black font-black text-xs uppercase px-5 py-2 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
             >
               <span>Details</span>
               <span className="text-sm leading-none group-hover/btn:translate-x-1 transition-transform">
@@ -328,7 +329,6 @@ export default function Events() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll, { passive: true });
 
-    // Initial check
     handleScroll();
 
     return () => {
@@ -336,7 +336,7 @@ export default function Events() {
       window.removeEventListener("resize", handleScroll);
       cancelAnimationFrame(rafId);
     };
-  }, [filter]); // Re-run when filter changes because DOM elements change
+  }, [filter]);
 
   return (
     <div className="space-y-16 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
@@ -355,10 +355,10 @@ export default function Events() {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-4 py-1.5 font-bold text-xs uppercase border-[1.5px] border-black rounded-lg transition-all ${
+                className={`px-4 py-1.5 font-black text-xs uppercase border-2 border-black rounded-lg transition-all ${
                   filter === cat
                     ? "bg-retroBlue text-black shadow-none translate-y-[1px] translate-x-[1px]"
-                    : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-50"
+                    : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-100"
                 }`}
               >
                 {cat}
@@ -371,12 +371,12 @@ export default function Events() {
         <div className="relative flex max-w-full">
           {/* TIMELINE SPINE */}
           <div className="w-6 md:w-8 lg:w-12 shrink-0 relative mr-3 md:mr-4 lg:mr-6 flex justify-center">
-            {/* Changed bg-black/10 -> bg-white/20 for the base track */}
-            <div className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-white/20 rounded-full" />
+            {/* Timeline track in high-contrast dark style for light background */}
+            <div className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-black/20 rounded-full" />
 
-            {/* Changed bg-black -> bg-white for the active scroll line */}
+            {/* Active scroll progress track */}
             <motion.div
-              className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-white rounded-full origin-top"
+              className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-black rounded-full origin-top"
               style={{ scaleY: scrollYProgress }}
             />
           </div>
@@ -396,8 +396,8 @@ export default function Events() {
                     <motion.div
                       className={`rounded-full transition-all duration-300 ${
                         isActiveYear
-                          ? "w-4 h-4 border-[2.5px] border-black bg-retroYellow shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                          : "w-2.5 h-2.5 border-[2px] border-black/30 bg-white"
+                          ? "w-4 h-4 border-2 border-black bg-retroYellow shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                          : "w-2.5 h-2.5 border-2 border-black/30 bg-white"
                       }`}
                       animate={{ scale: isActiveYear ? 1.2 : 1 }}
                     />
@@ -410,7 +410,7 @@ export default function Events() {
                     viewport={{ once: false, amount: 0.15 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   >
-                    <h3 className="text-xl font-black bg-white text-black border-[2px] border-black px-5 py-1.5 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-1 inline-block rounded-xl tracking-tight">
+                    <h3 className="text-xl font-black bg-white text-black border-2 border-black px-5 py-1.5 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-1 inline-block rounded-xl tracking-tight">
                       {year}
                     </h3>
                   </motion.div>
@@ -427,7 +427,7 @@ export default function Events() {
                             <motion.div
                               className={`rounded-full transition-all duration-300 ${
                                 isActiveMonth
-                                  ? "w-2.5 h-2.5 border-[2px] border-black bg-retroPink shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] scale-125"
+                                  ? "w-2.5 h-2.5 border-2 border-black bg-retroPink shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] scale-125"
                                   : "w-1.5 h-1.5 border-[1.5px] border-black/30 bg-white"
                               }`}
                             />
@@ -443,10 +443,10 @@ export default function Events() {
                               transition={{ duration: 0.3 }}
                             >
                               <div
-                                className={`text-[11px] font-bold px-3 py-1 border-[1.5px] border-black rounded-md uppercase tracking-widest transition-all duration-300 ${
+                                className={`text-[11px] font-black px-3 py-1 border-2 border-black rounded-md uppercase tracking-widest transition-all duration-300 ${
                                   isActiveMonth
                                     ? "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-1"
-                                    : "bg-transparent text-black/40 border-black/20 shadow-none"
+                                    : "bg-transparent text-black/50 border-black/30 shadow-none"
                                 }`}
                               >
                                 {month}

@@ -1,362 +1,538 @@
-import React from "react";
-import { SectionHeader } from "../components/ui/SectionHeader";
-import { Card } from "../components/ui/Card";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import About from "../components/layouts/About";
-import Contact from "../components/layouts/Contact";
+import { BlogCharm } from "../components/ui/BlogCharm";
+import {
+  Sparkles,
+  ArrowRight,
+  Users,
+  Calendar,
+  Trophy,
+  BookOpen,
+  Target,
+  Compass,
+  Brain,
+  Code2,
+  FileText,
+  Star,
+  GraduationCap,
+  Cpu,
+  Binary,
+  Lightbulb,
+  Rocket,
+  Globe,
+  Database,
+  Terminal,
+} from "lucide-react";
 
-// --- SVGS ---
-const RobotIllustration = ({ className }) => (
-  <svg
-    width="400"
-    height="350"
-    viewBox="0 0 400 350"
-    fill="none"
-    className={className}
-  >
-    {/* Pink blob behind robot */}
-    <circle cx="250" cy="220" r="120" fill="#FF70A6" />
+/* ================= UTILITY HOOKS & HELPER COMPONENTS ================= */
 
-    {/* Bubbles */}
-    <rect
-      x="200"
-      y="50"
-      width="60"
-      height="50"
-      rx="10"
-      fill="#70D6FF"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path
-      d="M 230 65 Q 240 65 240 75 Q 240 85 230 85 Q 220 85 220 75 Q 220 65 230 65"
-      stroke="#000"
-      strokeWidth="2"
-      fill="none"
-    />
-    <path
-      d="M 230 98 L 220 110 L 240 100 Z"
-      fill="#70D6FF"
-      stroke="#000"
-      strokeWidth="4"
-    />
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
 
-    <rect
-      x="310"
-      y="90"
-      width="70"
-      height="50"
-      rx="10"
-      fill="#FF70A6"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path
-      d="M 320 120 L 330 110 L 340 125 L 350 105 L 360 115"
-      stroke="#000"
-      strokeWidth="3"
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M 315 138 L 305 150 L 325 140 Z"
-      fill="#FF70A6"
-      stroke="#000"
-      strokeWidth="4"
-    />
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduced) {
+      setInView(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          obs.unobserve(node);
+        }
+      },
+      { threshold },
+    );
+    obs.observe(node);
+    return () => obs.disconnect();
+  }, [threshold]);
 
-    <rect
-      x="200"
-      y="110"
-      width="60"
-      height="40"
-      rx="10"
-      fill="#38B000"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <text
-      x="210"
-      y="138"
-      fontFamily="monospace"
-      fontSize="20"
-      fontWeight="bold"
-      fill="#000"
+  return [ref, inView];
+}
+
+const Reveal = ({ children, delay = 0, className = "" }) => {
+  const [ref, inView] = useInView(0.15);
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${inView ? "is-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
-      &lt;/&gt;
-    </text>
-    <path
-      d="M 230 148 L 220 160 L 240 150 Z"
-      fill="#38B000"
-      stroke="#000"
-      strokeWidth="4"
-    />
+      {children}
+    </div>
+  );
+};
 
-    {/* Robot */}
-    <circle cx="270" cy="120" r="8" fill="#000" />
-    <path d="M 270 120 L 270 100" stroke="#000" strokeWidth="4" />
-    <circle
-      cx="270"
-      cy="160"
-      r="45"
-      fill="#fff"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path
-      d="M 245 160 Q 270 140 295 160"
-      stroke="#000"
-      strokeWidth="4"
-      strokeLinecap="round"
-    />
-    <rect
-      x="220"
-      y="150"
-      width="10"
-      height="20"
-      rx="5"
-      fill="#70D6FF"
-      stroke="#000"
-      strokeWidth="3"
-    />
-    <rect
-      x="310"
-      y="150"
-      width="10"
-      height="20"
-      rx="5"
-      fill="#70D6FF"
-      stroke="#000"
-      strokeWidth="3"
-    />
-    <path
-      d="M 240 210 Q 240 250 270 250 Q 300 250 300 210"
-      fill="#fff"
-      stroke="#000"
-      strokeWidth="4"
-    />
+function useCountUp(target, active, duration = 1400) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let raf;
+    let start = null;
+    const tick = (ts) => {
+      if (start === null) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.floor(eased * target));
+      if (progress < 1) raf = requestAnimationFrame(tick);
+      else setValue(target);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, target, duration]);
+  return value;
+}
 
-    {/* Laptop */}
-    <path
-      d="M 210 260 L 260 260 L 250 200 L 200 200 Z"
-      fill="#38B000"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path
-      d="M 190 260 L 280 260 L 280 270 L 190 270 Z"
-      fill="#38B000"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path d="M 220 230 L 225 220 L 235 225 L 225 230 L 220 240 Z" fill="#fff" />
-  </svg>
-);
+const StatBlock = ({ label, target, suffix = "+" }) => {
+  const [ref, inView] = useInView(0.5);
+  const value = useCountUp(target, inView);
+  return (
+    <div ref={ref} className="text-center px-4">
+      <div className="text-5xl md:text-6xl font-black text-black tabular-nums">
+        {value}
+        <span className="text-retroBlue">{suffix}</span>
+      </div>
+      <div className="uppercase font-bold text-xs md:text-sm tracking-widest text-black/70 mt-2">
+        {label}
+      </div>
+    </div>
+  );
+};
 
-const BrainMagnifierIcon = ({ className }) => (
-  <svg
-    width="60"
-    height="60"
-    viewBox="0 0 100 100"
-    fill="none"
-    className={className}
-  >
-    <circle
-      cx="45"
-      cy="45"
-      r="30"
-      fill="#70D6FF"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path
-      d="M 65 65 L 85 85"
-      stroke="#000"
-      strokeWidth="8"
-      strokeLinecap="round"
-    />
-    <path
-      d="M 35 35 Q 45 25 55 35 Q 65 45 55 55 Q 45 65 35 55 Q 25 45 35 35"
-      stroke="#000"
-      strokeWidth="3"
-      fill="none"
-    />
-  </svg>
-);
-
-const LaptopGradCapIcon = ({ className }) => (
-  <svg
-    width="60"
-    height="60"
-    viewBox="0 0 100 100"
-    fill="none"
-    className={className}
-  >
-    <path d="M 50 10 L 80 25 L 50 40 L 20 25 Z" fill="#000" />
-    <rect x="25" y="45" width="50" height="35" rx="4" fill="#000" />
-    <text x="35" y="70" fontFamily="monospace" fontSize="20" fill="#fff">
-      &gt;_
-    </text>
-    <rect x="15" y="80" width="70" height="10" rx="2" fill="#000" />
-  </svg>
-);
-
-const PencilIcon = ({ className }) => (
-  <svg
-    width="60"
-    height="60"
-    viewBox="0 0 100 100"
-    fill="none"
-    className={className}
-  >
-    <path
-      d="M 20 80 L 15 95 L 30 90 L 85 35 L 75 25 Z"
-      fill="#FCD34D"
-      stroke="#000"
-      strokeWidth="4"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M 75 25 L 85 15 C 90 10 95 15 90 20 L 80 30 Z"
-      fill="#FF70A6"
-      stroke="#000"
-      strokeWidth="4"
-    />
-    <path d="M 15 95 L 22 88 L 27 93 Z" fill="#000" />
-  </svg>
-);
-
-const CodeIconPlaceholder = ({ className }) => (
-  <LaptopGradCapIcon className={className} />
-);
-
-const ButtonPink = ({ children, to }) => (
+const PillButton = ({
+  children,
+  to,
+  color = "bg-retroPink",
+  solid = true,
+  textClass = "text-black",
+}) => (
   <Link
     to={to}
-    className="bg-retroPink text-black font-black uppercase text-sm px-6 py-3 border-2 border-black rounded-full shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all flex items-center gap-2"
+    className={`group inline-flex items-center gap-2 ${
+      solid ? color : "bg-white hover:bg-slate-100"
+    } ${textClass} font-black uppercase text-sm px-7 py-3.5 border-3 border-black rounded-full btn-brutal-press`}
   >
-    {children} <span className="font-bold">&gt;</span>
+    {children}
+    <ArrowRight
+      size={18}
+      strokeWidth={3}
+      className="transition-transform duration-200 group-hover:translate-x-1"
+    />
   </Link>
 );
 
-const ButtonBlue = ({ children, to }) => (
-  <Link
-    to={to}
-    className="bg-retroBlue text-black font-black uppercase text-sm px-6 py-3 border-2 border-black rounded-full shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all flex items-center gap-2"
-  >
-    {children} <span className="font-bold">&gt;</span>
-  </Link>
+const FeatureCard = ({ icon: Icon, color, caption, charmType, delay }) => (
+  <Reveal delay={delay}>
+    <div className="group relative hover-brutal-lift bg-white border-3 border-black rounded-2xl overflow-hidden shadow-brutal-sm h-full flex flex-col cursor-pointer">
+      <BlogCharm type={charmType} color={color} />
+      <div
+        className={`${color} border-b-3 border-black h-28 flex items-center justify-center transition-colors group-hover:bg-black group-hover:text-white`}
+      >
+        <Icon
+          size={40}
+          strokeWidth={2.5}
+          className="transition-transform group-hover:scale-110"
+        />
+      </div>
+      <p className="p-4 font-bold text-sm text-black leading-snug flex-1">
+        {caption}
+      </p>
+    </div>
+  </Reveal>
 );
 
-// --------------------------------
+/* ================= DATA CONFIGS ================= */
+
+const PILLARS = [
+  {
+    icon: Target,
+    label: "Our Vision",
+    color: "bg-retroBlue",
+    charmType: "idea",
+    text: "To be the AI/ML community every TCET student turns to first — where curiosity becomes research, and research becomes real work.",
+  },
+  {
+    icon: Compass,
+    label: "Our Mission",
+    color: "bg-retroGreen",
+    charmType: "rocket",
+    text: "Give students hands-on AI/ML experience through workshops, hackathons, and mentorship — and connect it to real research and industry.",
+  },
+];
+
+const FOCUS_AREAS = [
+  {
+    icon: Brain,
+    title: "AI Research",
+    tag: "DOMAIN",
+    color: "bg-retroBlue",
+    charmType: "brain",
+    text: "Publishing research papers and exploring deep learning architectures.",
+  },
+  {
+    icon: Code2,
+    title: "Workshops & Hackathons",
+    tag: "EVENTS",
+    color: "bg-retroGreen",
+    charmType: "code",
+    text: "Hands-on technical bootcamps and build sprints for student developers.",
+  },
+  {
+    icon: FileText,
+    title: "Publications & Blogs",
+    tag: "WRITING",
+    color: "bg-retroYellow",
+    charmType: "pen",
+    text: "Research breakdowns, tutorials, and project write-ups from the community.",
+  },
+];
+
+const FOCUS_TAGS = [
+  "MACHINE LEARNING",
+  "DEEP LEARNING",
+  "COMPUTER VISION",
+  "NLP",
+  "GENERATIVE AI",
+  "REINFORCEMENT LEARNING",
+  "DATA SCIENCE",
+  "ROBOTICS",
+];
+
+// Expanded Splash Icons Utilizing the Full Outer Layout
+const EXPANDED_SPLASH_ICONS = [
+  {
+    icon: Cpu,
+    color: "bg-retroBlue",
+    pos: "-top-3 left-4 md:left-8",
+    transformHover: "-translate-y-10 -rotate-12 scale-125",
+  },
+  {
+    icon: GraduationCap,
+    color: "bg-retroYellow",
+    pos: "-top-6 left-1/4",
+    transformHover: "-translate-y-12 rotate-12 scale-125",
+  },
+  {
+    icon: Binary,
+    color: "bg-retroGreen",
+    pos: "-top-6 right-1/4",
+    transformHover: "-translate-y-12 -rotate-12 scale-125",
+  },
+  {
+    icon: Terminal,
+    color: "bg-retroYellow",
+    pos: "-top-3 right-4 md:right-8",
+    transformHover: "-translate-y-10 rotate-12 scale-125",
+  },
+  {
+    icon: Globe,
+    color: "bg-retroGreen",
+    pos: "top-1/3 -left-4 md:-left-12",
+    transformHover: "-translate-x-12 -rotate-15 scale-125",
+  },
+  {
+    icon: Database,
+    color: "bg-retroBlue",
+    pos: "top-1/3 -right-4 md:-right-12",
+    transformHover: "translate-x-12 rotate-15 scale-125",
+  },
+  {
+    icon: Rocket,
+    color: "bg-retroBlue",
+    pos: "-bottom-3 left-6 md:left-12",
+    transformHover: "translate-y-10 rotate-12 scale-125",
+  },
+  {
+    icon: Lightbulb,
+    color: "bg-retroYellow",
+    pos: "-bottom-3 right-6 md:right-12",
+    transformHover: "translate-y-10 -rotate-12 scale-125",
+  },
+];
+
+/* ================= MAIN COMPONENT ================= */
 
 export default function Home() {
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
+  const heroRef = useRef(null);
+
+  // Auto-retract when scrolling past the hero section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      if (rect.bottom < 100 || rect.top > window.innerHeight - 100) {
+        setIsHeroHovered(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="space-y-12 bg-paper-grid min-h-screen pb-12 relative overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="bg-retroYellow border-3 border-black rounded-3xl p-8 md:p-12 shadow-brutal-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between">
-        <div className="relative z-20 space-y-6 md:w-1/2">
-          <span className="bg-retroPink text-black font-black text-xs px-4 py-1.5 border-2 border-black rounded-full uppercase tracking-wider inline-block">
-            ★ WELCOME TO SIGAI
-          </span>
-          <h1 className="text-6xl md:text-8xl font-black text-black uppercase leading-none tracking-tighter">
-            Innovate. <br /> Create. <br /> Connect.
-          </h1>
-          <p className="text-lg font-bold text-black mt-4 max-w-xl">
-            The official AI student chapter pushing boundaries in Artificial
-            Intelligence and Machine Learning.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <ButtonPink to="/events">Explore Events</ButtonPink>
-            <ButtonBlue to="/publications">Read Publications</ButtonBlue>
+    <div className="relative overflow-x-hidden pb-8 bg-slate-50 min-h-screen text-slate-900">
+      {/* ================= HERO CONTAINER ================= */}
+      <div
+        ref={heroRef}
+        className="relative max-w-6xl mx-auto mt-6 px-4 sm:px-6"
+        onMouseEnter={() => setIsHeroHovered(true)}
+        onMouseLeave={() => setIsHeroHovered(false)}
+      >
+        {/* Main Hero Card */}
+        <section className="relative z-10 bg-retroYellow border-3 border-black rounded-3xl shadow-brutal-lg px-6 pt-14 pb-12 text-center overflow-hidden">
+          {/* Central Content Box */}
+          <div className="relative inline-block max-w-3xl mx-auto z-10">
+            {/* WIDE-SPREAD SPLASH ICONS LAYER */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+              {EXPANDED_SPLASH_ICONS.map((item, idx) => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className={`absolute ${item.pos} transition-all duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-auto ${
+                      isHeroHovered
+                        ? `opacity-100 ${item.transformHover}`
+                        : "opacity-0 scale-50 translate-x-0 translate-y-0"
+                    }`}
+                    style={{
+                      transitionDelay: isHeroHovered ? `${idx * 25}ms` : "0ms",
+                    }}
+                  >
+                    <div
+                      className={`${item.color} text-black border-3 border-black p-3 rounded-2xl shadow-brutal flex items-center justify-center hover:scale-125 transition-transform cursor-pointer`}
+                    >
+                      <IconComponent size={22} strokeWidth={2.5} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Foreground Content */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 bg-white border-3 border-black rounded-full px-5 py-2 shadow-brutal-sm hover-sticker-pop cursor-default">
+                <div className="flex text-black">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={14}
+                      fill="#facc15"
+                      stroke="#000"
+                      strokeWidth={1.5}
+                    />
+                  ))}
+                </div>
+                <span className="font-black text-xs md:text-sm uppercase tracking-wide text-black">
+                  150+ members building together
+                </span>
+              </div>
+
+              <h1 className="mt-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[1.05] tracking-tight text-black">
+                Welcome to <br />
+                <span className="inline-flex items-center gap-2.5 bg-retroGreen text-black border-3 border-black rounded-full px-5 py-1.5 align-middle shadow-brutal-sm transform -rotate-1 hover:rotate-1 transition-transform cursor-pointer">
+                  <span className="tracking-normal font-black">
+                    TCET ACM SIGAI
+                  </span>
+                  <span className="bg-white border-2 border-black rounded-full p-1.5 flex items-center justify-center text-black">
+                    <Sparkles size={18} strokeWidth={2.5} />
+                  </span>
+                </span>
+              </h1>
+
+              <p className="mt-6 max-w-xl mx-auto text-base md:text-lg font-bold text-black/80 leading-relaxed">
+                The official AI &amp; ML student chapter at TCET — where we
+                learn, build, and publish in Artificial Intelligence, together.
+              </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <PillButton to="/events" color="bg-retroPink">
+                  Explore Events
+                </PillButton>
+                <PillButton to="/publications" solid={false}>
+                  Read Publications
+                </PillButton>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* ================= FEATURE STRIP WITH CHARMS ================= */}
+      <section className="relative max-w-6xl mx-auto px-6 mt-8 grid grid-cols-2 md:grid-cols-4 gap-5">
+        <FeatureCard
+          icon={Users}
+          color="bg-retroBlue"
+          charmType="users"
+          caption="Interactive workshops with real practitioners."
+          delay={0}
+        />
+        <FeatureCard
+          icon={Calendar}
+          color="bg-retroYellow"
+          charmType="rocket"
+          caption="Hands-on hackathons and weekend build sprints."
+          delay={80}
+        />
+        <FeatureCard
+          icon={BookOpen}
+          color="bg-retroGreen"
+          charmType="book"
+          caption="Research mentorship, from idea to publication."
+          delay={160}
+        />
+        <FeatureCard
+          icon={Trophy}
+          color="bg-retroYellow"
+          charmType="star"
+          caption="Recognition through papers, demos, and awards."
+          delay={240}
+        />
+      </section>
+
+      {/* ================= TICKER ================= */}
+      <Reveal className="mt-16">
+        <div className="bg-black border-y-3 border-black overflow-hidden py-3.5 -rotate-1 scale-[1.02] shadow-brutal">
+          <div className="animate-marquee whitespace-nowrap">
+            {[...FOCUS_TAGS, ...FOCUS_TAGS].map((tag, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center text-retroYellow font-black uppercase text-sm md:text-base tracking-widest mx-4"
+              >
+                {tag}
+                <Sparkles size={14} className="text-retroBlue mx-4" />
+              </span>
+            ))}
           </div>
         </div>
+      </Reveal>
 
-        {/* Right side illustration */}
-        <div className="md:w-1/2 flex justify-end mt-10 md:mt-0 relative z-10">
-          <RobotIllustration className="w-full max-w-lg" />
+      {/* ================= STATS ================= */}
+      <Reveal className="mt-16">
+        <section className="max-w-6xl mx-auto px-6">
+          <div className="bg-white border-3 border-black rounded-3xl p-8 md:p-10 shadow-brutal grid grid-cols-2 md:grid-cols-4 gap-6">
+            <StatBlock label="Founded" target={2023} suffix="" />
+            <StatBlock label="Active Members" target={150} />
+            <StatBlock label="Events Hosted" target={20} />
+            <StatBlock label="Research Papers" target={8} />
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ================= VISION & MISSION WITH CHARMS ================= */}
+      <section className="max-w-6xl mx-auto px-6 mt-16 grid md:grid-cols-2 gap-6">
+        {PILLARS.map((p, i) => (
+          <Reveal key={p.label} delay={i * 100}>
+            <div className="group relative hover-brutal-lift bg-white border-3 border-black rounded-2xl p-6 shadow-brutal-sm flex gap-4 h-full cursor-pointer">
+              <BlogCharm type={p.charmType} color={p.color} />
+              <div
+                className={`${p.color} border-3 border-black rounded-xl w-14 h-14 flex items-center justify-center shrink-0 shadow-brutal-sm`}
+              >
+                <p.icon size={26} strokeWidth={2.5} className="text-black" />
+              </div>
+              <div>
+                <div className="font-black uppercase text-sm tracking-wide text-black mb-1">
+                  {p.label}
+                </div>
+                <p className="text-sm font-bold text-black/70 leading-relaxed">
+                  {p.text}
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </section>
+
+      {/* ================= WHAT WE DO WITH CHARMS ================= */}
+      <section className="max-w-6xl mx-auto px-6 mt-20">
+        <Reveal>
+          <div className="text-center mb-10">
+            <span className="bg-retroYellow border-3 border-black rounded-full px-4 py-1 text-xs font-black uppercase tracking-wide shadow-brutal-sm">
+              Our Focus
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black mt-4">
+              What We Do
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {FOCUS_AREAS.map((f, i) => (
+            <Reveal key={f.title} delay={i * 100}>
+              <div
+                className={`group relative ${f.color} hover-brutal-lift border-3 border-black rounded-2xl p-6 shadow-brutal-sm h-full flex flex-col justify-between cursor-pointer`}
+              >
+                <BlogCharm type={f.charmType} color="bg-white" />
+                <div>
+                  <span className="bg-white border-2 border-black rounded-full px-3 py-0.5 text-[11px] font-black uppercase tracking-wide">
+                    {f.tag}
+                  </span>
+                  <h3 className="text-2xl font-black uppercase mt-4 text-black">
+                    {f.title}
+                  </h3>
+                  <p className="text-sm font-bold text-black/70 mt-2">
+                    {f.text}
+                  </p>
+                </div>
+                <f.icon
+                  size={40}
+                  strokeWidth={2}
+                  className="self-end mt-6 text-black/80 group-hover:scale-110 transition-transform"
+                />
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* What We Do Section */}
-      <section className="relative mt-20">
-        <SectionHeader
-          title="WHAT WE DO"
-          badgeText="OUR FOCUS"
-          withSpeedLines={true}
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-20 mt-10">
-          {/* Card 1: AI Research */}
-          <Card
-            title="AI Research"
-            category="DOMAIN"
-            description="Publishing research papers and exploring deep learning architectures."
-            bgColor="bg-retroBlue"
-          >
-            <div className="absolute top-1/2 right-4 -translate-y-1/2">
-              <BrainMagnifierIcon className="w-16 h-16" />
-            </div>
-          </Card>
-
-          {/* Card 2: Workshops & Hackathons */}
-          <Card
-            title="Workshops & Hackathons"
-            category="EVENTS"
-            description="Hands-on technical bootcamps for student developers."
-            bgColor="bg-retroGreen"
-          >
-            <div className="absolute top-1/2 right-4 -translate-y-1/2">
-              <CodeIconPlaceholder className="w-16 h-16" />
-            </div>
-          </Card>
-
-          {/* About TCET ACM SIGAI (Replaces Blogs) */}
-          <div className="md:col-span-3 bg-white border-3 border-black rounded-xl p-8 shadow-brutal-sm relative overflow-hidden mt-6">
+      {/* ================= ABOUT ================= */}
+      <Reveal className="mt-20">
+        <section className="max-w-6xl mx-auto px-6">
+          <div className="bg-white border-3 border-black rounded-3xl p-8 md:p-12 shadow-brutal">
             <h2 className="text-3xl font-black uppercase text-black mb-2">
               About TCET ACM SIGAI
             </h2>
-            <h3 className="text-xl font-bold text-retroPink mb-4">
+            <h3 className="text-xl font-bold text-retroGreen mb-4 uppercase tracking-wide">
               Think. Build. Innovate.
             </h3>
-
-            <div className="space-y-4 text-gray-800 font-medium">
+            <div className="space-y-4 text-black/80 font-bold max-w-3xl">
               <p>
-                <strong>TCET ACM SIGAI</strong> is a community of AI and Machine
-                Learning enthusiasts dedicated to turning curiosity into
-                innovation.
+                <strong className="text-black font-black">
+                  TCET ACM SIGAI
+                </strong>{" "}
+                is a community of AI and Machine Learning enthusiasts dedicated
+                to turning curiosity into innovation.
               </p>
               <p>
-                Established in <strong>January 2023</strong>, we bring together
-                students, researchers, and tech enthusiasts from across India to{" "}
-                <strong>learn, experiment, collaborate, and build</strong> in
-                the world of AI & ML.
-              </p>
-              <p>
-                Through{" "}
-                <strong>
-                  workshops, seminars, technical competitions, industrial
-                  visits, and research-driven initiatives
-                </strong>
-                , we create opportunities to gain practical knowledge, connect
-                with like-minded innovators, and explore the future of
-                Artificial Intelligence.
+                Established in{" "}
+                <strong className="text-black font-black">January 2023</strong>,
+                we bring together students, researchers, and tech enthusiasts
+                from across India to learn, experiment, collaborate, and build
+                in the world of AI &amp; ML — through workshops, seminars,
+                technical competitions, industrial visits, and research-driven
+                initiatives.
               </p>
               <p className="font-black text-black text-lg pt-2">
                 Learn together. Build boldly. Shape the future of AI.
               </p>
             </div>
+            <div className="mt-6">
+              <Link
+                to="/team"
+                className="inline-flex items-center gap-2 font-black uppercase text-sm text-black border-b-3 border-black hover:bg-retroYellow px-2 py-1 rounded transition-all"
+              >
+                Meet the team <ArrowRight size={16} strokeWidth={3} />
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <div className="mt-32">
-        <About />
-      </div>
-      <div className="mt-32">
-        <Contact />
-      </div>
+        </section>
+      </Reveal>
     </div>
   );
 }

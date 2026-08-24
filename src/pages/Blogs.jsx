@@ -276,71 +276,6 @@ export default function Blogs() {
         </div>
       </section>
 
-      {/* 4. SIDE NOTE (EDITORIAL HEADER & CATEGORY NAVIGATION BELOW HERO) */}
-      <header className="border-3 border-black bg-white rounded-2xl overflow-hidden shadow-none hover:shadow-brutal transition-shadow duration-200">
-        <div className="grid grid-cols-1 md:grid-cols-12 border-b-3 border-black">
-          <div className="md:col-span-4 bg-retroPink p-5 border-b-3 md:border-b-0 md:border-r-3 border-black flex flex-col justify-between">
-            <div>
-              <span className="font-black text-xs uppercase tracking-widest bg-black text-[#faf7f2] px-2 py-0.5 rounded">
-                ACM SIGAI Blogs
-              </span>
-              <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter leading-none mt-2 text-black">
-                SIDE NOTE
-              </h1>
-            </div>
-            <p className="font-bold text-xs mt-2 uppercase text-black/80">
-              Read / Write / Discover AI
-            </p>
-          </div>
-
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 divide-x-2 divide-y-2 sm:divide-y-0 divide-black bg-white">
-            {CATEGORIES.map((cat, index) => {
-              const isActive =
-                selectedCategory.toLowerCase() === cat.name.toLowerCase();
-              return (
-                <button
-                  key={index}
-                  onClick={() =>
-                    setSelectedCategory(
-                      isActive ? "ALL" : cat.name.toUpperCase(),
-                    )
-                  }
-                  className={`p-3.5 flex flex-col justify-between transition-all cursor-pointer group text-left ${
-                    isActive
-                      ? "bg-slate-200 ring-2 ring-inset ring-black"
-                      : "hover:bg-slate-50"
-                  }`}
-                >
-                  <span
-                    className={`w-7 h-7 rounded-lg border-2 border-black flex items-center justify-center ${cat.bg} group-hover:rotate-6 group-hover:scale-110 transition-transform`}
-                  >
-                    <cat.Icon className="w-3 h-3 text-black" />
-                  </span>
-                  <div>
-                    <h3 className="font-black text-xs uppercase tracking-tight mt-3 text-black">
-                      {cat.name}
-                    </h3>
-                    <span className="text-[10px] font-bold text-black/60 uppercase">
-                      {cat.count}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="bg-retroYellow p-2.5 sm:px-5 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <span className="font-black text-xs uppercase tracking-wide flex items-center gap-2 text-black">
-            <FaPenNib className="text-black" /> Have an article idea? Publish
-            your own research
-          </span>
-          <button className="w-full sm:w-auto px-4 py-1 bg-black text-[#faf7f2] text-xs font-black uppercase rounded-lg border-2 border-black shadow-none hover:shadow-brutal hover:bg-retroPink hover:text-black transition-all active:translate-y-0.5">
-            Start Writing
-          </button>
-        </div>
-      </header>
-
       {/* 5. SEARCH & FILTER CONTROLS BAR */}
       <div className="flex flex-col sm:flex-row gap-3 justify-between items-center bg-white p-3 border-3 border-black rounded-2xl shadow-none hover:shadow-brutal transition-shadow duration-200">
         <div className="relative w-full sm:w-80">
@@ -471,7 +406,7 @@ export default function Blogs() {
 
           <div className="md:col-span-4 flex flex-col items-start md:items-end justify-center">
             <button className="w-full sm:w-auto px-5 py-2.5 bg-black text-white font-black text-xs uppercase rounded-xl border-2 border-black shadow-none hover:shadow-brutal hover:bg-retroPink hover:text-black transition-all active:translate-y-0.5 flex items-center gap-2">
-              <FaPenNib /> Write for Side Note
+              <FaPenNib /> Write for Us
             </button>
           </div>
         </div>
