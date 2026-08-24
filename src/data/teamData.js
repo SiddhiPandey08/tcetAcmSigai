@@ -1,30 +1,31 @@
 // src/data/teamData.js
 
 // Default Fallback
+import defaultPlaceholderImg from "../assets/placeholder-user.png";
 
 // Faculty Images
-import drShiwaniImg from "../../public/assests/team/dr_shiwani_gupta.jpg.jpeg";
-import mrsPranjaliImg from "../../public/assests/team/mrs_pranjali_sankhe.jpg.jpeg";
+import drShiwaniImg from "../assets/dr_shiwani_gupta.jpg.jpeg";
+import mrsPranjaliImg from "../assets/mrs_pranjali_sankhe.jpg.jpeg";
 
 // Core Team Images
-import pranavImg from "../../public/assests/team/Pranav.jpg";
-import vipulImg from "../../public/assests/team/Vipul.jpg";
-import adityaImg from "../../public/assests/team/Aditya.jpg";
-import mahekImg from "../../public/assests/team/Mahek chaplot .jpg";
-import riyaImg from "../../public/assests/team/Riya.png";
-import sanjanaImg from "../../public/assests/team/sanjana.jpg";
-import sitanshuImg from "../../public/assests/team/Sitanshu.jpg";
-import pranjalImg from "../../public/assests/team/Pranjal.jpg";
-import harshiniImg from "../../public/assests/team/harshini.jpg";
-import shubhamImg from "../../public/assests/team/Shubham.jpg";
+import pranavImg from "../assets/Pranav.jpg";
+import vipulImg from "../assets/Vipul.jpg";
+import adityaImg from "../assets/Aditya.jpg";
+import mahekImg from "../assets/MahekChaplot.jpg";
+import riyaImg from "../assets/Riya.png";
+import sanjanaImg from "../assets/sanjana.jpg";
+import sitanshuImg from "../assets/Sitanshu.jpg";
+import pranjalImg from "../assets/Pranjal.jpg";
+import harshiniImg from "../assets/harshini.jpg";
+import shubhamImg from "../assets/Shubham.jpg";
 
 // Junior Core Team Images
-import vaishnaviImg from "../../public/assests/team/Vaishnavi .jpg";
-import preetImg from "../../public/assests/team/Preet .jpg";
-import anamikaImg from "../../public/assests/team/anamika.jpg";
-import yashImg from "../../public/assests/team/yash.jpg";
-import jeniImg from "../../public/assests/team/JENI .jpg";
-import siddhiImg from "../../public/assests/team/siddhi.jpg";
+import vaishnaviImg from "../assets/Vaishnavi.jpg";
+import preetImg from "../assets/Preet.jpg";
+import anamikaImg from "../assets/anamika.jpg";
+import yashImg from "../assets/yash.jpg";
+import jeniImg from "../assets/JENI.jpg";
+import siddhiImg from "../assets/siddhi.jpg";
 
 export const facultyMembers = [
   {

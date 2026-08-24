@@ -4,16 +4,12 @@ import { BlogCharm } from "../components/ui/BlogCharm";
 import {
   Sparkles,
   ArrowRight,
-  Users,
-  Calendar,
-  Trophy,
-  BookOpen,
   Target,
   Compass,
   Brain,
   Code2,
   FileText,
-  Star,
+  BookOpen,
   GraduationCap,
   Cpu,
   Binary,
@@ -22,6 +18,9 @@ import {
   Globe,
   Database,
   Terminal,
+  MapPin,
+  Mail,
+  Phone,
 } from "lucide-react";
 
 /* ================= UTILITY HOOKS & HELPER COMPONENTS ================= */
@@ -132,7 +131,7 @@ const FeatureCard = ({ icon: Icon, color, caption, charmType, delay }) => (
     <div className="group relative hover-brutal-lift bg-white border-3 border-black rounded-2xl overflow-hidden shadow-brutal-sm h-full flex flex-col cursor-pointer">
       <BlogCharm type={charmType} color={color} />
       <div
-        className={`${color} border-b-3 border-black h-28 flex items-center justify-center transition-colors group-hover:bg-black group-hover:text-white`}
+        className={`${color} border-b-3 border-black h-28 flex items-center justify-center transition-colors `}
       >
         <Icon
           size={40}
@@ -148,6 +147,29 @@ const FeatureCard = ({ icon: Icon, color, caption, charmType, delay }) => (
 );
 
 /* ================= DATA CONFIGS ================= */
+const CONTACT_INFO = [
+  {
+    icon: MapPin,
+    color: "bg-retroBlue",
+    label: "Location",
+    value: "Thakur College, Mumbai",
+    href: "https://maps.google.com/?q=Thakur+College+of+Engineering+and+Technology",
+  },
+  {
+    icon: Mail,
+    color: "bg-retroGreen",
+    label: "Email",
+    value: "acmsigai10@gmail.com",
+    href: "mailto:acmsigai10@gmail.com",
+  },
+  {
+    icon: Phone,
+    color: "bg-retroPink",
+    label: "Phone",
+    value: "+91 93265 90260",
+    href: "tel:+919326590260",
+  },
+];
 
 const PILLARS = [
   {
@@ -174,6 +196,7 @@ const FOCUS_AREAS = [
     color: "bg-retroBlue",
     charmType: "brain",
     text: "Publishing research papers and exploring deep learning architectures.",
+    link: "/publications",
   },
   {
     icon: Code2,
@@ -182,14 +205,25 @@ const FOCUS_AREAS = [
     color: "bg-retroGreen",
     charmType: "code",
     text: "Hands-on technical bootcamps and build sprints for student developers.",
+    link: "/events",
   },
   {
     icon: FileText,
-    title: "Publications & Blogs",
+    title: "Publications",
+    tag: "RESEARCH",
+    color: "bg-retroPink",
+    charmType: "star",
+    text: "Peer-reviewed research papers and academic achievements by members.",
+    link: "/publications",
+  },
+  {
+    icon: BookOpen,
+    title: "Blogs & Articles",
     tag: "WRITING",
-    color: "bg-retroYellow",
+    color: "bg-retroBlue",
     charmType: "pen",
-    text: "Research breakdowns, tutorials, and project write-ups from the community.",
+    text: "Technical breakdowns, tutorials, and insights shared by students.",
+    link: "/blogs",
   },
 ];
 
@@ -204,7 +238,7 @@ const FOCUS_TAGS = [
   "ROBOTICS",
 ];
 
-// Expanded Splash Icons Utilizing the Full Outer Layout
+// Expanded Splash Icons Utilizing Non-Yellow Contrast Colors
 const EXPANDED_SPLASH_ICONS = [
   {
     icon: Cpu,
@@ -214,7 +248,7 @@ const EXPANDED_SPLASH_ICONS = [
   },
   {
     icon: GraduationCap,
-    color: "bg-retroYellow",
+    color: "bg-retroPink",
     pos: "-top-6 left-1/4",
     transformHover: "-translate-y-12 rotate-12 scale-125",
   },
@@ -226,7 +260,7 @@ const EXPANDED_SPLASH_ICONS = [
   },
   {
     icon: Terminal,
-    color: "bg-retroYellow",
+    color: "bg-retroBlue",
     pos: "-top-3 right-4 md:right-8",
     transformHover: "-translate-y-10 rotate-12 scale-125",
   },
@@ -250,7 +284,7 @@ const EXPANDED_SPLASH_ICONS = [
   },
   {
     icon: Lightbulb,
-    color: "bg-retroYellow",
+    color: "bg-retroPink",
     pos: "-bottom-3 right-6 md:right-12",
     transformHover: "translate-y-10 -rotate-12 scale-125",
   },
@@ -317,23 +351,6 @@ export default function Home() {
 
             {/* Foreground Content */}
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 bg-white border-3 border-black rounded-full px-5 py-2 shadow-brutal-sm hover-sticker-pop cursor-default">
-                <div className="flex text-black">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      fill="#facc15"
-                      stroke="#000"
-                      strokeWidth={1.5}
-                    />
-                  ))}
-                </div>
-                <span className="font-black text-xs md:text-sm uppercase tracking-wide text-black">
-                  150+ members building together
-                </span>
-              </div>
-
               <h1 className="mt-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[1.05] tracking-tight text-black">
                 Welcome to <br />
                 <span className="inline-flex items-center gap-2.5 bg-retroGreen text-black border-3 border-black rounded-full px-5 py-1.5 align-middle shadow-brutal-sm transform -rotate-1 hover:rotate-1 transition-transform cursor-pointer">
@@ -351,50 +368,11 @@ export default function Home() {
                 learn, build, and publish in Artificial Intelligence, together.
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <PillButton to="/events" color="bg-retroPink">
-                  Explore Events
-                </PillButton>
-                <PillButton to="/publications" solid={false}>
-                  Read Publications
-                </PillButton>
-              </div>
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"></div>
             </div>
           </div>
         </section>
       </div>
-
-      {/* ================= FEATURE STRIP WITH CHARMS ================= */}
-      <section className="relative max-w-6xl mx-auto px-6 mt-8 grid grid-cols-2 md:grid-cols-4 gap-5">
-        <FeatureCard
-          icon={Users}
-          color="bg-retroBlue"
-          charmType="users"
-          caption="Interactive workshops with real practitioners."
-          delay={0}
-        />
-        <FeatureCard
-          icon={Calendar}
-          color="bg-retroYellow"
-          charmType="rocket"
-          caption="Hands-on hackathons and weekend build sprints."
-          delay={80}
-        />
-        <FeatureCard
-          icon={BookOpen}
-          color="bg-retroGreen"
-          charmType="book"
-          caption="Research mentorship, from idea to publication."
-          delay={160}
-        />
-        <FeatureCard
-          icon={Trophy}
-          color="bg-retroYellow"
-          charmType="star"
-          caption="Recognition through papers, demos, and awards."
-          delay={240}
-        />
-      </section>
 
       {/* ================= TICKER ================= */}
       <Reveal className="mt-16">
@@ -462,30 +440,32 @@ export default function Home() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {FOCUS_AREAS.map((f, i) => (
             <Reveal key={f.title} delay={i * 100}>
-              <div
-                className={`group relative ${f.color} hover-brutal-lift border-3 border-black rounded-2xl p-6 shadow-brutal-sm h-full flex flex-col justify-between cursor-pointer`}
-              >
-                <BlogCharm type={f.charmType} color="bg-white" />
-                <div>
-                  <span className="bg-white border-2 border-black rounded-full px-3 py-0.5 text-[11px] font-black uppercase tracking-wide">
-                    {f.tag}
-                  </span>
-                  <h3 className="text-2xl font-black uppercase mt-4 text-black">
-                    {f.title}
-                  </h3>
-                  <p className="text-sm font-bold text-black/70 mt-2">
-                    {f.text}
-                  </p>
+              <Link to={f.link} className="block h-full">
+                <div
+                  className={`group relative ${f.color} hover-brutal-lift border-3 border-black rounded-2xl p-6 shadow-brutal-sm h-full flex flex-col justify-between cursor-pointer`}
+                >
+                  <BlogCharm type={f.charmType} color="bg-white" />
+                  <div>
+                    <span className="bg-white border-2 border-black rounded-full px-3 py-0.5 text-[11px] font-black uppercase tracking-wide">
+                      {f.tag}
+                    </span>
+                    <h3 className="text-2xl font-black uppercase mt-4 text-black">
+                      {f.title}
+                    </h3>
+                    <p className="text-sm font-bold text-black/70 mt-2">
+                      {f.text}
+                    </p>
+                  </div>
+                  <f.icon
+                    size={40}
+                    strokeWidth={2}
+                    className="self-end mt-6 text-black/80 group-hover:scale-110 transition-transform"
+                  />
                 </div>
-                <f.icon
-                  size={40}
-                  strokeWidth={2}
-                  className="self-end mt-6 text-black/80 group-hover:scale-110 transition-transform"
-                />
-              </div>
+              </Link>
             </Reveal>
           ))}
         </div>
