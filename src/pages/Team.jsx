@@ -262,7 +262,7 @@ export default function Team() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
             <div className="text-white space-y-1">
               <span className="bg-retroPink text-black font-black text-[10px] sm:text-xs uppercase px-3 py-1 rounded-full border border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
-                TCET ACM SIGAI 2024-25
+                2025-26
               </span>
               <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">
                 TCET ACM SIGAI Core & Jr Core Team
