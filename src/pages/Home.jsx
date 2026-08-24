@@ -18,9 +18,6 @@ import {
   Globe,
   Database,
   Terminal,
-  MapPin,
-  Mail,
-  Phone,
 } from "lucide-react";
 
 /* ================= UTILITY HOOKS & HELPER COMPONENTS ================= */
@@ -95,7 +92,7 @@ const StatBlock = ({ label, target, suffix = "+" }) => {
     <div ref={ref} className="text-center px-4">
       <div className="text-5xl md:text-6xl font-black text-black tabular-nums">
         {value}
-        <span className="text-retroBlue">{suffix}</span>
+        <span className="text-retroOrange">{suffix}</span>
       </div>
       <div className="uppercase font-bold text-xs md:text-sm tracking-widest text-black/70 mt-2">
         {label}
@@ -107,7 +104,7 @@ const StatBlock = ({ label, target, suffix = "+" }) => {
 const PillButton = ({
   children,
   to,
-  color = "bg-retroPink",
+  color = "bg-retroOrange",
   solid = true,
   textClass = "text-black",
 }) => (
@@ -126,63 +123,19 @@ const PillButton = ({
   </Link>
 );
 
-const FeatureCard = ({ icon: Icon, color, caption, charmType, delay }) => (
-  <Reveal delay={delay}>
-    <div className="group relative hover-brutal-lift bg-white border-3 border-black rounded-2xl overflow-hidden shadow-brutal-sm h-full flex flex-col cursor-pointer">
-      <BlogCharm type={charmType} color={color} />
-      <div
-        className={`${color} border-b-3 border-black h-28 flex items-center justify-center transition-colors `}
-      >
-        <Icon
-          size={40}
-          strokeWidth={2.5}
-          className="transition-transform group-hover:scale-110"
-        />
-      </div>
-      <p className="p-4 font-bold text-sm text-black leading-snug flex-1">
-        {caption}
-      </p>
-    </div>
-  </Reveal>
-);
-
 /* ================= DATA CONFIGS ================= */
-const CONTACT_INFO = [
-  {
-    icon: MapPin,
-    color: "bg-retroBlue",
-    label: "Location",
-    value: "Thakur College, Mumbai",
-    href: "https://maps.google.com/?q=Thakur+College+of+Engineering+and+Technology",
-  },
-  {
-    icon: Mail,
-    color: "bg-retroGreen",
-    label: "Email",
-    value: "acmsigai10@gmail.com",
-    href: "mailto:acmsigai10@gmail.com",
-  },
-  {
-    icon: Phone,
-    color: "bg-retroPink",
-    label: "Phone",
-    value: "+91 93265 90260",
-    href: "tel:+919326590260",
-  },
-];
-
 const PILLARS = [
   {
     icon: Target,
     label: "Our Vision",
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     charmType: "idea",
     text: "To be the AI/ML community every TCET student turns to first — where curiosity becomes research, and research becomes real work.",
   },
   {
     icon: Compass,
     label: "Our Mission",
-    color: "bg-retroGreen",
+    color: "bg-retroOrange",
     charmType: "rocket",
     text: "Give students hands-on AI/ML experience through workshops, hackathons, and mentorship — and connect it to real research and industry.",
   },
@@ -193,7 +146,7 @@ const FOCUS_AREAS = [
     icon: Brain,
     title: "AI Research",
     tag: "DOMAIN",
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     charmType: "brain",
     text: "Publishing research papers and exploring deep learning architectures.",
     link: "/publications",
@@ -202,7 +155,7 @@ const FOCUS_AREAS = [
     icon: Code2,
     title: "Workshops & Hackathons",
     tag: "EVENTS",
-    color: "bg-retroGreen",
+    color: "bg-retroLime",
     charmType: "code",
     text: "Hands-on technical bootcamps and build sprints for student developers.",
     link: "/events",
@@ -211,7 +164,7 @@ const FOCUS_AREAS = [
     icon: FileText,
     title: "Publications",
     tag: "RESEARCH",
-    color: "bg-retroPink",
+    color: "bg-retroOrange",
     charmType: "star",
     text: "Peer-reviewed research papers and academic achievements by members.",
     link: "/publications",
@@ -220,7 +173,7 @@ const FOCUS_AREAS = [
     icon: BookOpen,
     title: "Blogs & Articles",
     tag: "WRITING",
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     charmType: "pen",
     text: "Technical breakdowns, tutorials, and insights shared by students.",
     link: "/blogs",
@@ -230,7 +183,6 @@ const FOCUS_AREAS = [
 const FOCUS_TAGS = [
   "MACHINE LEARNING",
   "DEEP LEARNING",
-  "COMPUTER VISION",
   "NLP",
   "GENERATIVE AI",
   "REINFORCEMENT LEARNING",
@@ -238,63 +190,111 @@ const FOCUS_TAGS = [
   "ROBOTICS",
 ];
 
-// Expanded Splash Icons Utilizing Non-Yellow Contrast Colors
 const EXPANDED_SPLASH_ICONS = [
   {
     icon: Cpu,
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     pos: "-top-3 left-4 md:left-8",
     transformHover: "-translate-y-10 -rotate-12 scale-125",
   },
   {
     icon: GraduationCap,
-    color: "bg-retroPink",
+    color: "bg-retroOrange",
     pos: "-top-6 left-1/4",
     transformHover: "-translate-y-12 rotate-12 scale-125",
   },
   {
     icon: Binary,
-    color: "bg-retroGreen",
+    color: "bg-retroLime",
     pos: "-top-6 right-1/4",
     transformHover: "-translate-y-12 -rotate-12 scale-125",
   },
   {
     icon: Terminal,
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     pos: "-top-3 right-4 md:right-8",
     transformHover: "-translate-y-10 rotate-12 scale-125",
   },
   {
     icon: Globe,
-    color: "bg-retroGreen",
+    color: "bg-retroLime",
     pos: "top-1/3 -left-4 md:-left-12",
     transformHover: "-translate-x-12 -rotate-15 scale-125",
   },
   {
     icon: Database,
-    color: "bg-retroBlue",
+    color: "bg-retroSky",
     pos: "top-1/3 -right-4 md:-right-12",
     transformHover: "translate-x-12 rotate-15 scale-125",
   },
   {
     icon: Rocket,
-    color: "bg-retroBlue",
+    color: "bg-retroLime",
     pos: "-bottom-3 left-6 md:left-12",
     transformHover: "translate-y-10 rotate-12 scale-125",
   },
   {
     icon: Lightbulb,
-    color: "bg-retroPink",
+    color: "bg-retroOrange",
     pos: "-bottom-3 right-6 md:right-12",
     transformHover: "translate-y-10 -rotate-12 scale-125",
   },
 ];
+
+function useTypewriterCycle(
+  words,
+  { typingSpeed = 70, deletingSpeed = 40, pause = 1400 } = {},
+) {
+  const [display, setDisplay] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [phase, setPhase] = useState("typing");
+  const reducedRef = useRef(false);
+
+  useEffect(() => {
+    reducedRef.current = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reducedRef.current) setDisplay(words[0]);
+  }, [words]);
+
+  useEffect(() => {
+    if (reducedRef.current) return;
+    const current = words[wordIndex % words.length];
+    let timeout;
+
+    if (phase === "typing") {
+      if (display.length < current.length) {
+        timeout = setTimeout(
+          () => setDisplay(current.slice(0, display.length + 1)),
+          typingSpeed,
+        );
+      } else {
+        timeout = setTimeout(() => setPhase("deleting"), pause);
+      }
+    } else {
+      if (display.length > 0) {
+        timeout = setTimeout(
+          () => setDisplay(current.slice(0, display.length - 1)),
+          deletingSpeed,
+        );
+      } else {
+        setWordIndex((i) => (i + 1) % words.length);
+        setPhase("typing");
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [display, phase, wordIndex, words, typingSpeed, deletingSpeed, pause]);
+
+  return display;
+}
 
 /* ================= MAIN COMPONENT ================= */
 
 export default function Home() {
   const [isHeroHovered, setIsHeroHovered] = useState(false);
   const heroRef = useRef(null);
+
+  const typedTag = useTypewriterCycle(FOCUS_TAGS);
 
   // Auto-retract when scrolling past the hero section
   useEffect(() => {
@@ -311,18 +311,25 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative overflow-x-hidden pb-8 bg-slate-50 min-h-screen text-slate-900">
+    <div className="relative overflow-x-hidden pb-8 text-slate-900">
       {/* ================= HERO CONTAINER ================= */}
+      {/* Home.jsx — Change max-w-6xl to max-w-7xl and update padding */}
       <div
         ref={heroRef}
-        className="relative max-w-6xl mx-auto mt-6 px-4 sm:px-6"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6"
         onMouseEnter={() => setIsHeroHovered(true)}
         onMouseLeave={() => setIsHeroHovered(false)}
       >
-        {/* Main Hero Card */}
-        <section className="relative z-10 bg-retroYellow border-3 border-black rounded-3xl shadow-brutal-lg px-6 pt-14 pb-12 text-center overflow-hidden">
+        {/* Main Hero Card — Navy surface, pop colors reserved for badges only */}
+        <section className="relative z-10 bg-retroNavy border-3 border-black rounded-3xl shadow-brutal-lg px-6 pt-12 pb-12 text-center overflow-hidden min-h-[460px] md:min-h-[520px] flex items-center justify-center">
+          {/* Pure Dots Background Matrix */}
+          <div
+            className="absolute inset-0 bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] [background-size:16px_16px] opacity-10 pointer-events-none"
+            aria-hidden="true"
+          />
+
           {/* Central Content Box */}
-          <div className="relative inline-block max-w-3xl mx-auto z-10">
+          <div className="relative inline-block max-w-3xl mx-auto z-10 w-full">
             {/* WIDE-SPREAD SPLASH ICONS LAYER */}
             <div className="absolute inset-0 pointer-events-none z-0">
               {EXPANDED_SPLASH_ICONS.map((item, idx) => {
@@ -350,10 +357,31 @@ export default function Home() {
             </div>
 
             {/* Foreground Content */}
-            <div className="relative z-10">
-              <h1 className="mt-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[1.05] tracking-tight text-black">
+            <div className="relative z-10 flex flex-col items-center">
+              {/* Terminal Pill Tag — Lime accent text, orange icon pop */}
+              <div
+                aria-hidden="true"
+                className="inline-flex items-center gap-2 bg-black text-retroLime border-3 border-black rounded-full px-4 py-2 font-mono text-xs md:text-sm font-bold uppercase tracking-wider mb-6 shadow-brutal-sm"
+              >
+                <span className="w-2.5 h-2.5 rounded-full bg-retroLime animate-pulse shrink-0" />
+
+                {/* Fixed Character Width Container */}
+                <div className="relative flex items-center justify-center w-[25ch] h-5 overflow-hidden">
+                  <div className="flex items-center justify-center whitespace-nowrap">
+                    <span>{typedTag}</span>
+                    <span className="inline-block w-[2px] h-4 bg-retroLime animate-pulse ml-0.5 shrink-0" />
+                  </div>
+                </div>
+
+                <GraduationCap
+                  size={16}
+                  className="text-retroOrange shrink-0"
+                />
+              </div>
+
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[1.05] tracking-tight text-white">
                 Welcome to <br />
-                <span className="inline-flex items-center gap-2.5 bg-retroGreen text-black border-3 border-black rounded-full px-5 py-1.5 align-middle shadow-brutal-sm transform -rotate-1 hover:rotate-1 transition-transform cursor-pointer">
+                <span className="inline-flex items-center gap-2.5 bg-retroLime text-black border-3 border-black rounded-full px-5 py-1.5 align-middle shadow-brutal-sm transform -rotate-1 hover:rotate-1 transition-transform cursor-pointer mt-2">
                   <span className="tracking-normal font-black">
                     TCET ACM SIGAI
                   </span>
@@ -363,12 +391,10 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-xl mx-auto text-base md:text-lg font-bold text-black/80 leading-relaxed">
+              <p className="mt-6 max-w-xl mx-auto text-base md:text-lg font-bold text-white/80 leading-relaxed">
                 The official AI &amp; ML student chapter at TCET — where we
                 learn, build, and publish in Artificial Intelligence, together.
               </p>
-
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"></div>
             </div>
           </div>
         </section>
@@ -381,10 +407,10 @@ export default function Home() {
             {[...FOCUS_TAGS, ...FOCUS_TAGS].map((tag, i) => (
               <span
                 key={i}
-                className="inline-flex items-center text-retroYellow font-black uppercase text-sm md:text-base tracking-widest mx-4"
+                className="inline-flex items-center text-retroLime font-black uppercase text-sm md:text-base tracking-widest mx-4"
               >
                 {tag}
-                <Sparkles size={14} className="text-retroBlue mx-4" />
+                <Sparkles size={14} className="text-retroLime mx-4" />
               </span>
             ))}
           </div>
@@ -403,7 +429,7 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* ================= VISION & MISSION WITH CHARMS ================= */}
+      {/* ================= VISION & MISSION ================= */}
       <section className="max-w-6xl mx-auto px-6 mt-16 grid md:grid-cols-2 gap-6">
         {PILLARS.map((p, i) => (
           <Reveal key={p.label} delay={i * 100}>
@@ -427,11 +453,11 @@ export default function Home() {
         ))}
       </section>
 
-      {/* ================= WHAT WE DO WITH CHARMS ================= */}
+      {/* ================= WHAT WE DO ================= */}
       <section className="max-w-6xl mx-auto px-6 mt-20">
         <Reveal>
           <div className="text-center mb-10">
-            <span className="bg-retroYellow border-3 border-black rounded-full px-4 py-1 text-xs font-black uppercase tracking-wide shadow-brutal-sm">
+            <span className="bg-retroLime border-3 border-black rounded-full px-4 py-1 text-xs font-black uppercase tracking-wide shadow-brutal-sm">
               Our Focus
             </span>
             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black mt-4">
@@ -478,7 +504,7 @@ export default function Home() {
             <h2 className="text-3xl font-black uppercase text-black mb-2">
               About TCET ACM SIGAI
             </h2>
-            <h3 className="text-xl font-bold text-retroGreen mb-4 uppercase tracking-wide">
+            <h3 className="text-xl font-bold text-retroOrange mb-4 uppercase tracking-wide">
               Think. Build. Innovate.
             </h3>
             <div className="space-y-4 text-black/80 font-bold max-w-3xl">
@@ -505,7 +531,7 @@ export default function Home() {
             <div className="mt-6">
               <Link
                 to="/team"
-                className="inline-flex items-center gap-2 font-black uppercase text-sm text-black border-b-3 border-black hover:bg-retroYellow px-2 py-1 rounded transition-all"
+                className="inline-flex items-center gap-2 font-black uppercase text-sm text-black border-b-3 border-black hover:bg-retroOrange hover:text-white px-2 py-1 rounded transition-all"
               >
                 Meet the team <ArrowRight size={16} strokeWidth={3} />
               </Link>

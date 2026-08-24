@@ -8,15 +8,15 @@ const SectionHeader = ({ title, subtitle, badgeText }) => {
   return (
     <div className="text-center my-8 relative inline-block w-full">
       {badgeText && (
-        <span className="bg-retroBlue text-black font-black text-xs px-3.5 py-1 border-2 border-black rounded-full uppercase tracking-wider inline-block -rotate-2 mb-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] select-none">
+        <span className="bg-retroOrange text-black font-black text-xs px-3.5 py-1 border-3 border-black rounded-full uppercase tracking-wider inline-block -rotate-2 mb-3 shadow-brutal-sm select-none">
           {badgeText}
         </span>
       )}
-      <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-slate-900">
+      <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-black">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-slate-700 font-bold mt-2 max-w-2xl mx-auto text-sm md:text-base">
+        <p className="text-black/80 font-bold mt-2 max-w-2xl mx-auto text-sm md:text-base">
           {subtitle}
         </p>
       )}
@@ -32,7 +32,7 @@ const Button = ({
   ...props
 }) => {
   const baseStyles =
-    "inline-flex items-center justify-center font-black border-2 border-black rounded-xl transition-all duration-150 active:translate-x-0.5 active:translate-y-0.5 shadow-brutal hover:shadow-brutal-sm cursor-pointer select-none";
+    "inline-flex items-center justify-center font-black border-3 border-black rounded-xl transition-all duration-150 active:translate-x-0.5 active:translate-y-0.5 shadow-brutal hover:shadow-brutal-sm cursor-pointer select-none";
 
   const sizeStyles = {
     sm: "px-4 py-2 text-xs sm:text-sm",
@@ -41,11 +41,12 @@ const Button = ({
   };
 
   const variantStyles = {
-    pink: "bg-retroPink text-black hover:bg-pink-300",
-    yellow: "bg-retroYellow text-black hover:bg-[#ffde59]/90",
-    blue: "bg-retroBlue text-black hover:bg-sky-300",
-    white: "bg-white text-black hover:bg-gray-100",
-    dark: "bg-black text-white hover:bg-gray-800",
+    pink: "bg-retroPink text-black hover:bg-black hover:text-white",
+    yellow: "bg-retroYellow text-black hover:bg-black hover:text-white",
+    orange: "bg-retroOrange text-black hover:bg-black hover:text-white",
+    lime: "bg-retroLime text-black hover:bg-black hover:text-white",
+    white: "bg-white text-black hover:bg-black hover:text-white",
+    dark: "bg-black text-white hover:bg-retroOrange hover:text-black",
   };
 
   return (
@@ -77,6 +78,7 @@ const sampleMagazines = [
     views: 0,
     optionDate: 2024,
     latest: "yes",
+    accent: "bg-retroYellow",
   },
   {
     title: "Tejas Vol 3.2",
@@ -90,6 +92,7 @@ const sampleMagazines = [
     views: 0,
     optionDate: 2024,
     latest: "yes",
+    accent: "bg-retroOrange",
   },
   {
     title: "Tejas Vol 3.1",
@@ -102,6 +105,7 @@ const sampleMagazines = [
     },
     views: 0,
     optionDate: 2023,
+    accent: "bg-retroPink",
   },
   {
     title: "Tejas Vol 2",
@@ -113,6 +117,7 @@ const sampleMagazines = [
     },
     views: 0,
     optionDate: 2023,
+    accent: "bg-retroLime",
   },
   {
     title: "Tejas Vol 1",
@@ -125,37 +130,9 @@ const sampleMagazines = [
     },
     views: 0,
     optionDate: 2022,
+    accent: "bg-retroYellow",
   },
 ];
-
-/* ──────────────────────────────────────────────
-   CSS Required (add to your global CSS / index.css)
-   ──────────────────────────────────────────────
-
-   @keyframes cardEntrance {
-     0%   { opacity: 0; transform: translateY(24px) scale(0.97); }
-     100% { opacity: 1; transform: translateY(0) scale(1); }
-   }
-   .animate-card-enter {
-     animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-   }
-
-   Tailwind Config Extend:
-   colors: {
-     retroPink: '#FF8FAB',
-     retroBlue: '#7DD3FC',
-     retroYellow: '#FFDE59',
-     retroGreen: '#77DD77',
-   },
-   boxShadow: {
-     'brutal': '4px 4px 0px 0px #000000',
-     'brutal-sm': '2px 2px 0px 0px #000000',
-     'brutal-lg': '6px 6px 0px 0px #000000',
-     'brutal-xl': '8px 8px 0px 0px #000000',
-   },
-   borderWidth: { '3': '3px' }
-
-   ────────────────────────────────────────────── */
 
 /* ──────────────────────────────────────────────
    Publications Component
@@ -165,7 +142,7 @@ export default function Publications() {
   const [activeInfo, setActiveInfo] = useState(null);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 pb-24">
       {/* Hero Section */}
       <SectionHeader
         title="PUBLICATIONS & TEJAS"
@@ -178,31 +155,32 @@ export default function Publications() {
         {sampleMagazines.map((mag, index) => {
           const isInfoActive = activeInfo === index;
           const volLabel = mag.title.replace("Tejas ", "");
+          const cardBg = mag.accent || "bg-retroYellow";
 
           return (
             <div
               key={index}
               style={{ animationDelay: `${index * 120}ms` }}
-              className="animate-card-enter group/card border-3 border-black rounded-2xl p-5 shadow-brutal-lg bg-white flex flex-col justify-between transition-all duration-300 ease-out hover:-translate-y-2 hover:-translate-x-1 hover:shadow-brutal-xl relative w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.4rem)]"
+              className={`animate-card-enter group/card border-3 border-black rounded-3xl p-5 shadow-brutal-lg ${cardBg} flex flex-col justify-between transition-all duration-300 ease-out hover:-translate-y-2 hover:-translate-x-1 hover:shadow-brutal-xl relative w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.4rem)]`}
             >
               {/* Latest Issue Spotlight Tag */}
               {mag.latest === "yes" && (
-                <div className="absolute -top-3.5 right-5 z-20 bg-retroYellow text-black text-[11px] font-black tracking-wider uppercase px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0px_#000] select-none transform -rotate-1">
+                <div className="absolute -top-3.5 right-5 z-20 bg-black text-white text-[11px] font-black tracking-wider uppercase px-3.5 py-1 rounded-full border-2 border-black shadow-brutal-sm select-none transform -rotate-1">
                   LATEST ISSUE
                 </div>
               )}
 
               <div>
-                {/* Cover Image Container with exact 711x1009 aspect ratio */}
+                {/* Cover Image Container */}
                 <div
-                  className="relative border-2 border-black rounded-xl overflow-hidden mb-5 w-full aspect-[711/1009] bg-neutral-100 group cursor-pointer"
+                  className="relative border-3 border-black rounded-2xl overflow-hidden mb-5 w-full aspect-[711/1009] bg-black group cursor-pointer"
                   style={{ aspectRatio: "711 / 1009" }}
                   onClick={() =>
                     window.open(mag.bookLink, "_blank", "noopener,noreferrer")
                   }
                 >
                   {/* Tactical 3D Book Spine Depth */}
-                  <div className="absolute inset-y-0 left-0 w-3.5 bg-gradient-to-r from-black/35 via-black/10 to-transparent pointer-events-none z-10" />
+                  <div className="absolute inset-y-0 left-0 w-3.5 bg-gradient-to-r from-black/50 via-black/20 to-transparent pointer-events-none z-10" />
 
                   {/* Info Icon in Top-Left Corner */}
                   <div
@@ -215,7 +193,7 @@ export default function Publications() {
                         e.stopPropagation();
                         setActiveInfo(isInfoActive ? null : index);
                       }}
-                      className="w-7 h-7 rounded-full bg-white text-black border-2 border-black font-black text-xs flex items-center justify-center shadow-brutal-sm hover:bg-retroYellow transition-all duration-200 hover:scale-110 hover:rotate-12 active:scale-90 focus:outline-none cursor-pointer"
+                      className="w-7 h-7 rounded-full bg-black text-white border-2 border-black font-black text-xs flex items-center justify-center shadow-brutal-sm hover:bg-white hover:text-black transition-all duration-200 hover:scale-110 hover:rotate-12 active:scale-90 focus:outline-none cursor-pointer"
                       title="Cover information"
                       aria-label="View publication details"
                     >
@@ -235,7 +213,7 @@ export default function Publications() {
                       </svg>
                     </button>
 
-                    {/* Info Label Popover / Tooltip on Hover or Click */}
+                    {/* Info Label Popover */}
                     <div
                       className={`absolute left-0 top-9 z-30 transition-all duration-300 cubic-bezier(0.34, 1.56, 0.64, 1) pointer-events-none group-hover/info:opacity-100 group-hover/info:visible group-hover/info:translate-y-0 ${
                         isInfoActive
@@ -244,16 +222,16 @@ export default function Publications() {
                       }`}
                     >
                       <div className="bg-black text-white text-xs font-bold px-3 py-2 rounded-xl shadow-brutal border-2 border-black whitespace-nowrap flex flex-col gap-0.5">
-                        <div className="flex items-center gap-1">
-                          <span className="text-gray-400 font-semibold">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-gray-300 font-semibold">
                             Year of Release:
                           </span>
-                          <span className="text-white font-black">
+                          <span className="text-retroYellow font-black">
                             {mag.optionDate}
                           </span>
                         </div>
                         {mag.latest === "yes" && (
-                          <span className="text-[10px] font-black text-retroYellow uppercase tracking-wide">
+                          <span className="text-[10px] font-black text-retroPink uppercase tracking-wide">
                             Latest Edition
                           </span>
                         )}
@@ -261,49 +239,47 @@ export default function Publications() {
                     </div>
                   </div>
 
-                  {/* Cover Image with subtle scale & tilt on hover */}
+                  {/* Cover Image */}
                   <img
                     src={mag.image.url}
                     alt={mag.title}
                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-[1.04] group-hover/card:-rotate-1"
                   />
 
-                  {/* Tactile Page-Curl / Dog-Ear Corner at Bottom-Right */}
+                  {/* Tactile Page-Curl Corner */}
                   <div className="absolute bottom-0 right-0 w-8 h-8 pointer-events-none z-20 overflow-hidden">
-                    {/* Shadow under folded corner */}
-                    <div className="absolute bottom-0 right-0 w-0 h-0 border-solid border-t-[20px] border-l-[20px] border-r-0 border-b-0 border-t-transparent border-l-black/30 group-hover/card:border-t-[28px] group-hover/card:border-l-[28px] transition-all duration-300 ease-out" />
-                    {/* Folded page flap */}
-                    <div className="absolute bottom-0 right-0 w-0 h-0 border-solid border-b-[20px] border-r-[20px] border-t-0 border-l-0 border-b-white border-r-[#eaeaea] shadow-[-2px_-2px_4px_rgba(0,0,0,0.15)] group-hover/card:border-b-[28px] group-hover/card:border-r-[28px] transition-all duration-300 ease-out" />
+                    <div className="absolute bottom-0 right-0 w-0 h-0 border-solid border-t-[20px] border-l-[20px] border-r-0 border-b-0 border-t-transparent border-l-black/40 group-hover/card:border-t-[28px] group-hover/card:border-l-[28px] transition-all duration-300 ease-out" />
+                    <div className="absolute bottom-0 right-0 w-0 h-0 border-solid border-b-[20px] border-r-[20px] border-t-0 border-l-0 border-b-black border-r-black/80 shadow-[-2px_-2px_4px_rgba(0,0,0,0.3)] group-hover/card:border-b-[28px] group-hover/card:border-r-[28px] transition-all duration-300 ease-out" />
                   </div>
 
-                  {/* Quick 'Open Flipbook' Floating Pill on Cover Hover */}
-                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-20 bg-black/90 text-white font-black text-xs px-3.5 py-1.5 rounded-full shadow-brutal-sm border border-white/20 opacity-0 translate-y-3 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300 pointer-events-none whitespace-nowrap flex items-center gap-1.5 backdrop-blur-sm">
+                  {/* Quick 'Open Flipbook' Floating Pill */}
+                  <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 z-20 bg-black text-white font-black text-xs px-3.5 py-1.5 rounded-full shadow-brutal-sm border-2 border-black opacity-0 translate-y-3 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300 pointer-events-none whitespace-nowrap flex items-center gap-1.5">
                     <span>Open Flipbook</span>
                     <span className="text-retroPink">↗</span>
                   </div>
 
-                  {/* Shimmer Light Sweep on hover */}
+                  {/* Shimmer Light Sweep */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/card:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
                 </div>
 
                 {/* Volume Badge + Title */}
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="bg-black text-white font-black text-[11px] px-2.5 py-0.5 rounded-md border border-black shadow-[2px_2px_0px_0px_#FFDE59] uppercase tracking-wider select-none shrink-0 group-hover/card:bg-retroPink group-hover/card:text-black transition-colors duration-200">
+                  <span className="bg-black text-white font-black text-[11px] px-2.5 py-0.5 rounded-md border-2 border-black shadow-brutal-sm uppercase tracking-wider select-none shrink-0">
                     {volLabel}
                   </span>
-                  <h3 className="font-black text-2xl text-black leading-tight group-hover/card:text-slate-900 transition-colors">
+                  <h3 className="font-black text-2xl text-black leading-tight">
                     {mag.title}
                   </h3>
                 </div>
 
                 {/* Description */}
-                <p className="font-bold text-xs text-gray-600 leading-relaxed mb-4">
+                <p className="font-bold text-xs text-black/90 leading-relaxed mb-4">
                   {mag.smallDescription}
                 </p>
               </div>
 
-              {/* Read Flipbook Button with Micro-Interaction */}
-              <div className="pt-3 border-t-2 border-black">
+              {/* Read Flipbook Button */}
+              <div className="pt-3 border-t-3 border-black">
                 <a
                   href={mag.bookLink}
                   target="_blank"
@@ -311,9 +287,9 @@ export default function Publications() {
                   className="block group/btn"
                 >
                   <Button
-                    variant="retroBlue"
+                    variant="dark"
                     size="sm"
-                    className="w-full justify-center bg-retroBlue hover:bg-blue-300 transition-all duration-200 active:translate-x-1 active:translate-y-1 shadow-brutal hover:shadow-brutal-sm"
+                    className="w-full justify-center"
                   >
                     <span>Read Flipbook</span>
                   </Button>

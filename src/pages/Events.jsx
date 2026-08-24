@@ -11,13 +11,13 @@ import {
 } from "framer-motion";
 
 const TYPE_COLORS = {
-  Event: "bg-retroPink",
-  Workshop: "bg-retroBlue",
-  Seminar: "bg-retroYellow",
-  Competition: "bg-retroGreen",
-  "Industrial Visit": "bg-retroPink",
-  "Expert Talk": "bg-retroBlue",
-  Other: "bg-retroYellow",
+  Event: "bg-retroOrange",
+  Workshop: "bg-retroSky",
+  Seminar: "bg-retroCitrus",
+  Competition: "bg-retroLime",
+  "Industrial Visit": "bg-retroOrange",
+  "Expert Talk": "bg-retroSky",
+  Other: "bg-retroCitrus",
 };
 
 const MONTH_NAMES = [
@@ -124,7 +124,7 @@ function EventCard({ event, index, isActive }) {
   const exitOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
   const exitScale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
 
-  const cardColor = TYPE_COLORS[event.type] || "bg-retroPink";
+  const cardColor = TYPE_COLORS[event.type] || "bg-retroOrange";
 
   return (
     <motion.div
@@ -177,7 +177,7 @@ function EventCard({ event, index, isActive }) {
             </h4>
 
             {event.shortDescription && (
-              <p className="text-xs text-black/70 font-normal leading-relaxed mb-5 border-l-2 border-retroYellow pl-3 py-0.5">
+              <p className="text-xs text-black/70 font-normal leading-relaxed mb-5 border-l-2 border-retroCitrus pl-3 py-0.5">
                 {event.shortDescription}
               </p>
             )}
@@ -189,12 +189,12 @@ function EventCard({ event, index, isActive }) {
                 </span>
               )}
               {event.participants && (
-                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroYellow shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroCitrus shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
                   <UsersIcon /> {event.participants}
                 </span>
               )}
               {event.venue && event.venue !== "N/A" && (
-                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroBlue shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+                <span className="flex items-center font-medium border border-black px-2.5 py-1 rounded-md bg-retroSky shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
                   <BuildingIcon /> {event.venue}
                 </span>
               )}
@@ -204,7 +204,7 @@ function EventCard({ event, index, isActive }) {
           <div className="p-3 border-t-[1.5px] border-black bg-white flex justify-end items-center">
             <Link
               to={`/events/${event.eventId}`}
-              className="bg-retroBlue text-black font-semibold text-xs uppercase px-5 py-2 rounded-lg border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
+              className="bg-retroSky text-black font-semibold text-xs uppercase px-5 py-2 rounded-lg border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
             >
               <span>Details</span>
               <span className="text-sm leading-none group-hover/btn:translate-x-1 transition-transform">
@@ -280,7 +280,7 @@ function FeaturedEventCard({ event, index, isActive }) {
               <div className="pt-6 mt-auto w-full flex justify-start">
                 <Link
                   to={`/events/${event.eventId}`}
-                  className="bg-retroBlue text-black font-semibold text-xs uppercase px-5 py-2.5 rounded-lg border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
+                  className="bg-retroSky text-black font-semibold text-xs uppercase px-5 py-2.5 rounded-lg border-[1.5px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2 group/btn"
                 >
                   <span>Details</span>
                   <span className="text-sm leading-none group-hover/btn:translate-x-1 transition-transform">
@@ -318,7 +318,7 @@ function ImageCarousel() {
 
   return (
     <div
-      className="w-full py-12 mt-8 mb-12 bg-retroYellow border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 rounded-3xl"
+      className="w-full py-12 mt-8 mb-12 bg-retroCitrus border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative z-10 rounded-3xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -330,7 +330,7 @@ function ImageCarousel() {
       `}</style>
       {/* Decorative Label */}
       <div className="absolute top-0 left-6 md:left-12 -translate-y-1/2 z-20">
-        <span className="bg-retroPink text-black border-[2px] border-black px-6 py-1.5 font-black text-sm uppercase tracking-widest shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-3 inline-block">
+        <span className="bg-retroOrange text-black border-[2px] border-black px-6 py-1.5 font-black text-sm uppercase tracking-widest shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-3 inline-block">
           ★ ACM SIGAI Memory Lane ★
         </span>
       </div>
@@ -556,7 +556,7 @@ export default function Events() {
             <div className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-white/20 rounded-full" />
 
             <motion.div
-              className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-white rounded-full origin-top"
+              className="absolute top-0 bottom-0 w-[2.5px] md:w-[3px] bg-black rounded-full origin-top"
               style={{ scaleY: scrollYProgress }}
             />
           </div>
@@ -602,7 +602,7 @@ export default function Events() {
                                   <motion.div
                                     className={`rounded-full transition-all duration-300 ${
                                       isActiveMonth
-                                        ? "w-2.5 h-2.5 border-[2px] border-black bg-retroPink shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] scale-125"
+                                        ? "w-2.5 h-2.5 border-[2px] border-black bg-retroOrange shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] scale-125"
                                         : "w-1.5 h-1.5 border-[1.5px] border-black/30 bg-white"
                                     }`}
                                   />

@@ -31,7 +31,7 @@ export default function FloatingBottomNav({ isVisible }) {
         {/* LOGO: Redirects to Landing Page */}
         <Link
           to="/"
-          className="w-9 h-9 bg-retroPink border-2 border-black rounded-xl flex items-center justify-center font-black text-black text-xs hover:bg-retroYellow transition-colors mr-1"
+          className="w-9 h-9 bg-retroPink border-2 border-black rounded-xl flex items-center justify-center font-black text-black text-xs hover:bg-retroBlue transition-colors mr-1"
           title="Go to Home"
         >
           SIG
@@ -52,7 +52,7 @@ export default function FloatingBottomNav({ isVisible }) {
                 title={item.label}
                 className={`p-2.5 rounded-xl border-2 border-black transition-all flex items-center justify-center ${
                   isActive
-                    ? "bg-retroYellow text-black font-bold -translate-y-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    ? "bg-retroBlue text-black font-bold -translate-y-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     : "bg-slate-100 text-black hover:bg-slate-200"
                 }`}
               >

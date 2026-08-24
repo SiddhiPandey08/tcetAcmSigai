@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  /* Bright retro colors tuned for light backgrounds */
-  --color-retroYellow: #facc15;
-  --color-retroPink: #ff70a6; /* Standardized strictly for buttons & explicit highlights */
-  --color-retroBlue: #38bdf8;
-  --color-retroGreen: #4ade80;
+  /* Base neutrals — surfaces, text, structure */
+  --color-retroWhite: #ffffff;
+  --color-retroBlack: #0a0a0a;
+  --color-retroNavy: #000080;
+  --color-retroSky: #8ecfeb;
+  --color-retroGrey: #eef1f4;
+  --color-retroGreySlate: #64748b;
+  --color-retroGreyDark: #1e293b;
 
-  /* Updated light mode background canvas */
-  --color-retroBg: #f8fafc;
-  --color-retroBgAlt: #ffffff;
+  /* Accent / pop — replaced yellow with citrus lime & warm orange/gold */
+  --color-retroOrange: #ff6a1a;
+  --color-retroLime: #d4ff00; /* Sharper, vibrant lime */
+  --color-retroCitrus: #ffb703; /* Warm hybrid of orange + yellow/lime */
+
+  --color-retroBg: #ffffff;
+  --color-retroBgAlt: #eef1f4;
 
   --border-3: 3px;
 
-  /* Classic High-Contrast Brutalist Shadows */
   --shadow-brutal-sm: 2px 2px 0px 0px #000000;
   --shadow-brutal: 4px 4px 0px 0px #000000;
   --shadow-brutal-lg: 7px 7px 0px 0px #000000;
@@ -42,7 +48,6 @@
     }
   }
 }
-
 /* Light Mode graph paper grid */
 .bg-paper-grid {
   background-color: #f8fafc;
@@ -200,6 +205,7 @@
 html,
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   background-color: #f8fafc;
   color: #0f172a;
 }
@@ -216,7 +222,7 @@ body {
 /* Animated Running Border Overlay */
 .running-border-hover {
   position: relative;
-  --border-accent: var(--color-retroYellow);
+  --border-accent: var(--color-retroLime);
 }
 
 .running-border-hover::before {
@@ -332,4 +338,61 @@ body {
 
 .splash-inactive {
   animation: splash-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* Subtle circuit-board texture for the hero card */
+.bg-hero-circuit {
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.09) 1.5px, transparent 1.5px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05) 0px,
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 48px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.05) 0px,
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 48px
+    );
+  background-size:
+    24px 24px,
+    48px 48px,
+    48px 48px;
+}
+.running-border-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px;
+  background: linear-gradient(
+    115deg,
+    transparent 15%,
+    var(--color-retroOrange) 35%,
+    var(--color-retroLime) 65%,
+    transparent 85%
+  );
+  background-size: 300% 300%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+/* Hide browser scrollbar entirely while keeping scroll functionality */
+html,
+body {
+  overflow-x: hidden;
+  /* For Chrome, Safari, and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  /* For IE, Edge, and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

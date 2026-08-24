@@ -4,7 +4,6 @@ import { SectionHeader } from "../components/ui/SectionHeader";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Mail,
-  ArrowUpRight,
   Crown,
   UserCheck,
   FileText,
@@ -28,7 +27,7 @@ import {
 } from "../data/teamData";
 
 // Assets
-import groupPhoto from "../../public/assests/groupPhoto.jpg (2).JPG";
+import groupPhoto from "../assets/group_photo_team_banner.jpg";
 
 /* Custom Brand SVG Icons */
 const LinkedinIcon = ({ size = 18 }) => (
@@ -43,7 +42,7 @@ const GithubIcon = ({ size = 18 }) => (
   </svg>
 );
 
-/* Map position strings to representative icons */
+/* Position Icon Helper */
 const getPositionIcon = (position) => {
   const pos = (position || "").toLowerCase();
   if (pos.includes("chairperson") && !pos.includes("vice"))
@@ -79,6 +78,7 @@ const getPositionIcon = (position) => {
 function TeamRow({ member, index, isActive, totalOffset = 0 }) {
   const rowRef = useRef(null);
   const isEven = index % 2 === 0;
+
   const accentBg = member.accent || member.badgeBg || "bg-retroYellow";
   const badgeTag = member.badgeTag || member.tag || "MEMBER";
   const displayPosition = member.position || member.label;
@@ -99,7 +99,7 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
     <motion.div
       ref={rowRef}
       style={{ y: yPos, opacity }}
-      className="team-row py-10 md:py-14 border-b-2 border-black/10 last:border-b-0 transition-all"
+      className="team-row py-10 md:py-14 border-b-3 border-black/20 last:border-b-0 transition-all"
       data-id={member.id || member.name.toLowerCase().replace(/\s+/g, "-")}
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
@@ -110,25 +110,27 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
           }`}
         >
           <div className="flex items-center gap-3">
-            <span className="bg-black text-white font-mono text-[11px] px-2.5 py-1 rounded-md border border-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+            <span className="bg-black text-white font-mono text-[11px] px-2.5 py-1 rounded-md border-2 border-black shadow-sm">
               {String(index + 1 + totalOffset).padStart(2, "0")}
             </span>
-            <span className="bg-white text-black font-black text-xs uppercase border-2 border-black px-3 py-1 rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-1">
+            <span
+              className={`${accentBg} text-black font-black text-xs uppercase border-2 border-black px-3 py-1 rounded-full shadow-sm -rotate-1`}
+            >
               {displayPosition}
             </span>
           </div>
 
-          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-slate-900">
+          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-black">
             {member.name}
           </h3>
 
-          <div
-            className={`inline-block ${accentBg} text-black font-bold text-xs uppercase px-2.5 py-0.5 border border-black rounded`}
-          >
+          <div className="inline-block bg-black text-white font-black text-xs uppercase px-3 py-1 border-2 border-black rounded-lg shadow-sm">
             {badgeTag}
           </div>
 
-          <p className="text-slate-700 font-medium text-sm md:text-base leading-relaxed border-l-3 border-black pl-4 py-1 bg-slate-100/60 rounded-r-lg">
+          <p
+            className={`text-black font-bold text-sm md:text-base leading-relaxed border-l-4 border-black pl-4 py-2 ${accentBg} rounded-r-2xl shadow-sm`}
+          >
             {member.bio || member.description}
           </p>
 
@@ -139,7 +141,8 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
                 href={member.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroBlue hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
+                aria-label={`${member.name}'s LinkedIn`}
+                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
               >
                 <LinkedinIcon size={18} />
               </a>
@@ -149,7 +152,8 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
                 href={member.github}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroYellow hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
+                aria-label={`${member.name}'s GitHub`}
+                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
               >
                 <GithubIcon size={18} />
               </a>
@@ -157,7 +161,8 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
             {member.email && (
               <a
                 href={`mailto:${member.email}`}
-                className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroPink hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
+                aria-label={`Email ${member.name}`}
+                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
               >
                 <Mail size={18} />
               </a>
@@ -165,7 +170,7 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
           </div>
         </div>
 
-        {/* Image Card Column */}
+        {/* Coloured Image Card Column */}
         <div
           className={`md:col-span-5 flex justify-center ${
             isEven ? "md:order-2 md:justify-end" : "md:order-1 md:justify-start"
@@ -176,21 +181,25 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
               scale: isActive ? 1.03 : 1,
               rotate: isActive ? (isEven ? -1 : 1) : 0,
               boxShadow: isActive
-                ? "8px 8px 0px 0px rgba(0,0,0,1)"
-                : "4px 4px 0px 0px rgba(0,0,0,1)",
+                ? "3px 3px 0px 0px #000000"
+                : "2px 2px 0px 0px #000000",
             }}
             transition={{ duration: 0.3 }}
-            className={`relative w-full max-w-xs p-3 rounded-2xl border-3 border-black ${accentBg} transition-all`}
+            className={`relative w-full max-w-xs p-3.5 rounded-3xl border-3 border-black ${accentBg} transition-all`}
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-xl border-2 border-black bg-white">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-black bg-black">
               <img
                 src={getMemberImage(member)}
                 alt={member.name}
-                className="w-full h-full object-cover object-center filter grayscale hover:grayscale-0 transition-all duration-500"
+                className={`w-full h-full object-cover object-center transition-all duration-500 ${
+                  isActive ? "filter-none" : "filter grayscale"
+                }`}
               />
 
-              {/* Bottom Badge: Position + Icon (Replaces Name) */}
-              <div className="absolute bottom-3 left-3 bg-white border-2 border-black rounded-lg px-2.5 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-1.5">
+              {/* Bottom Position Tag Badge */}
+              <div
+                className={`absolute bottom-3 left-3 ${accentBg} border-2 border-black rounded-xl px-2.5 py-1 shadow-sm flex items-center gap-1.5 z-20`}
+              >
                 {getPositionIcon(displayPosition)}
                 <span className="font-black text-[11px] uppercase tracking-wider text-black">
                   {displayPosition}
@@ -252,7 +261,7 @@ export default function Team() {
       />
 
       {/* Group Photo Showcase */}
-      <div className="my-8 relative rounded-3xl border-3 border-black bg-white p-3 sm:p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+      <div className="my-8 relative rounded-3xl border-3 border-black bg-retroYellow p-3 sm:p-4 shadow-md overflow-hidden">
         <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl border-2 border-black overflow-hidden group">
           <img
             src={groupPhoto}
@@ -261,7 +270,7 @@ export default function Team() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
             <div className="text-white space-y-1">
-              <span className="bg-retroPink text-black font-black text-[10px] sm:text-xs uppercase px-3 py-1 rounded-full border border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+              <span className="bg-retroOrange text-black font-black text-[10px] sm:text-xs uppercase px-3 py-1 rounded-full border-2 border-black shadow-sm">
                 2025-26
               </span>
               <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">
@@ -274,10 +283,10 @@ export default function Team() {
 
       {/* FACULTY SECTION */}
       <div className="mb-12">
-        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(252,211,77,1)] mb-6">
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Faculty Mentors & Leaders
         </div>
-        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
           {facultyMembers.map((member, index) => (
             <TeamRow
               key={member.id}
@@ -291,10 +300,10 @@ export default function Team() {
 
       {/* CORE TEAM SECTION */}
       <div className="mb-12">
-        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(112,214,255,1)] mb-6">
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Core Executive Team
         </div>
-        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
           {coreTeam.map((member, index) => (
             <TeamRow
               key={member.name}
@@ -311,10 +320,10 @@ export default function Team() {
 
       {/* JUNIOR CORE SECTION */}
       <div>
-        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(255,112,166,1)] mb-6">
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Junior Core Team
         </div>
-        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
           {juniorCoreTeam.map((member, index) => (
             <TeamRow
               key={member.name}

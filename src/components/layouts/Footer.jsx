@@ -5,9 +5,9 @@ import { MapPin, Mail, Phone } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="w-full mt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
         {/* Google Maps Embed - Neo Brutalist */}
-        <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden border-3 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-white relative z-10 group">
+        <div className="w-full h-64 md:h-80 rounded-3xl overflow-hidden border-3 border-black shadow-brutal bg-white relative z-10 group">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.258380309995!2d72.8719003!3d19.2064563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b0e57647569d%3A0xc0aec329c82d3555!2sThakur%20College%20of%20Engineering%20and%20Technology!5e0!3m2!1sen!2sin!4v1714578160000!5m2!1sen!2sin"
             width="100%"
@@ -22,13 +22,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom 4-Column Grid - Neo Brutalist */}
-        <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-8 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-8 sm:p-10 shadow-brutal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}
           <div className="space-y-4">
             <h3 className="text-black font-black uppercase text-xl tracking-tight">
               ACM SIGAI TCET
             </h3>
-            <div className="w-12 h-1.5 bg-retroPink border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+            <div className="w-12 h-1.5 bg-retroPink border-2 border-black rounded-full shadow-brutal-sm"></div>
             <p className="text-sm md:text-base font-bold text-black/80 leading-relaxed max-w-xs mt-4">
               Special Interest Group on Artificial Intelligence at Thakur
               College of Engineering and Technology.
@@ -40,48 +40,24 @@ export default function Footer() {
             <h3 className="text-black font-black uppercase text-xl tracking-tight">
               Pages
             </h3>
-            <div className="w-12 h-1.5 bg-retroYellow border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+            <div className="w-12 h-1.5 bg-retroYellow border-2 border-black rounded-full shadow-brutal-sm"></div>
             <ul className="space-y-3 font-bold text-black flex flex-col mt-4">
-              <li>
-                <Link
-                  to="/"
-                  className="hover:text-retroPink hover:underline decoration-3 underline-offset-4 transition-colors"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/events"
-                  className="hover:text-retroPink hover:underline decoration-3 underline-offset-4 transition-colors"
-                >
-                  Events
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/team"
-                  className="hover:text-retroPink hover:underline decoration-3 underline-offset-4 transition-colors"
-                >
-                  Team
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/publications"
-                  className="hover:text-retroPink hover:underline decoration-3 underline-offset-4 transition-colors"
-                >
-                  Publications
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blogs"
-                  className="hover:text-retroPink hover:underline decoration-3 underline-offset-4 transition-colors"
-                >
-                  Blogs
-                </Link>
-              </li>
+              {[
+                { name: "Home", path: "/" },
+                { name: "Events", path: "/events" },
+                { name: "Team", path: "/team" },
+                { name: "Publications", path: "/publications" },
+                { name: "Blogs", path: "/blogs" },
+              ].map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="hover:text-retroOrange hover:underline decoration-3 underline-offset-4 transition-colors inline-block"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -90,10 +66,10 @@ export default function Footer() {
             <h3 className="text-black font-black uppercase text-xl tracking-tight">
               Contact
             </h3>
-            <div className="w-12 h-1.5 bg-retroBlue border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+            <div className="w-12 h-1.5 bg-retroOrange border-2 border-black rounded-full shadow-brutal-sm"></div>
             <ul className="space-y-4 font-bold text-black mt-4">
               <li className="flex items-start gap-3">
-                <div className="bg-white p-1.5 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] shrink-0">
+                <div className="bg-white p-2 rounded-xl border-3 border-black shadow-brutal-sm shrink-0">
                   <MapPin size={18} strokeWidth={2.5} />
                 </div>
                 <span className="pt-1 leading-snug">
@@ -101,23 +77,23 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="bg-white p-1.5 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] shrink-0">
+                <div className="bg-white p-2 rounded-xl border-3 border-black shadow-brutal-sm shrink-0">
                   <Mail size={18} strokeWidth={2.5} />
                 </div>
                 <a
                   href="mailto:acmsigai10@gmail.com"
-                  className="hover:text-retroPink hover:underline decoration-2 underline-offset-4 transition-colors"
+                  className="hover:text-retroOrange hover:underline decoration-2 underline-offset-4 transition-colors break-all"
                 >
                   acmsigai10@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <div className="bg-white p-1.5 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] shrink-0">
+                <div className="bg-white p-2 rounded-xl border-3 border-black shadow-brutal-sm shrink-0">
                   <Phone size={18} strokeWidth={2.5} />
                 </div>
                 <a
                   href="tel:+919326590260"
-                  className="hover:text-retroPink hover:underline decoration-2 underline-offset-4 transition-colors"
+                  className="hover:text-retroOrange hover:underline decoration-2 underline-offset-4 transition-colors"
                 >
                   +91 93265 90260
                 </a>
@@ -130,13 +106,14 @@ export default function Footer() {
             <h3 className="text-black font-black uppercase text-xl tracking-tight">
               Follow Us
             </h3>
-            <div className="w-12 h-1.5 bg-retroGreen border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
-            <div className="flex gap-4 mt-4">
+            <div className="w-12 h-1.5 bg-retroLime border-2 border-black rounded-full shadow-brutal-sm"></div>
+            <div className="flex gap-3 mt-4">
               <a
                 href="https://www.instagram.com/tcet_acm.sigai?igsh=aHI0aXh4emQ4dmNp"
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-xl bg-white border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-black hover:bg-gradient-to-tr hover:from-amber-400 hover:via-rose-400 hover:to-purple-500 hover:-translate-y-1 hover:translate-x-0.5 hover:shadow-none transition-all"
+                aria-label="Instagram"
+                className="w-12 h-12 rounded-2xl bg-white border-3 border-black shadow-brutal-sm flex items-center justify-center text-black btn-brutal-press hover:bg-gradient-to-tr hover:from-amber-400 hover:via-rose-400 hover:to-purple-500 hover:text-white transition-all"
               >
                 <svg
                   width="22"
@@ -151,7 +128,8 @@ export default function Footer() {
                 href="https://github.com/SIG-AI-OpenSource"
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-xl bg-white border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-black hover:bg-black hover:text-white hover:-translate-y-1 hover:translate-x-0.5 hover:shadow-none transition-all"
+                aria-label="GitHub"
+                className="w-12 h-12 rounded-2xl bg-white border-3 border-black shadow-brutal-sm flex items-center justify-center text-black btn-brutal-press hover:bg-black hover:text-white transition-all"
               >
                 <svg
                   width="22"
@@ -166,7 +144,8 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/tcet-acm-sigai"
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-xl bg-white border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center text-black hover:bg-[#0077b5] hover:text-white hover:-translate-y-1 hover:translate-x-0.5 hover:shadow-none transition-all"
+                aria-label="LinkedIn"
+                className="w-12 h-12 rounded-2xl bg-white border-3 border-black shadow-brutal-sm flex items-center justify-center text-black btn-brutal-press hover:bg-[#0077b5] hover:text-white transition-all"
               >
                 <svg
                   width="20"

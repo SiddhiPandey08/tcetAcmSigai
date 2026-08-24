@@ -9,6 +9,7 @@ import Blogs from "./pages/Blogs";
 import Publications from "./pages/Publications";
 import EventDetails from "./pages/EventDetails.jsx";
 import Footer from "./components/layouts/Footer.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 import "./index.css";
 
@@ -37,6 +38,7 @@ export default function App() {
       {/* MAIN WEBSITE */}
       <div className="min-h-screen bg-paper-grid text-black font-sans selection:bg-retroYellow">
         <Navbar />
+        <ScrollToTop />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>

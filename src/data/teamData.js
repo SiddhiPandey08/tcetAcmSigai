@@ -27,13 +27,22 @@ import yashImg from "../assets/yash.jpg";
 import jeniImg from "../assets/JENI.jpg";
 import siddhiImg from "../assets/siddhi.jpg";
 
+/*
+  Accent system — pulled straight from index.css's @theme tokens:
+  retroOrange, retroLime, retroCitrus, retroSky (retroNavy skipped as a fill
+  since it's too dark for black text). Each member stores BOTH the literal
+  bg-* and border-* class names (not built dynamically) so Tailwind's
+  content scanner can actually find and generate them.
+*/
+
 export const facultyMembers = [
   {
     id: "dr-shiwani-gupta",
     name: "Dr. Shiwani Gupta",
     position: "Faculty Sponsor",
-    badgeTag: "FACULTY 01",
-    accent: "bg-retroYellow",
+    badgeTag: "FACULTY SPONSOR",
+    accent: "bg-retroOrange",
+    accentBorder: "border-retroOrange",
     bio: "Guiding TCET ACM SIGAI with vision, fostering research initiatives, and mentoring student cohorts in AI/ML advancements.",
     linkedin: "https://www.linkedin.com/in/dr-shiwani-gupta-28405018/",
     img: drShiwaniImg,
@@ -42,8 +51,9 @@ export const facultyMembers = [
     id: "mrs-pranjali-sankhe",
     name: "Mrs. Pranjali Sankhe",
     position: "Assistant Professor",
-    badgeTag: "FACULTY 02",
-    accent: "bg-retroBlue",
+    badgeTag: "FACULTY IN-CHARGE",
+    accent: "bg-retroSky",
+    accentBorder: "border-retroSky",
     bio: "Supporting student project development, technical symposiums, and promoting academic excellence across domain activities.",
     linkedin: "https://www.linkedin.com/in/pranjali-sankhe-955613134/",
     img: mrsPranjaliImg,
@@ -54,7 +64,8 @@ export const coreTeam = [
   {
     name: "Pranav Vishwakarma",
     position: "Chairperson",
-    accent: "bg-retroYellow",
+    accent: "bg-retroOrange",
+    accentBorder: "border-retroOrange",
     badgeTag: "CORE",
     bio: "Leading overall chapter operations, aligning team initiatives, and building strategic tech opportunities for students.",
     linkedin: "https://www.linkedin.com/in/pranav-vishwakarma/",
@@ -64,7 +75,8 @@ export const coreTeam = [
   {
     name: "Vipul Choudhari",
     position: "Vice Chairperson",
-    accent: "bg-retroBlue",
+    accent: "bg-retroLime",
+    accentBorder: "border-retroLime",
     badgeTag: "CORE",
     bio: "Overseeing internal team execution, program workflows, and driving high-impact technical initiatives across teams.",
     linkedin: "https://www.linkedin.com/in/vipul-choudhari/",
@@ -74,7 +86,8 @@ export const coreTeam = [
   {
     name: "Aditya Pandey",
     position: "Secretary",
-    accent: "bg-retroPink",
+    accent: "bg-retroCitrus",
+    accentBorder: "border-retroCitrus",
     badgeTag: "CORE",
     bio: "Managing chapter documentation, operational communication, and cross-team execution rhythm.",
     linkedin: "https://www.linkedin.com/in/aditya-pandey/",
@@ -84,7 +97,8 @@ export const coreTeam = [
   {
     name: "Mahek Chaplot",
     position: "Treasurer",
-    accent: "bg-retroGreen",
+    accent: "bg-retroSky",
+    accentBorder: "border-retroSky",
     badgeTag: "CORE",
     bio: "Handling financial planning, event budgeting, resource allocation, and overall chapter accounts transparently.",
     linkedin: "https://www.linkedin.com/in/mahek-chaplot/",
@@ -94,7 +108,8 @@ export const coreTeam = [
   {
     name: "Riya Yadav",
     position: "Event Manager",
-    accent: "bg-retroYellow",
+    accent: "bg-retroOrange",
+    accentBorder: "border-retroOrange",
     badgeTag: "CORE",
     bio: "Designing, scheduling, and executing engaging technical workshops, hackathons, and speaker sessions.",
     linkedin: "https://www.linkedin.com/in/riya-yadav/",
@@ -104,7 +119,8 @@ export const coreTeam = [
   {
     name: "Sanjana Dubey",
     position: "Creative Head",
-    accent: "bg-retroPink",
+    accent: "bg-retroLime",
+    accentBorder: "border-retroLime",
     badgeTag: "CORE",
     bio: "Leading visual identity, design guidelines, UI/UX aesthetics, and creative branding across event campaigns.",
     linkedin: "https://www.linkedin.com/in/sanjana-dubey/",
@@ -114,7 +130,8 @@ export const coreTeam = [
   {
     name: "Sitanshu Gupta",
     position: "PR Head",
-    accent: "bg-retroBlue",
+    accent: "bg-retroCitrus",
+    accentBorder: "border-retroCitrus",
     badgeTag: "CORE",
     bio: "Driving public relations, social media outreach, and community engagement to expand the chapter footprint.",
     linkedin: "https://www.linkedin.com/in/sitanshu-gupta/",
@@ -124,7 +141,8 @@ export const coreTeam = [
   {
     name: "Pranjal Sawant",
     position: "Spons Head",
-    accent: "bg-retroYellow",
+    accent: "bg-retroSky",
+    accentBorder: "border-retroSky",
     badgeTag: "CORE",
     bio: "Establishing strategic industry sponsorships, corporate outreach, and venue/event funding partnerships.",
     linkedin: "https://www.linkedin.com/in/pranjal-sawant/",
@@ -134,7 +152,8 @@ export const coreTeam = [
   {
     name: "Harshini Mishal",
     position: "Technical Head",
-    accent: "bg-retroPink",
+    accent: "bg-retroOrange",
+    accentBorder: "border-retroOrange",
     badgeTag: "CORE",
     bio: "Architecting technical projects, code labs, machine learning research, and overseeing technical workshops.",
     linkedin: "https://www.linkedin.com/in/harshini-mishal/",
@@ -144,7 +163,8 @@ export const coreTeam = [
   {
     name: "Shubham Prajapati",
     position: "Webmaster",
-    accent: "bg-retroBlue",
+    accent: "bg-retroLime",
+    accentBorder: "border-retroLime",
     badgeTag: "CORE",
     bio: "Developing and maintaining web systems, project portals, and front-end architectures for the chapter.",
     linkedin: "https://www.linkedin.com/in/shubham-prajapati/",
@@ -157,9 +177,10 @@ export const juniorCoreTeam = [
   {
     name: "Anamika Yadav",
     position: "JT Creative Head",
-    accent: "bg-retroPink",
-    tag: "JT CORE",
-    bio: "Supporting graphic design asset creation, poster layouts, and social media media collateral.",
+    accent: "bg-retroCitrus",
+    accentBorder: "border-retroCitrus",
+    badgeTag: "JT CORE",
+    bio: "Supporting graphic design asset creation, poster layouts, and social media collateral.",
     linkedin: "https://www.linkedin.com/in/anamika-yadav/",
     github: "https://github.com/",
     img: anamikaImg,
@@ -167,8 +188,9 @@ export const juniorCoreTeam = [
   {
     name: "Siddhi Pandey",
     position: "JT Technical Head",
-    accent: "bg-retroBlue",
-    tag: "JT CORE",
+    accent: "bg-retroSky",
+    accentBorder: "border-retroSky",
+    badgeTag: "JT CORE",
     bio: "Assisting in technical content curation, coding challenges, and web feature updates.",
     linkedin: "https://www.linkedin.com/in/siddhi-pandey/",
     github: "https://github.com/",
@@ -177,8 +199,9 @@ export const juniorCoreTeam = [
   {
     name: "Vaishnavi Nayak",
     position: "JT Secretary",
-    accent: "bg-retroYellow",
-    tag: "JT CORE",
+    accent: "bg-retroOrange",
+    accentBorder: "border-retroOrange",
+    badgeTag: "JT CORE",
     bio: "Assisting in chapter records, administrative scheduling, and inter-team operational coordination.",
     linkedin: "https://www.linkedin.com/in/vaishnavi-nayak/",
     github: "https://github.com/",
@@ -187,19 +210,20 @@ export const juniorCoreTeam = [
   {
     name: "Preet Kothari",
     position: "JT Event Manager",
-    accent: "bg-retroBlue",
-    tag: "JT CORE",
+    accent: "bg-retroLime",
+    accentBorder: "border-retroLime",
+    badgeTag: "JT CORE",
     bio: "Assisting in venue management, event logistics, timeline monitoring, and delegate support.",
     linkedin: "https://www.linkedin.com/in/preet-kothari/",
     github: "https://github.com/",
     img: preetImg,
   },
-
   {
     name: "Yash Oza",
     position: "JT PR & Spons Head",
-    accent: "bg-retroGreen",
-    tag: "JT CORE",
+    accent: "bg-retroCitrus",
+    accentBorder: "border-retroCitrus",
+    badgeTag: "JT CORE",
     bio: "Helping manage sponsor leads, brand communications, and promotional campaigns across campuses.",
     linkedin: "https://www.linkedin.com/in/yash-oza/",
     github: "https://github.com/",
@@ -208,8 +232,9 @@ export const juniorCoreTeam = [
   {
     name: "Jeni Shah",
     position: "Inhouse Head",
-    accent: "bg-retroYellow",
-    tag: "JT CORE",
+    accent: "bg-retroSky",
+    accentBorder: "border-retroSky",
+    badgeTag: "JT CORE",
     bio: "Coordinating internal team communications, session execution, and internal operations smooth flow.",
     linkedin: "https://www.linkedin.com/in/jeni-shah/",
     github: "https://github.com/",
