@@ -1,181 +1,64 @@
-import defaultPlaceholderImg from "../assets/placeholder-user.png";
-import drShiwaniImg from "../assets/dr_shiwani_gupta.jpg.jpeg";
-import mrsPranjaliImg from "../assets/mrs_pranjali_sankhe.jpg.jpeg";
-
-// Maps each accent/badge Tailwind class to its real hex value so it can be
-// handed to the CSS custom property that drives the running border.
-export const ACCENT_HEX = {
-  "bg-retroYellow": "#fcd34d",
-  "bg-retroPink": "#ff70a6",
-  "bg-retroBlue": "#70d6ff",
-  "bg-retroGreen": "#38b000",
-};
-
-// Resolves the profile image for a member: use their imported photo if one
-// was provided, otherwise fall back to the shared default placeholder.
-export function getMemberImage(member) {
-  return member.img || defaultPlaceholderImg;
-}
-
-export const facultyMembers = [
+// src/data/teamData.js
+export const TEAM_MEMBERS = [
   {
-    id: "shiwani",
-    label: "Faculty Sponsor",
-    name: "Dr. Shiwani Gupta",
-    position: "HOD of Department",
-    badgeBg: "bg-retroYellow",
-    tag: "FACULTY_01",
-    description:
-      "Leading the Department of Computer Engineering with a vision for cutting-edge AI research, innovation, and empowering students to pioneer advancements in Machine Learning and Intelligent Systems.",
-    linkedin: "#",
-    img: drShiwaniImg,
+    id: "dr-sara",
+    name: "Dr. Sara Sharma",
+    role: "FACULTY COUNSELOR",
+    domain: "AI & ML RESEARCH",
+    bio: "Guiding TCET ACM SIGAI towards excellence in research, innovation, and technical leadership. Specializes in Deep Learning and Natural Language Processing.",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
+    color: "bg-retroBlue",
+    socials: {
+      linkedin: "https://linkedin.com",
+      github: "https://github.com",
+      twitter: "https://twitter.com",
+      email: "mailto:sara@tcetmumbai.in",
+    },
   },
   {
-    id: "pranjali",
-    label: "Faculty In-Charge",
-    name: "Pranjali Sankhe",
-    position: "Assistant Professor",
-    badgeBg: "bg-retroBlue",
-    tag: "FACULTY_02",
-    description:
-      "Guiding TCET ACM SIGAI with dedication, mentoring student cohorts in AI/ML project development, technical symposiums, and fostering research-driven academic excellence.",
-    linkedin: "#",
-    img: mrsPranjaliImg,
-  },
-];
-
-export const coreTeam = [
-  {
-    name: "Pranav Vishwakarma",
-    position: "Chairperson",
-    accent: "bg-retroYellow",
-    badgeTag: "CORE",
-    bio: "Directing ACM SIGAI operations, fostering research culture, and establishing strategic industry-academic initiatives.",
-    linkedin: "#",
+    id: "alex-chen",
+    name: "Alex Chen",
+    role: "CHAIRPERSON",
+    domain: "COMPUTER VISION",
+    bio: "Passionate about building scalable AI systems and leading the student chapter. Previously interned as an ML Research Associate.",
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
+    color: "bg-retroYellow",
+    socials: {
+      linkedin: "https://linkedin.com",
+      github: "https://github.com",
+      email: "mailto:alex@tcetmumbai.in",
+    },
   },
   {
-    name: "Vipul Choudhari",
-    position: "Vice Chairperson",
-    accent: "bg-retroBlue",
-    badgeTag: "CORE",
-    bio: "Managing chapter logistics, cross-departmental coordination, and driving student engagement in AI projects.",
-    linkedin: "#",
+    id: "priya-patel",
+    name: "Priya Patel",
+    role: "VICE CHAIRPERSON",
+    domain: "GENERATIVE AI",
+    bio: "Orchestrating technical bootcamps, workshops, and hackathons. Focused on making AI education accessible to every undergraduate student.",
+    image:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
+    color: "bg-retroGreen",
+    socials: {
+      linkedin: "https://linkedin.com",
+      github: "https://github.com",
+      twitter: "https://twitter.com",
+    },
   },
   {
-    name: "Aditya Pandey",
-    position: "Secretary",
-    accent: "bg-retroPink",
-    badgeTag: "SEC",
-    bio: "Handling official communications, administrative documentation, and managing overall SIGAI workflow.",
-    linkedin: "#",
-  },
-  {
-    name: "Mahek Chaplot",
-    position: "Treasurer",
-    accent: "bg-retroGreen",
-    badgeTag: "CORE",
-    bio: "Overseeing financial planning, resource management, and budgeting for events, hackathons, and research projects.",
-    linkedin: "#",
-  },
-  {
-    name: "Riya Yadav",
-    position: "Event Manager",
-    accent: "bg-retroYellow",
-    badgeTag: "EVENTS",
-    bio: "Designing and executing flagship tech summits, ML workshops, hackathons, and interactive AI coding sprees.",
-    linkedin: "#",
-  },
-  {
-    name: "Harshini Mishal",
-    position: "Technical Head",
-    accent: "bg-retroBlue",
-    badgeTag: "TECH",
-    bio: "Architecting technical roadmaps, curating coding bootcamps, and leading AI/ML project implementations.",
-    linkedin: "#",
-  },
-  {
-    name: "Sanjana Dubey",
-    position: "Creative Head",
-    accent: "bg-retroPink",
-    badgeTag: "CREATIVE",
-    bio: "Crafting neo-brutalist visual identities, event graphics, UI/UX layouts, and editorial media assets.",
-    linkedin: "#",
-  },
-  {
-    name: "Sitanshu Gupta",
-    position: "PR Head",
-    accent: "bg-retroGreen",
-    badgeTag: "PUBLIC RELATIONS",
-    bio: "Directing public relations, managing media campaigns, and strengthening SIGAI's community footprint.",
-    linkedin: "#",
-  },
-  {
-    name: "Pranjal Sawant",
-    position: "Spons",
-    accent: "bg-retroYellow",
-    badgeTag: "SPONSORSHIP",
-    bio: "Building industry alliances, securing corporate sponsorships, and expanding partner opportunities for SIGAI.",
-    linkedin: "#",
-  },
-  {
-    name: "Shubham Prajapati",
-    position: "TECH",
-    accent: "bg-retroBlue",
-    badgeTag: "WEBMASTER",
-    bio: "Engineering web infrastructure, building interactive platforms, and maintaining digital assets.",
-    linkedin: "#",
-  },
-];
-
-export const juniorCoreTeam = [
-  {
-    name: "Anamika Yadav",
-    position: "JT Creative Head",
-    accent: "bg-retroGreen",
-    tag: "CREATIVE",
-    bio: "Designing promotional posters, editorial banners, and social media branding.",
-    linkedin: "#",
-  },
-  {
-    name: "Siddhi Pandey",
-    position: "JT Technical Head",
-    accent: "bg-retroBlue",
-    tag: "TECH",
-    bio: "Assisting technical workshops, repository management, and ML algorithm prototypes.",
-    linkedin: "#",
-  },
-  {
-    name: "Jeni Shah",
-    position: "Inhouse Head",
-    accent: "bg-retroPink",
-    tag: "INHOUSE",
-    bio: "Coordinating internal team dynamics, managing venue logistics, and ensuring seamless event operations.",
-    linkedin: "#",
-  },
-
-  {
-    name: "Vaishnavi Nayak",
-    position: "JT Secretary",
-    accent: "bg-retroPink",
-    tag: "SEC",
-    bio: "Supporting administrative scheduling, documentation, and internal team syncs.",
-    linkedin: "#",
-  },
-  {
-    name: "Yash Oza",
-    position: "JT PR & Spons Head",
-    accent: "bg-retroYellow",
-    tag: "PR & SPONS",
-    bio: "Assisting sponsorship deck curation, public outreach, and partner networking.",
-    linkedin: "#",
-  },
-
-  {
-    name: "Preet Kothari",
-    position: "JT Event Manager",
-    accent: "bg-retroBlue",
-    tag: "EVENTS",
-    bio: "Assisting in venue management, participant coordination, and event execution.",
-    linkedin: "#",
+    id: "rohan-mehta",
+    name: "Rohan Mehta",
+    role: "TECHNICAL HEAD",
+    domain: "REINFORCEMENT LEARNING",
+    bio: "Head of R&D and project mentorship. Leads student teams in publishing peer-reviewed research papers and open-source contributions.",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
+    color: "bg-retroBlue",
+    socials: {
+      linkedin: "https://linkedin.com",
+      github: "https://github.com",
+      email: "mailto:rohan@tcetmumbai.in",
+    },
   },
 ];

@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { SectionHeader } from "../components/ui/SectionHeader";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, ArrowUpRight } from "lucide-react";
+import { TEAM_MEMBERS } from "../data/teamData";
 
-/* Custom Brand SVG Icons (replaces missing lucide brand exports) */
+/* Custom Brand SVG Icons */
 const LinkedinIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.74a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z" />
@@ -23,74 +24,10 @@ const TwitterIcon = ({ size = 18 }) => (
   </svg>
 );
 
-/* ================= SAMPLE TEAM DATA ================= */
-const TEAM_MEMBERS = [
-  {
-    id: "dr-sara",
-    name: "Dr. Sara Sharma",
-    role: "FACULTY COUNSELOR",
-    domain: "AI & ML RESEARCH",
-    bio: "Guiding TCET ACM SIGAI towards excellence in research, innovation, and technical leadership. Specializes in Deep Learning and Natural Language Processing.",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroBlue",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      twitter: "https://twitter.com",
-      email: "mailto:sara@tcetmumbai.in",
-    },
-  },
-  {
-    id: "alex-chen",
-    name: "Alex Chen",
-    role: "CHAIRPERSON",
-    domain: "COMPUTER VISION",
-    bio: "Passionate about building scalable AI systems and leading the student chapter. Previously interned as an ML Research Associate.",
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroYellow",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      email: "mailto:alex@tcetmumbai.in",
-    },
-  },
-  {
-    id: "priya-patel",
-    name: "Priya Patel",
-    role: "VICE CHAIRPERSON",
-    domain: "GENERATIVE AI",
-    bio: "Orchestrating technical bootcamps, workshops, and hackathons. Focused on making AI education accessible to every undergraduate student.",
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroGreen",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      twitter: "https://twitter.com",
-    },
-  },
-  {
-    id: "rohan-mehta",
-    name: "Rohan Mehta",
-    role: "TECHNICAL HEAD",
-    domain: "REINFORCEMENT LEARNING",
-    bio: "Head of R&D and project mentorship. Leads student teams in publishing peer-reviewed research papers and open-source contributions.",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroBlue",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      email: "mailto:rohan@tcetmumbai.in",
-    },
-  },
-];
-
 /* ================= INDIVIDUAL TEAM ROW ================= */
 function TeamRow({ member, index, isActive }) {
   const rowRef = useRef(null);
+  const isEven = index % 2 === 0;
 
   const { scrollYProgress } = useScroll({
     target: rowRef,
@@ -112,8 +49,12 @@ function TeamRow({ member, index, isActive }) {
       data-id={member.id}
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        {/* Left Column: Bio & Text Details */}
-        <div className="md:col-span-7 space-y-4 pr-0 md:pr-6">
+        {/* Bio Column */}
+        <div
+          className={`md:col-span-7 space-y-4 ${
+            isEven ? "md:order-1 pr-0 md:pr-6" : "md:order-2 pl-0 md:pl-6"
+          }`}
+        >
           <div className="flex items-center gap-3">
             <span className="bg-black text-white font-mono text-[11px] px-2.5 py-1 rounded-md border border-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
               0{index + 1}
@@ -178,12 +119,16 @@ function TeamRow({ member, index, isActive }) {
           </div>
         </div>
 
-        {/* Right Column: Styled Image Card */}
-        <div className="md:col-span-5 flex justify-center md:justify-end">
+        {/* Image Card Column (Alternates Position) */}
+        <div
+          className={`md:col-span-5 flex justify-center ${
+            isEven ? "md:order-2 md:justify-end" : "md:order-1 md:justify-start"
+          }`}
+        >
           <motion.div
             animate={{
               scale: isActive ? 1.03 : 1,
-              rotate: isActive ? -1 : 0,
+              rotate: isActive ? (isEven ? -1 : 1) : 0,
               boxShadow: isActive
                 ? "8px 8px 0px 0px rgba(0,0,0,1)"
                 : "4px 4px 0px 0px rgba(0,0,0,1)",
@@ -206,7 +151,11 @@ function TeamRow({ member, index, isActive }) {
             </div>
 
             {/* Social Icon Ribbon */}
-            <div className="absolute -right-3 top-6 flex flex-col gap-2 bg-white border-2 border-black p-2 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <div
+              className={`absolute top-6 flex flex-col gap-2 bg-white border-2 border-black p-2 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                isEven ? "-right-3" : "-left-3"
+              }`}
+            >
               {member.socials.linkedin && (
                 <a
                   href={member.socials.linkedin}
