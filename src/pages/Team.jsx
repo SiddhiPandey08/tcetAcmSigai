@@ -2,8 +2,33 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SectionHeader } from "../components/ui/SectionHeader";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, ArrowUpRight } from "lucide-react";
-import { TEAM_MEMBERS } from "../data/teamData";
+import {
+  Mail,
+  ArrowUpRight,
+  Crown,
+  UserCheck,
+  FileText,
+  DollarSign,
+  Calendar,
+  Code,
+  Palette,
+  Megaphone,
+  Handshake,
+  Globe,
+  GraduationCap,
+  Briefcase,
+  Users,
+  Terminal,
+} from "lucide-react";
+import {
+  facultyMembers,
+  coreTeam,
+  juniorCoreTeam,
+  getMemberImage,
+} from "../data/teamData";
+
+// Assets
+import groupPhoto from "../../public/assests/groupPhoto.jpg (2).JPG";
 
 /* Custom Brand SVG Icons */
 const LinkedinIcon = ({ size = 18 }) => (
@@ -18,38 +43,67 @@ const GithubIcon = ({ size = 18 }) => (
   </svg>
 );
 
-const TwitterIcon = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
+/* Map position strings to representative icons */
+const getPositionIcon = (position) => {
+  const pos = (position || "").toLowerCase();
+  if (pos.includes("chairperson") && !pos.includes("vice"))
+    return <Crown size={14} className="text-black" />;
+  if (pos.includes("vice chairperson"))
+    return <UserCheck size={14} className="text-black" />;
+  if (pos.includes("faculty sponsor") || pos.includes("hod"))
+    return <GraduationCap size={14} className="text-black" />;
+  if (pos.includes("faculty") || pos.includes("professor"))
+    return <Briefcase size={14} className="text-black" />;
+  if (pos.includes("secretary"))
+    return <FileText size={14} className="text-black" />;
+  if (pos.includes("treasurer"))
+    return <DollarSign size={14} className="text-black" />;
+  if (pos.includes("event"))
+    return <Calendar size={14} className="text-black" />;
+  if (pos.includes("creative"))
+    return <Palette size={14} className="text-black" />;
+  if (pos.includes("pr & spons"))
+    return <Handshake size={14} className="text-black" />;
+  if (pos.includes("pr")) return <Megaphone size={14} className="text-black" />;
+  if (pos.includes("spons"))
+    return <Handshake size={14} className="text-black" />;
+  if (pos.includes("webmaster"))
+    return <Globe size={14} className="text-black" />;
+  if (pos.includes("inhouse"))
+    return <Users size={14} className="text-black" />;
+  if (pos.includes("tech")) return <Code size={14} className="text-black" />;
+  return <Terminal size={14} className="text-black" />;
+};
 
-/* ================= INDIVIDUAL TEAM ROW ================= */
-function TeamRow({ member, index, isActive }) {
+/* ================= INDIVIDUAL MEMBER ROW ================= */
+function TeamRow({ member, index, isActive, totalOffset = 0 }) {
   const rowRef = useRef(null);
   const isEven = index % 2 === 0;
+  const accentBg = member.accent || member.badgeBg || "bg-retroYellow";
+  const badgeTag = member.badgeTag || member.tag || "MEMBER";
+  const displayPosition = member.position || member.label;
 
   const { scrollYProgress } = useScroll({
     target: rowRef,
     offset: ["start end", "end start"],
   });
 
-  const yPos = useTransform(scrollYProgress, [0, 0.5, 1], [40, 0, -20]);
+  const yPos = useTransform(scrollYProgress, [0, 0.5, 1], [30, 0, -20]);
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.3, 0.8, 1],
-    [0.3, 1, 1, 0.5],
+    [0, 0.2, 0.85, 1],
+    [0.2, 1, 1, 0.4],
   );
 
   return (
     <motion.div
       ref={rowRef}
       style={{ y: yPos, opacity }}
-      className="team-row py-12 md:py-16 border-b-2 border-black/10 last:border-b-0 transition-all"
-      data-id={member.id}
+      className="team-row py-10 md:py-14 border-b-2 border-black/10 last:border-b-0 transition-all"
+      data-id={member.id || member.name.toLowerCase().replace(/\s+/g, "-")}
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        {/* Bio Column */}
+        {/* Info Column */}
         <div
           className={`md:col-span-7 space-y-4 ${
             isEven ? "md:order-1 pr-0 md:pr-6" : "md:order-2 pl-0 md:pl-6"
@@ -57,10 +111,10 @@ function TeamRow({ member, index, isActive }) {
         >
           <div className="flex items-center gap-3">
             <span className="bg-black text-white font-mono text-[11px] px-2.5 py-1 rounded-md border border-black shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
-              0{index + 1}
+              {String(index + 1 + totalOffset).padStart(2, "0")}
             </span>
             <span className="bg-white text-black font-black text-xs uppercase border-2 border-black px-3 py-1 rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-1">
-              {member.role}
+              {displayPosition}
             </span>
           </div>
 
@@ -68,19 +122,21 @@ function TeamRow({ member, index, isActive }) {
             {member.name}
           </h3>
 
-          <div className="inline-block bg-retroYellow text-black font-bold text-xs uppercase px-2.5 py-0.5 border border-black rounded">
-            {member.domain}
+          <div
+            className={`inline-block ${accentBg} text-black font-bold text-xs uppercase px-2.5 py-0.5 border border-black rounded`}
+          >
+            {badgeTag}
           </div>
 
           <p className="text-slate-700 font-medium text-sm md:text-base leading-relaxed border-l-3 border-black pl-4 py-1 bg-slate-100/60 rounded-r-lg">
-            {member.bio}
+            {member.bio || member.description}
           </p>
 
           {/* Social Links */}
           <div className="flex items-center gap-3 pt-2">
-            {member.socials.linkedin && (
+            {member.linkedin && (
               <a
-                href={member.socials.linkedin}
+                href={member.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroBlue hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
@@ -88,9 +144,9 @@ function TeamRow({ member, index, isActive }) {
                 <LinkedinIcon size={18} />
               </a>
             )}
-            {member.socials.github && (
+            {member.github && (
               <a
-                href={member.socials.github}
+                href={member.github}
                 target="_blank"
                 rel="noreferrer"
                 className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroYellow hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
@@ -98,19 +154,9 @@ function TeamRow({ member, index, isActive }) {
                 <GithubIcon size={18} />
               </a>
             )}
-            {member.socials.twitter && (
+            {member.email && (
               <a
-                href={member.socials.twitter}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroGreen hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
-              >
-                <TwitterIcon size={18} />
-              </a>
-            )}
-            {member.socials.email && (
-              <a
-                href={member.socials.email}
+                href={`mailto:${member.email}`}
                 className="p-2.5 bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-retroPink hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center justify-center text-black"
               >
                 <Mail size={18} />
@@ -119,7 +165,7 @@ function TeamRow({ member, index, isActive }) {
           </div>
         </div>
 
-        {/* Image Card Column (Alternates Position) */}
+        {/* Image Card Column */}
         <div
           className={`md:col-span-5 flex justify-center ${
             isEven ? "md:order-2 md:justify-end" : "md:order-1 md:justify-start"
@@ -134,48 +180,22 @@ function TeamRow({ member, index, isActive }) {
                 : "4px 4px 0px 0px rgba(0,0,0,1)",
             }}
             transition={{ duration: 0.3 }}
-            className={`relative w-full max-w-xs p-3 rounded-2xl border-3 border-black ${member.color} transition-all`}
+            className={`relative w-full max-w-xs p-3 rounded-2xl border-3 border-black ${accentBg} transition-all`}
           >
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl border-2 border-black bg-white">
               <img
-                src={member.image}
+                src={getMemberImage(member)}
                 alt={member.name}
                 className="w-full h-full object-cover object-center filter grayscale hover:grayscale-0 transition-all duration-500"
               />
 
-              <div className="absolute bottom-3 left-3 bg-white border-2 border-black rounded-lg px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                <span className="font-black text-xs uppercase tracking-wider text-black">
-                  {member.name.split(" ")[0]}
+              {/* Bottom Badge: Position + Icon (Replaces Name) */}
+              <div className="absolute bottom-3 left-3 bg-white border-2 border-black rounded-lg px-2.5 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-1.5">
+                {getPositionIcon(displayPosition)}
+                <span className="font-black text-[11px] uppercase tracking-wider text-black">
+                  {displayPosition}
                 </span>
               </div>
-            </div>
-
-            {/* Social Icon Ribbon */}
-            <div
-              className={`absolute top-6 flex flex-col gap-2 bg-white border-2 border-black p-2 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
-                isEven ? "-right-3" : "-left-3"
-              }`}
-            >
-              {member.socials.linkedin && (
-                <a
-                  href={member.socials.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-black hover:text-retroBlue"
-                >
-                  <LinkedinIcon size={16} />
-                </a>
-              )}
-              {member.socials.github && (
-                <a
-                  href={member.socials.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-black hover:text-retroYellow"
-                >
-                  <GithubIcon size={16} />
-                </a>
-              )}
             </div>
           </motion.div>
         </div>
@@ -186,7 +206,7 @@ function TeamRow({ member, index, isActive }) {
 
 /* ================= MAIN TEAM PAGE ================= */
 export default function Team() {
-  const [activeMemberId, setActiveMemberId] = useState(TEAM_MEMBERS[0].id);
+  const [activeMemberId, setActiveMemberId] = useState("");
 
   useEffect(() => {
     let rafId;
@@ -227,42 +247,87 @@ export default function Team() {
     <div className="pb-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
       <SectionHeader
         badgeText="THE MINDSHARE"
-        title="MEET THE EXPERTS"
-        subtitle="A skilled and passionate team of student leaders, researchers, and mentors driving AI innovation at TCET."
+        title="MEET THE TEAM"
+        subtitle="A skilled and passionate team of student leaders, faculty advisors, and mentors driving AI innovation at TCET."
       />
 
-      <div className="my-10 p-6 bg-white border-3 border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <h3 className="text-2xl font-black uppercase text-black">
-            Meet Our{" "}
-            <span className="underline decoration-retroYellow decoration-4">
-              Skilled &amp; Caring
-            </span>{" "}
-            Team
-          </h3>
-          <p className="text-xs font-bold text-slate-600 mt-1">
-            Dedicated to providing hands-on technical guidance, research
-            opportunities, and community growth.
-          </p>
+      {/* Group Photo Showcase */}
+      <div className="my-8 relative rounded-3xl border-3 border-black bg-white p-3 sm:p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+        <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl border-2 border-black overflow-hidden group">
+          <img
+            src={groupPhoto}
+            alt="TCET ACM SIGAI Team Banner"
+            className="w-full h-full object-cover object-center filter grayscale group-hover:grayscale-0 transition-all duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+            <div className="text-white space-y-1">
+              <span className="bg-retroPink text-black font-black text-[10px] sm:text-xs uppercase px-3 py-1 rounded-full border border-black shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                TCET ACM SIGAI 2024-25
+              </span>
+              <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">
+                Building The Future Of AI Together
+              </h2>
+            </div>
+          </div>
         </div>
-        <a
-          href="mailto:acmsigai@tcetmumbai.in"
-          className="shrink-0 bg-retroPink text-black font-black text-xs uppercase px-6 py-3 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-2"
-        >
-          <span>Get in touch</span>
-          <ArrowUpRight size={16} strokeWidth={3} />
-        </a>
       </div>
 
-      <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-        {TEAM_MEMBERS.map((member, index) => (
-          <TeamRow
-            key={member.id}
-            member={member}
-            index={index}
-            isActive={activeMemberId === member.id}
-          />
-        ))}
+      {/* FACULTY SECTION */}
+      <div className="mb-12">
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(252,211,77,1)] mb-6">
+          Faculty Mentors & Leaders
+        </div>
+        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+          {facultyMembers.map((member, index) => (
+            <TeamRow
+              key={member.id}
+              member={member}
+              index={index}
+              isActive={activeMemberId === member.id}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* CORE TEAM SECTION */}
+      <div className="mb-12">
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(112,214,255,1)] mb-6">
+          Core Executive Team
+        </div>
+        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+          {coreTeam.map((member, index) => (
+            <TeamRow
+              key={member.name}
+              member={member}
+              index={index}
+              isActive={
+                activeMemberId ===
+                member.name.toLowerCase().replace(/\s+/g, "-")
+              }
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* JUNIOR CORE SECTION */}
+      <div>
+        <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(255,112,166,1)] mb-6">
+          Junior Core Team
+        </div>
+        <div className="bg-white border-3 border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+          {juniorCoreTeam.map((member, index) => (
+            <TeamRow
+              key={member.name}
+              member={member}
+              index={index}
+              isActive={
+                activeMemberId ===
+                member.name.toLowerCase().replace(/\s+/g, "-")
+              }
+              totalOffset={coreTeam.length}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

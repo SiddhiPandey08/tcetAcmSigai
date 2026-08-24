@@ -1,64 +1,221 @@
 // src/data/teamData.js
-export const TEAM_MEMBERS = [
+
+// Default Fallback
+
+// Faculty Images
+import drShiwaniImg from "../../public/assests/team/dr_shiwani_gupta.jpg.jpeg";
+import mrsPranjaliImg from "../../public/assests/team/mrs_pranjali_sankhe.jpg.jpeg";
+
+// Core Team Images
+import pranavImg from "../../public/assests/team/Pranav.jpg";
+import vipulImg from "../../public/assests/team/Vipul.jpg";
+import adityaImg from "../../public/assests/team/Aditya.jpg";
+import mahekImg from "../../public/assests/team/Mahek chaplot .jpg";
+import riyaImg from "../../public/assests/team/Riya.png";
+import sanjanaImg from "../../public/assests/team/sanjana.jpg";
+import sitanshuImg from "../../public/assests/team/Sitanshu.jpg";
+import pranjalImg from "../../public/assests/team/Pranjal.jpg";
+import harshiniImg from "../../public/assests/team/harshini.jpg";
+import shubhamImg from "../../public/assests/team/Shubham.jpg";
+
+// Junior Core Team Images
+import vaishnaviImg from "../../public/assests/team/Vaishnavi .jpg";
+import preetImg from "../../public/assests/team/Preet .jpg";
+import anamikaImg from "../../public/assests/team/anamika.jpg";
+import yashImg from "../../public/assests/team/yash.jpg";
+import jeniImg from "../../public/assests/team/JENI .jpg";
+import siddhiImg from "../../public/assests/team/siddhi.jpg";
+
+export const facultyMembers = [
   {
-    id: "dr-sara",
-    name: "Dr. Sara Sharma",
-    role: "FACULTY COUNSELOR",
-    domain: "AI & ML RESEARCH",
-    bio: "Guiding TCET ACM SIGAI towards excellence in research, innovation, and technical leadership. Specializes in Deep Learning and Natural Language Processing.",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroBlue",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      twitter: "https://twitter.com",
-      email: "mailto:sara@tcetmumbai.in",
-    },
+    id: "dr-shiwani-gupta",
+    name: "Dr. Shiwani Gupta",
+    position: "Faculty Sponsor",
+    badgeTag: "FACULTY 01",
+    accent: "bg-retroYellow",
+    bio: "Guiding TCET ACM SIGAI with vision, fostering research initiatives, and mentoring student cohorts in AI/ML advancements.",
+    linkedin: "https://www.linkedin.com/in/dr-shiwani-gupta-28405018/",
+    img: drShiwaniImg,
   },
   {
-    id: "alex-chen",
-    name: "Alex Chen",
-    role: "CHAIRPERSON",
-    domain: "COMPUTER VISION",
-    bio: "Passionate about building scalable AI systems and leading the student chapter. Previously interned as an ML Research Associate.",
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroYellow",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      email: "mailto:alex@tcetmumbai.in",
-    },
-  },
-  {
-    id: "priya-patel",
-    name: "Priya Patel",
-    role: "VICE CHAIRPERSON",
-    domain: "GENERATIVE AI",
-    bio: "Orchestrating technical bootcamps, workshops, and hackathons. Focused on making AI education accessible to every undergraduate student.",
-    image:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroGreen",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      twitter: "https://twitter.com",
-    },
-  },
-  {
-    id: "rohan-mehta",
-    name: "Rohan Mehta",
-    role: "TECHNICAL HEAD",
-    domain: "REINFORCEMENT LEARNING",
-    bio: "Head of R&D and project mentorship. Leads student teams in publishing peer-reviewed research papers and open-source contributions.",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
-    color: "bg-retroBlue",
-    socials: {
-      linkedin: "https://linkedin.com",
-      github: "https://github.com",
-      email: "mailto:rohan@tcetmumbai.in",
-    },
+    id: "mrs-pranjali-sankhe",
+    name: "Mrs. Pranjali Sankhe",
+    position: "Assistant Professor",
+    badgeTag: "FACULTY 02",
+    accent: "bg-retroBlue",
+    bio: "Supporting student project development, technical symposiums, and promoting academic excellence across domain activities.",
+    linkedin: "https://www.linkedin.com/in/pranjali-sankhe-955613134/",
+    img: mrsPranjaliImg,
   },
 ];
+
+export const coreTeam = [
+  {
+    name: "Pranav Vishwakarma",
+    position: "Chairperson",
+    accent: "bg-retroYellow",
+    badgeTag: "CORE 01",
+    bio: "Leading overall chapter operations, aligning team initiatives, and building strategic tech opportunities for students.",
+    linkedin: "https://www.linkedin.com/in/pranav-vishwakarma/",
+    github: "https://github.com/",
+    img: pranavImg,
+  },
+  {
+    name: "Vipul Choudhari",
+    position: "Vice Chairperson",
+    accent: "bg-retroBlue",
+    badgeTag: "CORE 02",
+    bio: "Overseeing internal team execution, program workflows, and driving high-impact technical initiatives across teams.",
+    linkedin: "https://www.linkedin.com/in/vipul-choudhari/",
+    github: "https://github.com/",
+    img: vipulImg,
+  },
+  {
+    name: "Aditya Pandey",
+    position: "Secretary",
+    accent: "bg-retroPink",
+    badgeTag: "CORE 03",
+    bio: "Managing chapter documentation, operational communication, and cross-team execution rhythm.",
+    linkedin: "https://www.linkedin.com/in/aditya-pandey/",
+    github: "https://github.com/",
+    img: adityaImg,
+  },
+  {
+    name: "Mahek Chaplot",
+    position: "Treasurer",
+    accent: "bg-retroGreen",
+    badgeTag: "CORE 04",
+    bio: "Handling financial planning, event budgeting, resource allocation, and overall chapter accounts transparently.",
+    linkedin: "https://www.linkedin.com/in/mahek-chaplot/",
+    github: "https://github.com/",
+    img: mahekImg,
+  },
+  {
+    name: "Riya Yadav",
+    position: "Event Manager",
+    accent: "bg-retroYellow",
+    badgeTag: "CORE 05",
+    bio: "Designing, scheduling, and executing engaging technical workshops, hackathons, and speaker sessions.",
+    linkedin: "https://www.linkedin.com/in/riya-yadav/",
+    github: "https://github.com/",
+    img: riyaImg,
+  },
+  {
+    name: "Sanjana Dubey",
+    position: "Creative Head",
+    accent: "bg-retroPink",
+    badgeTag: "CORE 06",
+    bio: "Leading visual identity, design guidelines, UI/UX aesthetics, and creative branding across event campaigns.",
+    linkedin: "https://www.linkedin.com/in/sanjana-dubey/",
+    github: "https://github.com/",
+    img: sanjanaImg,
+  },
+  {
+    name: "Sitanshu Gupta",
+    position: "PR Head",
+    accent: "bg-retroBlue",
+    badgeTag: "CORE 07",
+    bio: "Driving public relations, social media outreach, and community engagement to expand the chapter footprint.",
+    linkedin: "https://www.linkedin.com/in/sitanshu-gupta/",
+    github: "https://github.com/",
+    img: sitanshuImg,
+  },
+  {
+    name: "Pranjal Sawant",
+    position: "Spons Head",
+    accent: "bg-retroYellow",
+    badgeTag: "CORE 08",
+    bio: "Establishing strategic industry sponsorships, corporate outreach, and venue/event funding partnerships.",
+    linkedin: "https://www.linkedin.com/in/pranjal-sawant/",
+    github: "https://github.com/",
+    img: pranjalImg,
+  },
+  {
+    name: "Harshini Mishal",
+    position: "Technical Head",
+    accent: "bg-retroPink",
+    badgeTag: "CORE 09",
+    bio: "Architecting technical projects, code labs, machine learning research, and overseeing technical workshops.",
+    linkedin: "https://www.linkedin.com/in/harshini-mishal/",
+    github: "https://github.com/",
+    img: harshiniImg,
+  },
+  {
+    name: "Shubham Prajapati",
+    position: "Webmaster",
+    accent: "bg-retroBlue",
+    badgeTag: "CORE 10",
+    bio: "Developing and maintaining web systems, project portals, and front-end architectures for the chapter.",
+    linkedin: "https://www.linkedin.com/in/shubham-prajapati/",
+    github: "https://github.com/",
+    img: shubhamImg,
+  },
+];
+
+export const juniorCoreTeam = [
+  {
+    name: "Anamika Yadav",
+    position: "JT Creative Head",
+    accent: "bg-retroPink",
+    tag: "JT CORE",
+    bio: "Supporting graphic design asset creation, poster layouts, and social media media collateral.",
+    linkedin: "https://www.linkedin.com/in/anamika-yadav/",
+    github: "https://github.com/",
+    img: anamikaImg,
+  },
+  {
+    name: "Siddhi Pandey",
+    position: "JT Technical Head",
+    accent: "bg-retroBlue",
+    tag: "JT CORE",
+    bio: "Assisting in technical content curation, coding challenges, and web feature updates.",
+    linkedin: "https://www.linkedin.com/in/siddhi-pandey/",
+    github: "https://github.com/",
+    img: siddhiImg,
+  },
+  {
+    name: "Vaishnavi Nayak",
+    position: "JT Secretary",
+    accent: "bg-retroYellow",
+    tag: "JT CORE",
+    bio: "Assisting in chapter records, administrative scheduling, and inter-team operational coordination.",
+    linkedin: "https://www.linkedin.com/in/vaishnavi-nayak/",
+    github: "https://github.com/",
+    img: vaishnaviImg,
+  },
+  {
+    name: "Preet Kothari",
+    position: "JT Event Manager",
+    accent: "bg-retroBlue",
+    tag: "JT CORE",
+    bio: "Assisting in venue management, event logistics, timeline monitoring, and delegate support.",
+    linkedin: "https://www.linkedin.com/in/preet-kothari/",
+    github: "https://github.com/",
+    img: preetImg,
+  },
+
+  {
+    name: "Yash Oza",
+    position: "JT PR & Spons Head",
+    accent: "bg-retroGreen",
+    tag: "JT CORE",
+    bio: "Helping manage sponsor leads, brand communications, and promotional campaigns across campuses.",
+    linkedin: "https://www.linkedin.com/in/yash-oza/",
+    github: "https://github.com/",
+    img: yashImg,
+  },
+  {
+    name: "Jeni Shah",
+    position: "Inhouse Head",
+    accent: "bg-retroYellow",
+    tag: "JT CORE",
+    bio: "Coordinating internal team communications, session execution, and internal operations smooth flow.",
+    linkedin: "https://www.linkedin.com/in/jeni-shah/",
+    github: "https://github.com/",
+    img: jeniImg,
+  },
+];
+
+export function getMemberImage(member) {
+  return member.img || defaultPlaceholderImg;
+}
