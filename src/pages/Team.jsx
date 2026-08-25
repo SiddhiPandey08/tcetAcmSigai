@@ -45,50 +45,81 @@ const GithubIcon = ({ size = 18 }) => (
 /* Position Icon Helper */
 const getPositionIcon = (position) => {
   const pos = (position || "").toLowerCase();
-  if (pos.includes("chairperson") && !pos.includes("vice"))
+
+  if (pos.includes("chairperson") && !pos.includes("vice")) {
     return <Crown size={14} className="text-black" />;
-  if (pos.includes("vice chairperson"))
+  }
+
+  if (pos.includes("vice chairperson")) {
     return <UserCheck size={14} className="text-black" />;
-  if (pos.includes("faculty sponsor") || pos.includes("hod"))
+  }
+
+  if (pos.includes("faculty sponsor") || pos.includes("hod")) {
     return <GraduationCap size={14} className="text-black" />;
-  if (pos.includes("faculty") || pos.includes("professor"))
+  }
+
+  if (pos.includes("faculty") || pos.includes("professor")) {
     return <Briefcase size={14} className="text-black" />;
-  if (pos.includes("secretary"))
+  }
+
+  if (pos.includes("secretary")) {
     return <FileText size={14} className="text-black" />;
-  if (pos.includes("treasurer"))
+  }
+
+  if (pos.includes("treasurer")) {
     return <DollarSign size={14} className="text-black" />;
-  if (pos.includes("event"))
+  }
+
+  if (pos.includes("event")) {
     return <Calendar size={14} className="text-black" />;
-  if (pos.includes("creative"))
+  }
+
+  if (pos.includes("creative")) {
     return <Palette size={14} className="text-black" />;
-  if (pos.includes("pr & spons"))
+  }
+
+  if (pos.includes("pr & spons")) {
     return <Handshake size={14} className="text-black" />;
-  if (pos.includes("pr")) return <Megaphone size={14} className="text-black" />;
-  if (pos.includes("spons"))
+  }
+
+  if (pos.includes("pr")) {
+    return <Megaphone size={14} className="text-black" />;
+  }
+
+  if (pos.includes("spons")) {
     return <Handshake size={14} className="text-black" />;
-  if (pos.includes("webmaster"))
+  }
+
+  if (pos.includes("webmaster")) {
     return <Globe size={14} className="text-black" />;
-  if (pos.includes("inhouse"))
+  }
+
+  if (pos.includes("inhouse")) {
     return <Users size={14} className="text-black" />;
-  if (pos.includes("tech")) return <Code size={14} className="text-black" />;
+  }
+
+  if (pos.includes("tech")) {
+    return <Code size={14} className="text-black" />;
+  }
+
   return <Terminal size={14} className="text-black" />;
 };
 
-/* ================= INDIVIDUAL MEMBER ROW ================= */
-function TeamRow({ member, index, isActive, totalOffset = 0 }) {
-  const rowRef = useRef(null);
-  const isEven = index % 2 === 0;
+/* ================= INDIVIDUAL MEMBER CARD ================= */
+function TeamCard({ member, isActive, columnIndex = 0 }) {
+  const cardRef = useRef(null);
 
   const accentBg = member.accent || member.badgeBg || "bg-retroYellow";
-  const badgeTag = member.badgeTag || member.tag || "MEMBER";
-  const displayPosition = member.position || member.label;
+
+  const displayPosition = member.position || member.label || "MEMBER";
 
   const { scrollYProgress } = useScroll({
-    target: rowRef,
+    target: cardRef,
     offset: ["start end", "end start"],
   });
 
   const yPos = useTransform(scrollYProgress, [0, 0.5, 1], [30, 0, -20]);
+
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.2, 0.85, 1],
@@ -97,118 +128,115 @@ function TeamRow({ member, index, isActive, totalOffset = 0 }) {
 
   return (
     <motion.div
-      ref={rowRef}
+      ref={cardRef}
       style={{ y: yPos, opacity }}
-      className="team-row py-10 md:py-14 border-b-3 border-black/20 last:border-b-0 transition-all"
+      initial={{ opacity: 0, y: 60, scale: 0.92 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: 0.6,
+        delay: columnIndex * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="team-row flex flex-col items-center w-full"
       data-id={member.id || member.name.toLowerCase().replace(/\s+/g, "-")}
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        {/* Info Column */}
-        <div
-          className={`md:col-span-7 space-y-4 ${
-            isEven ? "md:order-1 pr-0 md:pr-6" : "md:order-2 pl-0 md:pl-6"
-          }`}
+      {/* Name + Designation */}
+      <div className="w-full max-w-xs mb-4 min-h-[92px] flex flex-col justify-end">
+        <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-black leading-none mb-2">
+          {member.name}
+        </h3>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            duration: 0.4,
+            delay: columnIndex * 0.15 + 0.25,
+            ease: "backOut",
+          }}
+          className={`inline-flex items-center gap-1.5 ${accentBg} text-black font-black text-[11px] uppercase border-2 border-black px-3 py-1.5 rounded-full shadow-sm w-fit`}
         >
-          <div className="flex items-center gap-3">
-            <span className="bg-black text-white font-mono text-[11px] px-2.5 py-1 rounded-md border-2 border-black shadow-sm">
-              {String(index + 1 + totalOffset).padStart(2, "0")}
-            </span>
-            <span
-              className={`${accentBg} text-black font-black text-xs uppercase border-2 border-black px-3 py-1 rounded-full shadow-sm -rotate-1`}
-            >
-              {displayPosition}
-            </span>
-          </div>
-
-          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-black">
-            {member.name}
-          </h3>
-
-          <div className="inline-block bg-black text-white font-black text-xs uppercase px-3 py-1 border-2 border-black rounded-lg shadow-sm">
-            {badgeTag}
-          </div>
-
-          <p
-            className={`text-black font-bold text-sm md:text-base leading-relaxed border-l-4 border-black pl-4 py-2 ${accentBg} rounded-r-2xl shadow-sm`}
-          >
-            {member.bio || member.description}
-          </p>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-3 pt-2">
-            {member.linkedin && (
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${member.name}'s LinkedIn`}
-                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
-              >
-                <LinkedinIcon size={18} />
-              </a>
-            )}
-            {member.github && (
-              <a
-                href={member.github}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${member.name}'s GitHub`}
-                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
-              >
-                <GithubIcon size={18} />
-              </a>
-            )}
-            {member.email && (
-              <a
-                href={`mailto:${member.email}`}
-                aria-label={`Email ${member.name}`}
-                className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
-              >
-                <Mail size={18} />
-              </a>
-            )}
-          </div>
-        </div>
-
-        {/* Coloured Image Card Column */}
-        <div
-          className={`md:col-span-5 flex justify-center ${
-            isEven ? "md:order-2 md:justify-end" : "md:order-1 md:justify-start"
-          }`}
-        >
-          <motion.div
-            animate={{
-              scale: isActive ? 1.03 : 1,
-              rotate: isActive ? (isEven ? -1 : 1) : 0,
-              boxShadow: isActive
-                ? "3px 3px 0px 0px #000000"
-                : "2px 2px 0px 0px #000000",
-            }}
-            transition={{ duration: 0.3 }}
-            className={`relative w-full max-w-xs p-3.5 rounded-3xl border-3 border-black ${accentBg} transition-all`}
-          >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-black bg-black">
-              <img
-                src={getMemberImage(member)}
-                alt={member.name}
-                className={`w-full h-full object-cover object-center transition-all duration-500 ${
-                  isActive ? "filter-none" : "filter grayscale"
-                }`}
-              />
-
-              {/* Bottom Position Tag Badge */}
-              <div
-                className={`absolute bottom-3 left-3 ${accentBg} border-2 border-black rounded-xl px-2.5 py-1 shadow-sm flex items-center gap-1.5 z-20`}
-              >
-                {getPositionIcon(displayPosition)}
-                <span className="font-black text-[11px] uppercase tracking-wider text-black">
-                  {displayPosition}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+          {getPositionIcon(displayPosition)}
+          <span>{displayPosition}</span>
+        </motion.div>
       </div>
+
+      {/* Coloured Image Card */}
+      {/* Coloured Image Card */}
+      <motion.div
+        animate={{
+          scale: isActive ? 1.03 : 1,
+          boxShadow: isActive
+            ? "3px 3px 0px 0px #000000"
+            : "2px 2px 0px 0px #000000",
+        }}
+        transition={{ duration: 0.3 }}
+        className={`relative w-full max-w-xs p-3.5 rounded-3xl border-3 border-black ${accentBg} transition-all`}
+      >
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-black bg-black">
+          <img
+            src={getMemberImage(member)}
+            alt={member.name}
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+      </motion.div>
+      {/* Description + Social Links */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{
+          duration: 0.5,
+          delay: columnIndex * 0.15 + 0.35,
+          ease: "easeOut",
+        }}
+        className="w-full max-w-xs space-y-3 mt-5 text-center"
+      >
+        <p
+          className={`text-black font-bold text-sm leading-relaxed border-l-4 border-black pl-4 py-2 ${accentBg} rounded-r-2xl shadow-sm text-left`}
+        >
+          {member.bio || member.description}
+        </p>
+
+        <div className="flex items-center justify-center gap-3 pt-2">
+          {member.linkedin && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${member.name}'s LinkedIn`}
+              className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
+            >
+              <LinkedinIcon size={18} />
+            </a>
+          )}
+
+          {member.github && (
+            <a
+              href={member.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${member.name}'s GitHub`}
+              className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
+            >
+              <GithubIcon size={18} />
+            </a>
+          )}
+
+          {member.email && (
+            <a
+              href={`mailto:${member.email}`}
+              aria-label={`Email ${member.name}`}
+              className={`p-2.5 ${accentBg} border-2 border-black rounded-xl shadow-sm hover:bg-black hover:text-white flex items-center justify-center text-black transition-colors`}
+            >
+              <Mail size={18} />
+            </a>
+          )}
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -219,9 +247,11 @@ export default function Team() {
 
   useEffect(() => {
     let rafId;
+
     const handleScroll = () => {
       rafId = requestAnimationFrame(() => {
         const rows = document.querySelectorAll(".team-row");
+
         if (!rows.length) return;
 
         const centerY = window.innerHeight / 2;
@@ -239,11 +269,16 @@ export default function Team() {
           }
         });
 
-        if (closestId) setActiveMemberId(closestId);
+        if (closestId) {
+          setActiveMemberId(closestId);
+        }
       });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
     handleScroll();
 
     return () => {
@@ -268,11 +303,13 @@ export default function Team() {
             alt="TCET ACM SIGAI Team Banner"
             className="w-full h-full object-cover object-center filter grayscale group-hover:grayscale-0 transition-all duration-700"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
             <div className="text-white space-y-1">
               <span className="bg-retroOrange text-black font-black text-[10px] sm:text-xs uppercase px-3 py-1 rounded-full border-2 border-black shadow-sm">
                 2025-26
               </span>
+
               <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md">
                 TCET ACM SIGAI Core & Jr Core Team
               </h2>
@@ -286,15 +323,18 @@ export default function Team() {
         <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Faculty Mentors & Leaders
         </div>
+
         <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
-          {facultyMembers.map((member, index) => (
-            <TeamRow
-              key={member.id}
-              member={member}
-              index={index}
-              isActive={activeMemberId === member.id}
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14 justify-items-center">
+            {facultyMembers.map((member, index) => (
+              <TeamCard
+                key={member.id}
+                member={member}
+                isActive={activeMemberId === member.id}
+                columnIndex={index % 2}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -303,18 +343,21 @@ export default function Team() {
         <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Core Executive Team
         </div>
+
         <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
-          {coreTeam.map((member, index) => (
-            <TeamRow
-              key={member.name}
-              member={member}
-              index={index}
-              isActive={
-                activeMemberId ===
-                member.name.toLowerCase().replace(/\s+/g, "-")
-              }
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14 justify-items-center">
+            {coreTeam.map((member, index) => (
+              <TeamCard
+                key={member.name}
+                member={member}
+                isActive={
+                  activeMemberId ===
+                  member.name.toLowerCase().replace(/\s+/g, "-")
+                }
+                columnIndex={index % 2}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -323,19 +366,21 @@ export default function Team() {
         <div className="inline-block bg-black text-white font-black text-sm uppercase px-4 py-1.5 rounded-xl border-2 border-black shadow-sm mb-6">
           Junior Core Team
         </div>
+
         <div className="bg-[#FAF7F2] border-3 border-black rounded-3xl p-6 sm:p-10 shadow-md">
-          {juniorCoreTeam.map((member, index) => (
-            <TeamRow
-              key={member.name}
-              member={member}
-              index={index}
-              isActive={
-                activeMemberId ===
-                member.name.toLowerCase().replace(/\s+/g, "-")
-              }
-              totalOffset={coreTeam.length}
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-14 justify-items-center">
+            {juniorCoreTeam.map((member, index) => (
+              <TeamCard
+                key={member.name}
+                member={member}
+                isActive={
+                  activeMemberId ===
+                  member.name.toLowerCase().replace(/\s+/g, "-")
+                }
+                columnIndex={index % 2}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
