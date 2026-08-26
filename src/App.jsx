@@ -24,16 +24,16 @@ export default function App() {
 
   return (
     <Router>
-      {/* {booting && (
+      {booting && (
         <BootSequence
           onComplete={() => {
             setBooting(false);
             setLoading(true);
           }}
         />
-      )} */}
+      )}
 
-      {/* {loading && <Preloader onComplete={() => setLoading(false)} />} */}
+      {loading && <Preloader onComplete={() => setLoading(false)} />}
 
       {/* MAIN WEBSITE */}
       <div className="min-h-screen bg-paper-grid text-black font-sans selection:bg-retroYellow">
